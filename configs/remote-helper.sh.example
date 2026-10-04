@@ -1,0 +1,6 @@
+#!/bin/sh
+# Install at the controller's fixed helperPath on the remote Linux host.
+set -eu
+export DSH_HOME='/home/harness/.dsh-remote'
+export DSH_REMOTE_INSTANCE_KEYS='default'
+exec /usr/bin/env node '/home/harness/.dsh-remote/profiles/remote-web/node_modules/@harness-remote/companion/bin/dsh-remote-info.mjs' "$@"

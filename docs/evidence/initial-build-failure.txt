@@ -1,0 +1,50 @@
++ publint 0.3.21
++ smol-toml 1.7.1
++ spdx-expression-parse 5.0.0
++ tar 7.5.22
++ tsdown 0.22.2
++ tsx 4.22.4
++ typescript 6.0.3
++ vite-tsconfig-paths 6.1.1
++ vitest 4.1.8
+
+[WARN] Failed to create bin at D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\upstream\packages\sdk\client\node_modules\.bin\dsh. ENOENT: no such file or directory, stat 'D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\upstream\packages\sdk\client\node_modules\@deepseek-ai\dsh\lib\bin.js.EXE'
+packages/subprocess/subprocess-local postinstall$ node scripts/ensure-spawn-helper.mjs
+packages/subprocess/subprocess-local postinstall: Done
+[WARN] Failed to create bin at D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\upstream\apps\desktop-host\node_modules\.bin\dsh. ENOENT: no such file or directory, stat 'D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\upstream\apps\desktop-host\node_modules\@deepseek-ai\dsh\lib\bin.js.EXE'
+. postinstall$ node scripts/install-lefthook.mjs
+. postinstall: sync hooks: ✔️(pre-commit, pre-push, pre-merge-commit)
+. postinstall: (node:33804) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+. postinstall: (Use `node --trace-deprecation ...` to show where the warning was created)
+. postinstall: Done
+[WARN] Failed to create bin at D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\upstream\python\sdk-runtime\node_modules\.bin\dsh. ENOENT: no such file or directory, stat 'D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\upstream\python\sdk-runtime\node_modules\@deepseek-ai\dsh\lib\bin.js.EXE'
+Done in 16.7s using pnpm v11.7.0
+ℹ tsdown v0.22.2 powered by rolldown v1.1.1
+ℹ entry: packages/remote/companion/lib/types/index.js
+ℹ target: es2024
+ℹ tsconfig: tsconfig.json
+ℹ Build start
+ℹ Hint: consider adding deps.onlyBundle option to avoid unintended bundling of dependencies, or set deps.onlyBundle: false to disable this hint.
+See more at https://tsdown.dev/options/dependencies#deps-onlybundle
+Detected dependencies in bundle:
+- js-yaml
+- semver
+ℹ packages\remote\companion\lib\index.mjs      263.80 kB │ gzip:  62.30 kB
+ℹ packages\remote\companion\lib\index.mjs.map  611.34 kB │ gzip: 142.12 kB
+ℹ 2 files, total: 875.14 kB
+✔ Build complete in 311ms
+node:internal/fs/promises:1086
+  const result = await PromisePrototypeThen(
+                 ^
+
+Error: ENOENT: no such file or directory, lstat 'D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\upstream\packages\remote\companion\lib\index.js'
+    at async lstat (node:internal/fs/promises:1086:18)
+    at async file:///D:/AI/documents/codex/dsh-windows-launcher/DSH-WIN-SSH-Agent/scripts/build.mjs:30:3 {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'lstat',
+  path: 'D:\\AI\\documents\\codex\\dsh-windows-launcher\\DSH-WIN-SSH-Agent\\.build\\upstream\\packages\\remote\\companion\\lib\\index.js'
+}
+
+Node.js v24.19.0
+

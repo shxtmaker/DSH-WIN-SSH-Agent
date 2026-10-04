@@ -1,0 +1,86 @@
+{
+  "project": "DSH-WIN-SSH-Agent",
+  "verifiedAt": "2026-10-04T18:50:39.537Z",
+  "timeZone": "Asia/Shanghai",
+  "sourceCommit": "81157926491f20a77d34ed0c2936e86ed44d0529",
+  "harnessCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+  "environment": {
+    "windowsNode": "v24.19.0",
+    "linuxNode": "v24.19.0 (WSL Ubuntu)",
+    "pnpm": "11.7.0"
+  },
+  "checks": [
+    {
+      "name": "role-source-and-artifact-isolation",
+      "status": "passed",
+      "evidence": "evidence/project-isolation.txt"
+    },
+    {
+      "name": "artifact-hashes-and-required-package-files",
+      "status": "passed",
+      "evidence": "evidence/artifact-verification.txt"
+    },
+    {
+      "name": "artifact-rejection-and-workspace-preservation",
+      "status": "passed",
+      "passed": 5,
+      "evidence": "evidence/project-tests.txt"
+    },
+    {
+      "name": "build-from-new-pinned-workspace",
+      "status": "passed",
+      "command": "node scripts/build.mjs --workspace .build/clean-verify --offline",
+      "evidence": "evidence/clean-build.txt"
+    },
+    {
+      "name": "non-Linux-helper-refusal",
+      "status": "passed",
+      "passed": 1,
+      "skipped": 1,
+      "evidence": "evidence/integration-tests.txt"
+    },
+    {
+      "name": "Linux-helper-identity-allowlist-and-permissions",
+      "status": "passed",
+      "passed": 1,
+      "skipped": 1,
+      "environment": "WSL Ubuntu temporary fixture",
+      "evidence": "evidence/linux-helper-tests.txt"
+    },
+    {
+      "name": "package-publint",
+      "status": "passed",
+      "packages": [
+        "companion"
+      ]
+    }
+  ],
+  "sourceCodeUnchanged": true,
+  "repairedFailures": [
+    {
+      "name": "initial-build",
+      "status": "resolved",
+      "evidence": "evidence/initial-build-failure.txt",
+      "reason": "Default tsdown extension and dependency selection were unsuitable; the explicit Companion build emits lib/index.js and keeps Harness packages external."
+    },
+    {
+      "name": "empty-checksum-manifest",
+      "status": "resolved",
+      "reason": "An empty manifest now yields zero entries and is rejected by the expected entry-count check."
+    }
+  ],
+  "warnings": [
+    "Pinned upstream installation reports non-host architecture packages and missing bins for unbuilt optional applications."
+  ],
+  "notRun": [
+    "installed-Desktop/Linux-business-flow",
+    "real-frp-recovery",
+    "real-system-service-cleanup"
+  ],
+  "artifacts": [
+    {
+      "file": "harness-remote-companion-0.1.0.tgz",
+      "sha256": "3ac1b90bfd02fd338e4579a392d23a49e7283cf27ee450d7d4bb25d1cbb06a13"
+    }
+  ]
+}

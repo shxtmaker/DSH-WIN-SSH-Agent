@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.tgz -text
+# Preserve patch context and raw command evidence byte for byte.
+integration/*.patch -text whitespace=-blank-at-eol
+docs/evidence/*.txt -text whitespace=-blank-at-eol,-blank-at-eof

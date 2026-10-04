@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/deepseek-ai/deepseek-harness.git",
+  "commit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+  "tag": "dsh-v0.2.0-rc.2",
+  "harnessVersion": "0.2.0-rc.2",
+  "pluginVersion": "0.1.0",
+  "nodeVersionTested": "24.19.0",
+  "packageManager": "pnpm@11.7.0",
+  "sourceRepository": "http://192.168.3.100:3300/lqy/DSH-WIN-SSH.git",
+  "sourceCommit": "81157926491f20a77d34ed0c2936e86ed44d0529"
+}

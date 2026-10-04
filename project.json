@@ -1,0 +1,16 @@
+{
+  "role": "agent",
+  "project": "DSH-WIN-SSH-Agent",
+  "packages": [
+    "companion"
+  ],
+  "artifacts": [
+    "companion"
+  ],
+  "configs": [
+    "remote-helper.sh.example"
+  ],
+  "protocolVersion": 1,
+  "version": "0.1.0",
+  "peerProject": "DSH-WIN-SSH-Controller"
+}

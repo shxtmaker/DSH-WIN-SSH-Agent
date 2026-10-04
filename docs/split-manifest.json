@@ -1,0 +1,31 @@
+{
+  "sourceRepository": "http://192.168.3.100:3300/lqy/DSH-WIN-SSH.git",
+  "sourceCommit": "81157926491f20a77d34ed0c2936e86ed44d0529",
+  "role": "agent",
+  "unchangedSourceFiles": [
+    {
+      "path": "packages/remote/companion/bin/dsh-remote-info.mjs",
+      "sha256": "7fae271cf90971e85d9e7033cb17bdc640f4d63103f3b955edc3f911f883dc4e"
+    },
+    {
+      "path": "packages/remote/companion/cordis.patch.yml",
+      "sha256": "af902ff049464668af3d20f9f8d886c82881999212735e53571f5e16eee54954"
+    },
+    {
+      "path": "packages/remote/companion/package.json",
+      "sha256": "2f3e361f5e7b8392b085f50aae4395ef581b2f097fd79018e63eb7f9447b8e6a"
+    },
+    {
+      "path": "packages/remote/companion/src/index.ts",
+      "sha256": "1040dd92cbf8dd78ba42f5ef14624fe7a344d496df3911254831a70e115ce958"
+    },
+    {
+      "path": "packages/remote/companion/src/private-files.ts",
+      "sha256": "40adfaa59411820a0b300ef1132d1b86ab75d4a7d4a764f4db8ca19204dcd637"
+    },
+    {
+      "path": "packages/remote/companion/tsconfig.json",
+      "sha256": "11ae23a81ba07f28b51a9a00fbae905c10199ca709b429fa883490cd5149be22"
+    }
+  ]
+}

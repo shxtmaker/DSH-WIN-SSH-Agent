@@ -1,0 +1,21 @@
+{
+  "name": "dsh-win-ssh-agent-source",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DeepSeek Harness Linux companion and restricted SSH discovery helper",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "prepare:upstream": "node scripts/prepare-upstream.mjs",
+    "build": "node scripts/build.mjs",
+    "pack": "node scripts/build.mjs --pack-only",
+    "test": "node --test tests/project.test.mjs",
+    "test:integration": "node scripts/test-integration.mjs",
+    "verify:project": "node scripts/verify-project.mjs",
+    "verify:artifacts": "node scripts/verify-artifacts.mjs"
+  },
+  "packageManager": "pnpm@11.7.0"
+}

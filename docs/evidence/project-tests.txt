@@ -1,0 +1,13 @@
+✔ the standalone project contains only its own role and installable packages (103.0414ms)
+✔ a modified installation archive is rejected (15.3058ms)
+✔ an archive from the other role is rejected (11.3402ms)
+✔ duplicate or missing checksum rows are rejected (11.6548ms)
+✔ preparation refuses an existing workspace without overwriting its content (93.4556ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 327.5741

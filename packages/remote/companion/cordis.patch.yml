@@ -1,0 +1,5 @@
+- insert:
+    - id: remote-workspace-companion
+      name: '@harness-remote/companion'
+      config:
+        instanceKey: default

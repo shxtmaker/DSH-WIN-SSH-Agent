@@ -1,0 +1,120 @@
+native/system/packages/darwin-arm64      | [WARN] Unsupported platform: wanted: {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"win32","cpu":"x64","libc":"unknown"})
+native/system/packages/darwin-x64        | [WARN] Unsupported platform: wanted: {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"win32","cpu":"x64","libc":"unknown"})
+native/system/packages/linux-arm64       | [WARN] Unsupported platform: wanted: {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"win32","cpu":"x64","libc":"unknown"})
+native/system/packages/linux-x64         | [WARN] Unsupported platform: wanted: {"cpu":["x64"],"os":["linux"],"libc":["any"]} (current: {"os":"win32","cpu":"x64","libc":"unknown"})
+Scope: all 340 workspace projects
+[WARN] There are cyclic workspace dependencies: D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\apps\cli, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\sdk\client; D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\apps\web, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\test-support\client-runtime, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\bundle\web-app; D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\api\remotes, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\client\ui-plugin-manager, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\client\ui-sidebar, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\client\ui-workspace, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\client\ui-conversation; D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\api\session-controller, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\subagent\subagent, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\schedule\schedule; D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\compaction\compaction-basic, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\compaction\compaction-image-offload; D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\compaction\compaction-tool-result-pruner, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\llm\token-meter, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\llm\llm-retry, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\llm\llm-deepseek, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\llm\plugin-package-inventory-deepseek, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\preset\agent-preset-registry, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\preset\agent-preset; D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\core\agent-default-model, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\settings\settings; D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\sandbox\sandbox-local, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\sandbox\sandbox-windows-acl; D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\ssh\fs-ssh, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\ssh\ssh; D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\subagent\subagent-spawn-in-process, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\subagent\tool-subagent; D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\vendor\cordis, D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\vendor\include
+✓ Lockfile passes supply-chain policies (verified 4m ago)
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +1392
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 1392, reused 1387, downloaded 0, added 8
+Progress: resolved 1392, reused 1387, downloaded 0, added 193
+Progress: resolved 1392, reused 1387, downloaded 0, added 335
+Progress: resolved 1392, reused 1387, downloaded 0, added 455
+Progress: resolved 1392, reused 1387, downloaded 0, added 514
+Progress: resolved 1392, reused 1387, downloaded 0, added 608
+Progress: resolved 1392, reused 1387, downloaded 0, added 765
+Progress: resolved 1392, reused 1387, downloaded 0, added 944
+Progress: resolved 1392, reused 1387, downloaded 0, added 1031
+Progress: resolved 1392, reused 1387, downloaded 0, added 1100
+Progress: resolved 1392, reused 1387, downloaded 0, added 1143
+Progress: resolved 1392, reused 1387, downloaded 0, added 1249
+Progress: resolved 1392, reused 1387, downloaded 0, added 1315
+Progress: resolved 1392, reused 1387, downloaded 0, added 1390
+Progress: resolved 1392, reused 1387, downloaded 0, added 1392, done
+[WARN] Failed to create bin at D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\apps\desktop-host\node_modules\.bin\dsh. ENOENT: no such file or directory, stat 'D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\apps\cli\lib\bin.js.EXE'
+[WARN] Failed to create bin at D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\sdk\client\node_modules\.bin\dsh. ENOENT: no such file or directory, stat 'D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\apps\cli\lib\bin.js.EXE'
+[WARN] Failed to create bin at D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\python\sdk-runtime\node_modules\.bin\dsh. ENOENT: no such file or directory, stat 'D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\apps\cli\lib\bin.js.EXE'
+
+devDependencies:
++ @deepseek-ai/dsh-agent 0.2.0-rc.2 <- packages\core\agent
++ @deepseek-ai/dsh-browser-use 0.2.0-rc.2 <- packages\browser-use\browser-use
++ @deepseek-ai/dsh-computer-use 0.2.0-rc.2 <- packages\computer-use\computer-use
++ @deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp 0.2.0-rc.2 <- packages\experimental\browser-use-chrome-devtools-mcp
++ @deepseek-ai/dsh-experimental-browser-use-playwright-mcp 0.2.0-rc.2 <- packages\experimental\browser-use-playwright-mcp
++ @deepseek-ai/dsh-experimental-browser-use-runtime 0.2.0-rc.2 <- packages\experimental\browser-use-runtime
++ @deepseek-ai/dsh-experimental-browser-use-stagehand-native 0.2.0-rc.2 <- packages\experimental\browser-use-stagehand-native
++ @deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp 0.2.0-rc.2 <- packages\experimental\computer-use-cua-driver-mcp
++ @deepseek-ai/dsh-experimental-computer-use-cua-driver-native 0.2.0-rc.2 <- packages\experimental\computer-use-cua-driver-native
++ @deepseek-ai/dsh-llm-replay 0.2.0-rc.2 <- packages\test-support\llm-replay
++ @deepseek-ai/dsh-mcp-client 0.2.0-rc.2 <- packages\mcp\mcp-client
++ @deepseek-ai/dsh-skill-office 0.2.0-rc.2 <- packages\skill\skill-office
++ @deepseek-ai/dsh-tool-session-query 0.2.0-rc.2 <- packages\session-query\tool-session-query
++ @deepseek-ai/dsh-tool-workspace-dependencies 0.2.0-rc.2 <- packages\skill\tool-workspace-dependencies
++ @deepseek-ai/dsh-web-fetch-http 0.2.0-rc.2 <- packages\web\web-fetch-http
++ @stylistic/eslint-plugin 5.10.0
++ @testing-library/dom 10.4.2
++ @testing-library/react 16.3.2
++ @types/js-yaml 4.0.9
++ @types/jsdom 28.0.3
++ @types/mdast 4.0.4
++ @types/node 22.20.0
++ @types/spdx-expression-parse 4.0.0
++ @vitest/coverage-v8 4.1.8
++ @yao-pkg/pkg 6.21.0
++ @yarnpkg/cli-dist 4.17.1
++ eslint-plugin-sonarjs 4.1.0
++ execa 10.0.0
++ extract-zip 2.0.1
++ fast-check 4.8.0
++ fflate 0.8.3
++ istanbul-lib-report 3.0.1
++ js-yaml 4.2.0
++ jscpd 5.0.12
++ jsdom 29.1.1
++ lefthook 2.1.9
++ lightningcss 1.32.0
++ mdast-util-from-markdown 2.0.3
++ mdast-util-gfm 3.1.0
++ mermaid 11.16.0
++ micromark-extension-gfm 3.0.0
++ oxlint 1.76.0
++ oxlint-tsgolint 7.0.2001
++ pnpm 11.7.0
++ publint 0.3.21
++ smol-toml 1.7.1
++ spdx-expression-parse 5.0.0
++ tar 7.5.22
++ tsdown 0.22.2
++ tsx 4.22.4
++ typescript 6.0.3
++ vite-tsconfig-paths 6.1.1
++ vitest 4.1.8
+
+[WARN] Failed to create bin at D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\sdk\client\node_modules\.bin\dsh. ENOENT: no such file or directory, stat 'D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\packages\sdk\client\node_modules\@deepseek-ai\dsh\lib\bin.js.EXE'
+packages/subprocess/subprocess-local postinstall$ node scripts/ensure-spawn-helper.mjs
+packages/subprocess/subprocess-local postinstall: Done
+[WARN] Failed to create bin at D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\apps\desktop-host\node_modules\.bin\dsh. ENOENT: no such file or directory, stat 'D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\apps\desktop-host\node_modules\@deepseek-ai\dsh\lib\bin.js.EXE'
+. postinstall$ node scripts/install-lefthook.mjs
+. postinstall: sync hooks: ✔️(pre-merge-commit, pre-push, pre-commit)
+. postinstall: (node:2408) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+. postinstall: (Use `node --trace-deprecation ...` to show where the warning was created)
+. postinstall: Done
+[WARN] Failed to create bin at D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\python\sdk-runtime\node_modules\.bin\dsh. ENOENT: no such file or directory, stat 'D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\python\sdk-runtime\node_modules\@deepseek-ai\dsh\lib\bin.js.EXE'
+Done in 21.3s using pnpm v11.7.0
+ℹ tsdown v0.22.2 powered by rolldown v1.1.1
+ℹ config file: D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\.build\clean-verify\tsdown.remote.config.mjs 
+ℹ entry: lib/types/index.js
+ℹ target: es2024
+ℹ tsconfig: tsconfig.json
+ℹ Build start
+ℹ lib\index.js  5.59 kB │ gzip: 2.07 kB
+ℹ 1 files, total: 5.59 kB
+✔ Build complete in 22ms
+package: @harness-remote/companion@0.1.0
+Tarball Contents
+bin/dsh-remote-info.mjs
+cordis.patch.yml
+lib/index.js
+lib/types/index.d.ts
+lib/types/private-files.d.ts
+LICENSE
+package.json
+README.i18n.yaml
+README.md
+README.zh.md
+Tarball Details
+D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\out\remote\harness-remote-companion-0.1.0.tgz
+Packed DSH-WIN-SSH-Agent: D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\out\remote
