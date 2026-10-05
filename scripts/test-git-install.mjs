@@ -1,5 +1,6 @@
 /** Exercise the Git package through the same bundle reader used by the Harness manager. */
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import { chmod, copyFile, mkdir, mkdtemp, readFile, realpath, rm, stat, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
@@ -9,8 +10,9 @@ import { spawnSync } from 'node:child_process'
 import { parseArgs } from 'node:util'
 import { root, pnpm, run } from './runtime.mjs'
 
-const { values } = parseArgs({ options: { harness: { type: 'string' }, installation: { type: 'string' }, spec: { type: 'string' } } })
+const { values } = parseArgs({ options: { harness: { type: 'string' }, installation: { type: 'string' }, spec: { type: 'string' }, 'previous-spec': { type: 'string' } } })
 if (!values.harness && !values.installation) throw new Error('Specify --harness /path/to/built-harness or --installation /path/to/isolated-cli-installation')
+if (values['previous-spec'] && !values.installation) throw new Error('--previous-spec requires --installation')
 const installation = values.installation && resolve(values.installation)
 const installedRequire = installation && createRequire(await realpath(join(installation, 'node_modules/@deepseek-ai/dsh/package.json')))
 const operations = installedRequire ? installedRequire.resolve('@deepseek-ai/dsh-plugin-manager/operations') : join(resolve(values.harness), 'packages/boot/plugin-manager/lib/types/operations.js')
@@ -38,13 +40,31 @@ try {
   const profile = installation ? join(temporary, 'dsh-home/profiles/git-install-check') : join(temporary, 'profile')
   if (installation) {
     const cli = join(dirname(await realpath(join(installation, 'node_modules/@deepseek-ai/dsh/package.json'))), 'lib/bin.js')
-    const result = spawnSync(process.execPath, [cli, 'plugin', '--profile', 'git-install-check', 'add', spec], {
-      cwd: temporary, encoding: 'utf8', timeout: 120_000, maxBuffer: 4 * 1024 * 1024,
-      env: { ...process.env, DSH_HOME: join(temporary, 'dsh-home'), DSH_TELEMETRY: '0' },
-    })
-    console.log(result.stdout)
-    if (result.stderr) console.error(result.stderr)
-    assert.equal(result.status, 0, result.error?.message ?? result.stderr)
+    function add(specification) {
+      const result = spawnSync(process.execPath, [cli, 'plugin', '--profile', 'git-install-check', 'add', specification], {
+        cwd: temporary, encoding: 'utf8', timeout: 120_000, maxBuffer: 4 * 1024 * 1024,
+        env: { ...process.env, DSH_HOME: join(temporary, 'dsh-home'), DSH_TELEMETRY: '0' },
+      })
+      console.log(result.stdout)
+      if (result.stderr) console.error(result.stderr)
+      assert.equal(result.status, 0, result.error?.message ?? result.stderr)
+    }
+    if (values['previous-spec']) {
+      add(values['previous-spec'])
+      const oldEntry = createRequire(join(profile, 'package.json')).resolve('dsh-win-ssh-agent-source')
+      const oldRuntime = await readFile(oldEntry, 'utf8')
+      assert.ok(oldRuntime.includes('throw new Error("remote-companion: unsafe private directory")'), 'Upgrade fixture must begin with the original directory check')
+      await writeFile(join(profile, 'upgrade-preservation-fixture.txt'), 'preserve existing profile data\n')
+    }
+    add(spec)
+    if (values['previous-spec']) {
+      const freshEntry = createRequire(join(profile, 'package.json')).resolve('dsh-win-ssh-agent-source')
+      const expected = createHash('sha256').update(await readFile(join(root, 'runtime/index.js'))).digest('hex')
+      const actual = createHash('sha256').update(await readFile(freshEntry)).digest('hex')
+      assert.equal(actual, expected, 'Pinned update must install the repaired runtime bytes')
+      assert.equal(await readFile(join(profile, 'upgrade-preservation-fixture.txt'), 'utf8'), 'preserve existing profile data\n')
+      console.log(`PASS existing-profile pinned Git update: repaired runtime SHA-256 ${actual}; profile data preserved`)
+    }
   } else {
     await mkdir(profile)
     await writeFile(join(profile, 'package.json'), JSON.stringify({ name: 'agent-installation-test', private: true, type: 'module' }) + '\n')

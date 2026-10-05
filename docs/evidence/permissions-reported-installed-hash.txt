@@ -1,0 +1,9 @@
+User-reported installed runtime SHA-256, 2026-10-05:
+f73ee5c339ac29b12cec23c8178c85af0e41f4cefa3a863a7a5f7c414d1eaffe  /home/lqy/.dsh/profiles/web/node_modules/dsh-win-ssh-agent-source/runtime/index.js
+
+Matches the repaired runtime in commit 97eab926981c81d3029998359a6783b7924e63b6.
+The accompanying screenshot still shows the original error without its path,
+privateDirectory index.js:21:127 and instanceStorage index.js:36:2.
+The repaired runtime calls privateDirectory(home, true) at index.js:48.
+Disk installation is confirmed current; fresh Desktop activation after a full
+Harness service restart has not yet been reported.

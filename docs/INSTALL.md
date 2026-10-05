@@ -29,6 +29,24 @@ Git 安装的包名为 `dsh-win-ssh-agent-source`，其中包含 `remote-workspa
 
 同一 profile 选择 Git 安装或独立安装包中的一种方式，避免重复加载同一个组件。
 
+### 更新后仍显示旧启动错误
+
+安装更新后，完全退出并重新启动运行该 profile 的 Harness 进程。如果 Web 服务由终端或服务管理器单独启动，需要重启该服务进程，使插件代码重新加载。
+
+针对 `remote-companion: unsafe private directory` 修复，可在插件管理器中使用指定提交地址，避免旧 Git 引用：
+
+```text
+https://github.com/shxtmaker/DSH-WIN-SSH-Agent#97eab926981c81d3029998359a6783b7924e63b6
+```
+
+安装到 `web` profile 后，可检查实际文件：
+
+```bash
+sha256sum "$HOME/.dsh/profiles/web/node_modules/dsh-win-ssh-agent-source/runtime/index.js"
+```
+
+上述提交的 SHA-256 为 `f73ee5c339ac29b12cec23c8178c85af0e41f4cefa3a863a7a5f7c414d1eaffe`。如果匹配，文件已经更新，无需再次安装；重启 Harness 后重新启用插件。如果仍显示不含目录路径的错误且行号为 `instanceStorage:36`，该提示对应旧运行代码，需确认相关服务已重新启动。后续代码更新可能改变文件校验值。
+
 ### 从独立安装包安装
 
 使用现有 Web profile，以下示例使用 remote-web。在已运行的业务 profile 上安装前，安排可控的退出和重启时段。

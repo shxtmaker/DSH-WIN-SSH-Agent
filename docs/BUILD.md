@@ -40,4 +40,6 @@ Linux 权限回归可独立运行 `node --test tests/private-files.test.mjs test
 
 也可通过 `--installation /path/to/isolated-cli-installation` 指定由 pnpm 安装了 `@deepseek-ai/dsh@0.2.0-rc.2` 的独立目录。此模式调用真实 `dsh plugin add` 并验证 profile 选中该组合包。在 Linux 上还会通过 Harness 的运行时解析器加载 Companion，以临时服务夹具验证原生描述文件权限、身份查询和卸载清理；这些检查不代表实机 SSH 或 frp 验收。
 
+可附加 `--previous-spec <old-git-spec>`，先安装旧权限检查版本，再在同一临时 profile 更新到 `--spec` 指定的修复提交。测试核对新运行文件的 SHA-256，并确认已有 profile 数据保留。此测试验证更新后的文件与新进程加载，不代表已运行的 Desktop 自动清除了模块缓存。
+
 本地构建和模拟代理测试不能代替 Desktop 与 Linux 双机业务验收。完整上游文档站点校验不属于本项目的最小构建入口。
