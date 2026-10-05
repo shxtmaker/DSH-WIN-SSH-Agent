@@ -1,0 +1,87 @@
+Initialized empty Git repository in C:/Users/sissy/AppData/Local/Temp/dsh-agent-git-install-VKlqVh/repository/.git/
+[main (root-commit) 947e305] Installation fixture
+ 48 files changed, 1534 insertions(+)
+ create mode 100644 .gitattributes
+ create mode 100644 .gitignore
+ create mode 100644 LICENSE
+ create mode 100644 README.md
+ create mode 100644 configs/remote-helper.sh.example
+ create mode 100644 dist/remote/README.zh.md
+ create mode 100644 dist/remote/SHA256SUMS.txt
+ create mode 100644 dist/remote/configs/remote-helper.sh.example
+ create mode 100644 dist/remote/harness-remote-companion-0.1.0.tgz
+ create mode 100644 docs/BUILD.md
+ create mode 100644 docs/INSTALL.md
+ create mode 100644 docs/MIGRATION.md
+ create mode 100644 docs/PROTOCOL.md
+ create mode 100644 docs/evidence/artifact-verification.txt
+ create mode 100644 docs/evidence/clean-build.txt
+ create mode 100644 docs/evidence/initial-build-failure.txt
+ create mode 100644 docs/evidence/integration-tests.txt
+ create mode 100644 docs/evidence/linux-helper-tests.txt
+ create mode 100644 docs/evidence/project-isolation.txt
+ create mode 100644 docs/evidence/project-tests.txt
+ create mode 100644 docs/implementation-status.md
+ create mode 100644 docs/implementation-status.zh.md
+ create mode 100644 docs/split-manifest.json
+ create mode 100644 docs/verification.json
+ create mode 100644 integration/upstream.patch
+ create mode 100644 package.json
+ create mode 100644 packages/remote/README.md
+ create mode 100644 packages/remote/README.zh.md
+ create mode 100644 packages/remote/companion/README.md
+ create mode 100644 packages/remote/companion/README.zh.md
+ create mode 100644 packages/remote/companion/bin/dsh-remote-info.mjs
+ create mode 100644 packages/remote/companion/cordis.patch.yml
+ create mode 100644 packages/remote/companion/package.json
+ create mode 100644 packages/remote/companion/src/index.ts
+ create mode 100644 packages/remote/companion/src/private-files.ts
+ create mode 100644 packages/remote/companion/tsconfig.json
+ create mode 100644 project.json
+ create mode 100644 scripts/build-host.config.mjs
+ create mode 100644 scripts/build.mjs
+ create mode 100644 scripts/prepare-upstream.mjs
+ create mode 100644 scripts/runtime.mjs
+ create mode 100644 scripts/test-git-install.mjs
+ create mode 100644 scripts/test-integration.mjs
+ create mode 100644 scripts/verify-artifacts.mjs
+ create mode 100644 scripts/verify-project.mjs
+ create mode 100644 source-baseline.json
+ create mode 100644 tests/helper.test.mjs
+ create mode 100644 tests/project.test.mjs
+
+   ╭──────────────────────────────────────────────╮
+   │                                              │
+   │     Update available! 11.24.0 → 12.9.1.      │
+   │     Changelog: https://pnpm.io/v/12.9.1      │
+   │   To update, run: corepack use pnpm@12.9.1   │
+   │                                              │
+   ╰──────────────────────────────────────────────╯
+
+Progress: resolved 0, reused 0, downloaded 1, added 0
+Packages: +1
++
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: C:\Users\sissy\AppData\Local\pnpm\store\v11
+  Virtual store is at:             node_modules/.pnpm
+Progress: resolved 1, reused 0, downloaded 1, added 1, done
+
+dependencies:
++ dsh-win-ssh-agent-source 0.1.0
+
+Done in 1.5s using pnpm v11.24.0
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: not-bundle: 这个包没有声明组合包，不能作为插件管理
+    at file:///D:/AI/documents/codex/dsh-windows-launcher/DSH-WIN-SSH-Agent/scripts/test-git-install.mjs:42:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

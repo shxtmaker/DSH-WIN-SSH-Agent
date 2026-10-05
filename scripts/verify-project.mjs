@@ -3,6 +3,7 @@ import { readFile, readdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import { root, project } from './runtime.mjs'
 import { verifyArtifacts } from './verify-artifacts.mjs'
+import { verifyGitPackage } from './verify-git-package.mjs'
 
 const roles = {
   controller: { packages: ['bundle', 'client', 'controller'], artifacts: ['client', 'controller', 'workspace'], configs: ['ssh_config.macos.example', 'ssh_config.windows.example'] },
@@ -22,4 +23,5 @@ for (const match of patch.matchAll(/^\+.*packages\/remote\/([^/ :"]+)/gmu)) {
   if (!expected.packages.includes(match[1])) throw new Error(`Mixed-role build integration: ${match[1]}`)
 }
 await verifyArtifacts()
+await verifyGitPackage()
 console.log(`OK ${project.project}: isolated source, configuration, build integration, and artifacts`)

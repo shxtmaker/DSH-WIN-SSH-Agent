@@ -1,0 +1,17 @@
+✔ the Linux-only helper refuses other platforms (66.6163ms)
+﹣ helper identity output omits the launch credential and rejects unsafe files and keys (0.0853ms) # SKIP
+✔ the Git root is an installable bundle with the verified Companion runtime (4.1878ms)
+✔ missing Git bundle metadata and stale runtime are rejected (138.1465ms)
+✔ the standalone project contains only its own role and installable packages (74.4633ms)
+✔ a modified installation archive is rejected (8.7004ms)
+✔ an archive from the other role is rejected (8.2994ms)
+✔ duplicate or missing checksum rows are rejected (9.1149ms)
+✔ preparation refuses an existing workspace without overwriting its content (65.8925ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 410.0793

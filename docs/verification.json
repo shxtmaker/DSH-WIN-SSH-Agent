@@ -56,6 +56,25 @@
     }
   ],
   "sourceCodeUnchanged": true,
+  "gitInstallationFix": {
+    "verifiedDate": "2026-10-05",
+    "baseCommit": "74909d4b0b27725056b63b97fd4787006c6c410a",
+    "symptom": "pnpm Git installation succeeds, but Harness rejects the repository root as not-bundle",
+    "cause": "The repository root declared only a source project; dsh.bundle and the Companion entry existed only inside the standalone tgz",
+    "change": "The Git root declares a bundle and exports a committed runtime copied byte-for-byte from the verified Companion tgz; no installation lifecycle build is required",
+    "companionImplementationChanged": false,
+    "checks": [
+      { "name": "original-not-bundle-reproduction", "status": "reproduced-before-fix", "evidence": "evidence/git-install-before.txt" },
+      { "name": "Windows-real-pnpm-Git-install-and-Harness-bundle-reader", "status": "passed", "node": "v24.19.0", "pnpm": "11.24.0", "evidence": "evidence/git-install-windows.txt" },
+      { "name": "Linux-real-dsh-plugin-add-and-profile-bundle-selection", "status": "passed", "environment": "WSL Ubuntu, temporary profile, npm-distributed @deepseek-ai/dsh@0.2.0-rc.2", "node": "v24.19.0", "pnpm": "12.4.2", "evidence": "evidence/git-install-linux.txt" },
+      { "name": "Linux-installed-Companion-runtime-with-Harness-resolution-and-fixture-services", "status": "passed", "coverage": ["native descriptor publication", "0700 directory and 0600 descriptor", "identity route", "installed helper identity output omits launch credential", "descriptor removal on disposal"], "evidence": "evidence/git-install-linux.txt" },
+      { "name": "project-and-Windows-helper-regressions", "status": "passed", "passed": 8, "skipped": 1, "evidence": "evidence/git-install-project-tests.txt" },
+      { "name": "pack-only-and-Git-runtime-sync", "status": "passed", "evidence": "evidence/git-install-pack.txt" },
+      { "name": "Git-root-publint", "status": "passed", "toolVersion": "0.3.21", "result": "All good!" }
+    ],
+    "warnings": ["pnpm reports unmet profile-local peer dependencies; the same installed runtime was loaded successfully through Harness's installation/profile resolver"],
+    "notRun": ["screenshot-Ubuntu-installed-Desktop-retest", "real-SSH-controller-business-flow", "real-frp-recovery"]
+  },
   "repairedFailures": [
     {
       "name": "initial-build",

@@ -5,6 +5,7 @@ import { join } from 'node:path'
 import { parseArgs } from 'node:util'
 import { root, project, pnpm, workspace } from './runtime.mjs'
 import { verifyArtifacts } from './verify-artifacts.mjs'
+import { syncGitPackage } from './sync-git-package.mjs'
 
 const { values } = parseArgs({ options: { workspace: { type: 'string' }, 'pack-only': { type: 'boolean', default: false }, offline: { type: 'boolean', default: false } } })
 const target = workspace(values.workspace)
@@ -34,4 +35,5 @@ await writeFile(join(output, 'SHA256SUMS.txt'), sums.join('\n') + '\n')
 await cp(join(root, 'configs'), join(output, 'configs'), { recursive: true })
 await writeFile(join(output, 'README.zh.md'), (await readFile(join(root, 'docs/INSTALL.md'), 'utf8')).replaceAll('../configs/', 'configs/'))
 await verifyArtifacts(output)
+await syncGitPackage(output)
 console.log(`Packed ${project.project}: ${output}`)

@@ -6,6 +6,16 @@ DeepSeek Harness SSH 远程工作区被控端。
 
 ## 安装文件
 
+在 Linux Harness 的插件管理器中选择 Git 仓库安装，填入以下地址：
+
+```text
+https://github.com/shxtmaker/DSH-WIN-SSH-Agent
+```
+
+仓库根目录包含可直接加载的组合包和 Companion 运行文件，安装时无需构建 Harness。安装后按[安装与使用说明](docs/INSTALL.md)配置实例和 SSH helper。
+
+也可使用独立安装包：
+
 - [harness-remote-companion-0.1.0.tgz](dist/remote/harness-remote-companion-0.1.0.tgz)
 
 安装包版本为 0.1.0，适用于 Harness 0.2.0-rc.2。校验值见 [SHA256SUMS.txt](dist/remote/SHA256SUMS.txt)。在仓库根目录执行 node scripts/verify-artifacts.mjs 即可验证。

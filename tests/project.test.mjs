@@ -6,6 +6,31 @@ import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { root, project } from '../scripts/runtime.mjs'
 import { verifyArtifacts } from '../scripts/verify-artifacts.mjs'
+import { verifyGitPackage } from '../scripts/verify-git-package.mjs'
+
+test('the Git root is an installable bundle with the verified Companion runtime', async () => {
+  await verifyGitPackage()
+})
+
+async function gitFixture(t) {
+  const directory = await mkdtemp(join(tmpdir(), 'dsh-agent-git-package-'))
+  t.after(() => rm(directory, { recursive: true, force: true }))
+  for (const name of ['package.json', 'cordis.patch.yml', 'runtime', 'dist']) await cp(join(root, name), join(directory, name), { recursive: true })
+  return directory
+}
+
+test('missing Git bundle metadata and stale runtime are rejected', async t => {
+  const directory = await gitFixture(t)
+  const path = join(directory, 'package.json')
+  const original = await readFile(path, 'utf8')
+  const manifest = JSON.parse(original)
+  delete manifest.dsh
+  await writeFile(path, JSON.stringify(manifest))
+  await assert.rejects(verifyGitPackage(directory), /must declare an installable Harness bundle/u)
+  await writeFile(path, original)
+  await writeFile(join(directory, 'runtime/index.js'), 'stale')
+  await assert.rejects(verifyGitPackage(directory), /Stale Git runtime/u)
+})
 
 test('the standalone project contains only its own role and installable packages', async () => {
   const result = spawnSync(process.execPath, [join(root, 'scripts/verify-project.mjs')], { encoding: 'utf8', windowsHide: true })

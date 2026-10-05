@@ -8,6 +8,29 @@
 
 ## 安装 Companion
 
+### 从 Git 仓库安装
+
+在 Linux Harness 的插件管理器中选择 Git 仓库安装，填入以下地址：
+
+```text
+https://github.com/shxtmaker/DSH-WIN-SSH-Agent
+```
+
+也可在命令行安装到现有 profile。使用 `web` profile 时，对应命令如下：
+
+```bash
+dsh plugin --profile web add https://github.com/shxtmaker/DSH-WIN-SSH-Agent
+dsh plugin --profile web list
+```
+
+Git 安装的包名为 `dsh-win-ssh-agent-source`，其中包含 `remote-workspace-companion` 组件。安装无需执行源码构建脚本。
+
+若此前出现“这个包没有声明组合包，不能作为插件管理”，重新提交上述地址安装即可。若仍命中旧 Git 缓存，在地址末尾附加修复提交 SHA，例如 `https://github.com/shxtmaker/DSH-WIN-SSH-Agent#<commit-sha>`，以安装指定提交。既有失败安装可通过相同包名更新，无需删除业务 profile。
+
+同一 profile 选择 Git 安装或独立安装包中的一种方式，避免重复加载同一个组件。
+
+### 从独立安装包安装
+
 使用现有 Web profile，以下示例使用 remote-web。在已运行的业务 profile 上安装前，安排可控的退出和重启时段。
 
 ```bash
@@ -23,11 +46,23 @@ dsh plugin --profile remote-web list
 dsh --profile remote-web --from-default-profile web --no-open --port 3080
 ```
 
-安装后检查该 profile 的 cordis.patch.yml，确认 remote-workspace-companion 的 instanceKey。默认值为 default。重启该 profile，使 Companion 生成描述文件。Web 必须绑定 127.0.0.1。
+### 启用与配置
+
+安装后在插件管理器中找到 `remote-workspace-companion`，确认 `instanceKey`。默认值为 `default`。需要覆盖配置时，在 profile 的 `cordis.patch.yml` 中追加：
+
+```yaml
+- id: remote-workspace-companion
+  config:
+    instanceKey: default
+```
+
+按安装提示重启该 profile，使 Companion 生成描述文件。Web 必须绑定 `127.0.0.1`。
 
 ## 配置受限 helper
 
 复制 [remote-helper.sh.example](../configs/remote-helper.sh.example)，将 DSH_HOME、实例键白名单和 Companion helper 路径改为该服务的实际值。将 wrapper 安装到控制端约定的固定路径，例如 /usr/local/bin/dsh-remote-info，并赋予执行权限。Linux 服务用户必须能够读取和执行此文件；其他用户不得修改它。
+
+Git 安装到 `web` profile 时，helper 路径为 `~/.dsh/profiles/web/node_modules/dsh-win-ssh-agent-source/runtime/bin/dsh-remote-info.mjs`。独立安装包安装到 `remote-web` 时，helper 路径为 `~/.dsh/profiles/remote-web/node_modules/@harness-remote/companion/bin/dsh-remote-info.mjs`。wrapper 中使用实际用户的绝对路径；运行账号的 `PATH` 中必须能够找到 Node.js。
 
 DSH_REMOTE_INSTANCE_KEYS 是逗号分隔的允许实例键。私有描述目录的权限须为 0700，描述文件须为 0600。helper 会拒绝不安全权限、符号链接和白名单之外的实例键。
 
@@ -45,7 +80,15 @@ printf '%s\n' '{"protocolVersion":1,"instanceKey":"default"}' | /usr/local/bin/d
 
 ## 卸载
 
-先让控制端断开，在可控的重启时段执行：
+先让控制端断开，在可控的重启时段执行与安装方式对应的命令。
+
+Git 安装：
+
+```bash
+dsh plugin --profile web remove dsh-win-ssh-agent-source
+```
+
+独立安装包安装：
 
 ```bash
 dsh plugin --profile remote-web remove @harness-remote/companion

@@ -13,6 +13,7 @@ node scripts/prepare-upstream.mjs
 node scripts/build.mjs
 node scripts/test-integration.mjs
 node scripts/verify-artifacts.mjs out/remote
+node scripts/test-git-install.mjs --harness /absolute/path/to/built-harness
 ```
 
 每条命令成功后再继续。准备脚本只接受 .build/ 下尚不存在的目标目录。已有目录会被保留。新准备目录使用 node scripts/prepare-upstream.mjs .build/upstream-2；后续构建和集成检查使用 --workspace .build/upstream-2。
@@ -25,10 +26,16 @@ node scripts/verify-artifacts.mjs out/remote
 
 新产物位于 out/remote/，含安装包、SHA256SUMS.txt、配置示例和中文安装说明。仓库中的 dist/remote/ 为已校验的安装文件；构建不会覆盖它。
 
+打包成功后，构建脚本从校验过的 Companion 安装包同步根目录的 `runtime/`、`cordis.patch.yml` 和运行依赖，使 Git 仓库可以直接安装。该步骤不执行安装生命周期脚本。发布源码变化时，将审查后的新安装包及其校验清单同步至 `dist/remote/`，再运行 `verify:project`，确保 Git 运行文件与独立安装包一致。也可运行 `node scripts/sync-git-package.mjs`，从现有 `dist/remote/` 重建 Git 入口。
+
 源码修改后，需要重新准备新的构建目录。构建目录内的源码是准备时复制的快照。对同一快照可直接重复运行 build；已有完整构建输出时，可用 node scripts/build.mjs --pack-only 仅重新打包。
 
 ## 检查
 
 test 检查本端源码、构建补丁和安装包隔离，并验证破损包、额外包和错误校验清单被拒绝。test:integration 运行 helper 平台检查；Linux 环境还运行真实临时目录、权限和身份输出测试。Windows 会明确跳过 Linux 用例。
+
+`test-git-install.mjs` 需要指定已构建的 Harness 目录，其中包含插件管理器的 `lib/types/operations.js`。它在临时 profile 中执行真实 pnpm Git 安装，并使用 Harness 插件管理器的组合包读取函数验证识别、补丁、模块导出和 helper 路径。默认使用当前源码创建独立 Git 快照；`--spec` 可指定远程 Git 地址和提交，用于推送后的复验。临时测试目录会在结束时清理。
+
+也可通过 `--installation /path/to/isolated-cli-installation` 指定由 pnpm 安装了 `@deepseek-ai/dsh@0.2.0-rc.2` 的独立目录。此模式调用真实 `dsh plugin add` 并验证 profile 选中该组合包。在 Linux 上还会通过 Harness 的运行时解析器加载 Companion，以临时服务夹具验证原生描述文件权限、身份查询和卸载清理；这些检查不代表实机 SSH 或 frp 验收。
 
 本地构建和模拟代理测试不能代替 Desktop 与 Linux 双机业务验收。完整上游文档站点校验不属于本项目的最小构建入口。

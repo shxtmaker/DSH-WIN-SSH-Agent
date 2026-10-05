@@ -1,0 +1,14 @@
+package: @harness-remote/companion@0.1.0
+Tarball Contents
+bin/dsh-remote-info.mjs
+cordis.patch.yml
+lib/index.js
+lib/types/index.d.ts
+lib/types/private-files.d.ts
+LICENSE
+package.json
+README.md
+README.zh.md
+Tarball Details
+D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\out\remote\harness-remote-companion-0.1.0.tgz
+Packed DSH-WIN-SSH-Agent: D:\AI\documents\codex\dsh-windows-launcher\DSH-WIN-SSH-Agent\out\remote
