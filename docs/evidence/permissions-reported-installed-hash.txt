@@ -5,5 +5,9 @@ Matches the repaired runtime in commit 97eab926981c81d3029998359a6783b7924e63b6.
 The accompanying screenshot still shows the original error without its path,
 privateDirectory index.js:21:127 and instanceStorage index.js:36:2.
 The repaired runtime calls privateDirectory(home, true) at index.js:48.
-Disk installation is confirmed current; fresh Desktop activation after a full
-Harness service restart has not yet been reported.
+Disk installation is confirmed current.
+
+Following the instruction to fully restart the Harness process running the web
+profile and re-enable Agent, the user reported: 已成功启用
+This is user-reported installed-host activation evidence. It does not verify
+the separate two-machine SSH/frp workflow.

@@ -87,6 +87,7 @@
       { "name": "startup-permissions-before-fix", "status": "reproduced-before-fix", "failed": 2, "evidence": "evidence/permissions-before.txt" },
       { "name": "reported-Ubuntu-home-permissions", "status": "confirmed-from-user-output", "mode": "0775", "owner": "lqy", "privateSubtreeExists": false, "evidence": "evidence/permissions-reported-host.txt" },
       { "name": "reported-Ubuntu-installed-runtime-hash", "status": "confirmed-from-user-output", "sha256": "f73ee5c339ac29b12cec23c8178c85af0e41f4cefa3a863a7a5f7c414d1eaffe", "result": "Disk runtime matches repaired commit; screenshot still references original runtime line numbers", "evidence": "evidence/permissions-reported-installed-hash.txt" },
+      { "name": "reported-Ubuntu-Desktop-activation-after-full-restart", "status": "passed-user-reported", "result": "User confirmed Agent enabled successfully after restarting the Harness process running the web profile", "evidence": "evidence/permissions-reported-installed-hash.txt" },
       { "name": "existing-profile-pinned-Git-update", "status": "passed", "coverage": ["Install old Git commit", "Update same profile to repaired commit", "Runtime SHA-256 matches repaired file", "Profile data preserved", "Fresh runtime activation and helper query"], "evidence": "evidence/permissions-pinned-upgrade.txt" },
       { "name": "Linux-native-permissions-and-helper", "status": "passed", "passed": 5, "skipped": 2, "evidence": "evidence/permissions-linux.txt" },
       { "name": "Linux-root-fixture-including-foreign-owner-refusal", "status": "passed", "passed": 6, "skipped": 1, "evidence": "evidence/permissions-linux-root.txt" },
@@ -94,7 +95,7 @@
       { "name": "Windows-project-and-platform-regressions", "status": "passed", "passed": 8, "skipped": 6, "evidence": "evidence/permissions-windows-tests.txt" },
       { "name": "Linux-real-Git-install-and-installed-runtime-activation", "status": "passed", "environment": "WSL Ubuntu, isolated distributed Harness CLI, fixture connection and web server", "coverage": ["0775 DSH_HOME normalization", "0755 reused subtree normalization", "0600 descriptor publication", "identity route", "installed restricted helper", "descriptor cleanup"], "evidence": "evidence/permissions-git-install-linux.txt" }
     ],
-    "notRun": ["screenshot-Ubuntu-Desktop-retest", "real-SSH-or-frp-flow"],
+    "notRun": ["real-SSH-or-frp-flow"],
     "liveAccessFailure": "Read-only SSH attempt: banner exchange: Connection to UNKNOWN port -1: Connection refused",
     "artifact": { "file": "harness-remote-companion-0.1.0.tgz", "sha256": "438763b17059dc2929375c0ab32f7f8d49d923c1f8495e8b7485a8b71e21763c" }
   },
