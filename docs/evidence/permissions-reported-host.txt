@@ -1,0 +1,11 @@
+User-provided terminal output from the screenshot Ubuntu host, 2026-10-05:
+
+lqy@lqy-MACO:~$ d; stat -c '%a %U %G %n' /home/lqy/.dsh /home/lqy/.dsh/remote-workspace /home/lqy/.dsh/remote-workspace/run
+d：未找到命令
+775 lqy lqy /home/lqy/.dsh
+stat: cannot stat '/home/lqy/.dsh/remote-workspace': No such file or directory (os error 2)
+stat: cannot stat '/home/lqy/.dsh/remote-workspace/run': No such file or directory (os error 2)
+
+The existing DSH_HOME mode matches the isolated failing regression.
+The user ran d instead of id, so no numeric uid was reported.
+No installed Desktop activation retest has been reported.

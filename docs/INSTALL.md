@@ -66,6 +66,19 @@ Git 安装到 `web` profile 时，helper 路径为 `~/.dsh/profiles/web/node_mod
 
 DSH_REMOTE_INSTANCE_KEYS 是逗号分隔的允许实例键。私有描述目录的权限须为 0700，描述文件须为 0600。helper 会拒绝不安全权限、符号链接和白名单之外的实例键。
 
+## 启动时的目录权限
+
+Companion 启动时检查 `DSH_HOME`、`DSH_HOME/remote-workspace` 和 `DSH_HOME/remote-workspace/run`。对于运行账号拥有的普通目录，自动移除 `DSH_HOME` 的组写权限，并移除两个私有子目录的组权限和其他用户权限。例如，已有的 `.dsh` 为 `0775` 时会收紧为 `0755`，私有子目录的 `0755/0775` 会收紧为 `0700`。此操作不递归修改目录内的文件，也不扩大权限。
+
+如果仍出现 `remote-companion: unsafe private directory: <path>`，请检查错误指向的目录是否为符号链接、是否属于运行 Harness 的账号，以及是否允许其他用户写入。此类目录不会自动修改。使用同一账号检查：
+
+```bash
+id
+stat -c '%a %U %G %n' "$HOME/.dsh" "$HOME/.dsh/remote-workspace" "$HOME/.dsh/remote-workspace/run"
+```
+
+如果配置了自定义 `DSH_HOME`，请使用该路径。确认所有者和路径正确后，再修正相应目录；不要使用 `chmod -R`，不要把描述文件权限放宽到 `0644`。
+
 以运行 Harness 的同一用户读取不含启动凭据的身份：
 
 ```bash

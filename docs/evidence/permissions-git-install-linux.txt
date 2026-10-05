@@ -1,0 +1,20 @@
+Initialized empty Git repository in /tmp/dsh-agent-git-install-WzZWQP/repository/.git/
+Progress: resolved 0, reused 1, downloaded 0, added 0
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: /home/opencode/.local/share/pnpm/store/v11
+  Virtual store is at:             node_modules/.pnpm
+Packages: +4
+++++
+Progress: resolved 4, reused 3, downloaded 0, added 4, done
+[WARN] Issues with peer dependencies found. Run "pnpm peers check" to list them.
+
+dependencies:
++ dsh-win-ssh-agent-source git+file:///tmp/dsh-agent-git-install-WzZWQP/repository#main
+
+Done in 214ms using pnpm v12.4.2
+
+dsh: initialized profile git-install-check at /tmp/dsh-agent-git-install-WzZWQP/dsh-home/profiles/git-install-check
+
+PASS Git installation: dsh-win-ssh-agent-source; Harness bundle metadata, patch, Companion entry and helper resolve without build scripts
+PASS Linux runtime with fixture services: owned 0775 home and reused 0755 subtree repaired, descriptor publication, native 0700/0600 permissions, identity route and installed helper; private launch credential omitted
+PASS Linux runtime disposal: boot descriptor removed

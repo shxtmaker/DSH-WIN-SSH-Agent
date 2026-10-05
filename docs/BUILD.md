@@ -34,6 +34,8 @@ node scripts/test-git-install.mjs --harness /absolute/path/to/built-harness
 
 test 检查本端源码、构建补丁和安装包隔离，并验证破损包、额外包和错误校验清单被拒绝。test:integration 运行 helper 平台检查；Linux 环境还运行真实临时目录、权限和身份输出测试。Windows 会明确跳过 Linux 用例。
 
+Linux 权限回归可独立运行 `node --test tests/private-files.test.mjs tests/helper.test.mjs`，需要 Node.js 24，临时目录位于原生 Linux 文件系统。测试覆盖已有 `0775` DSH_HOME、权限过宽的私有子目录、稳定身份、私有描述文件及拒绝符号链接和全局可写目录。其他用户所有权的拒绝用例仅在 root 测试进程下执行，普通账号明确跳过；root 用例只修改并清理自己创建的临时夹具。
+
 `test-git-install.mjs` 需要指定已构建的 Harness 目录，其中包含插件管理器的 `lib/types/operations.js`。它在临时 profile 中执行真实 pnpm Git 安装，并使用 Harness 插件管理器的组合包读取函数验证识别、补丁、模块导出和 helper 路径。默认使用当前源码创建独立 Git 快照；`--spec` 可指定远程 Git 地址和提交，用于推送后的复验。临时测试目录会在结束时清理。
 
 也可通过 `--installation /path/to/isolated-cli-installation` 指定由 pnpm 安装了 `@deepseek-ai/dsh@0.2.0-rc.2` 的独立目录。此模式调用真实 `dsh plugin add` 并验证 profile 选中该组合包。在 Linux 上还会通过 Harness 的运行时解析器加载 Companion，以临时服务夹具验证原生描述文件权限、身份查询和卸载清理；这些检查不代表实机 SSH 或 frp 验收。

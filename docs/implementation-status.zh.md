@@ -8,4 +8,8 @@
 
 验证命令、初始失败及通过记录位于 `docs/evidence/git-install-*.txt`。截图中的 Ubuntu Desktop 重新安装尚未进行。
 
+随后修复启动时的 `remote-companion: unsafe private directory`。Linux 回归复现了运行账号拥有的 `0775` DSH_HOME 和权限过宽的已有私有子目录。Companion 现在验证目录类型、所有者和文件描述符对应的 inode，再仅移除多余权限；符号链接、其他账号目录及全局可写目录仍被拒绝。本次修改了 Companion 源码，并重新构建独立安装包和 Git 运行文件。
+
+原生权限测试、实际 Git 安装后的运行入口启用、身份路由、受限 helper 查询和描述文件清理均通过，记录见 `docs/evidence/permissions-*.txt`。测试环境为隔离的 WSL Ubuntu；运行服务使用夹具。用户提供的截图机器终端输出确认 `.dsh` 为 `0775`、所有者为 `lqy`，且私有子目录尚不存在，与复现条件一致。该机器的 SSH 连接被拒绝，Desktop 重试仍为 notRun。
+
 双机 Desktop/Linux 业务链路、真实 frp 恢复和实机资源清理状态为 notRun。

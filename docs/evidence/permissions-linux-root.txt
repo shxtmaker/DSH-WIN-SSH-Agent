@@ -1,0 +1,15 @@
+﹣ the Linux-only helper refuses other platforms (0.47024ms) # SKIP
+✔ helper identity output omits the launch credential and rejects unsafe files and keys (208.229882ms)
+✔ activation repairs an owned group-writable DSH home and preserves stable identity (15.161193ms)
+✔ activation tightens reused private directories without changing a readable DSH home (7.329019ms)
+✔ activation refuses symlinks without changing their target (3.331409ms)
+✔ activation refuses world-writable directories and insecure existing identity files (6.781403ms)
+✔ activation refuses a directory owned by another user without changing its mode (1.731854ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 263.918013

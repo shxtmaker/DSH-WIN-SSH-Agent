@@ -1,6 +1,6 @@
 /** Exercise the Git package through the same bundle reader used by the Harness manager. */
 import assert from 'node:assert/strict'
-import { copyFile, mkdir, mkdtemp, readFile, realpath, rm, stat, writeFile } from 'node:fs/promises'
+import { chmod, copyFile, mkdir, mkdtemp, readFile, realpath, rm, stat, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -81,6 +81,10 @@ try {
     }
     const plugin = await import(pathToFileURL(entry).href)
     const home = join(temporary, 'native-home')
+    await mkdir(home)
+    await chmod(home, 0o775)
+    await mkdir(join(home, 'remote-workspace'))
+    await chmod(join(home, 'remote-workspace'), 0o755)
     let identityRoute
     ctx.provide('profileContext', { home, name: 'web', cwd: temporary })
     ctx.provide('connection', {
@@ -94,6 +98,8 @@ try {
       const descriptor = JSON.parse(await readFile(descriptorPath, 'utf8'))
       assert.equal((await stat(descriptorPath)).mode & 0o777, 0o600)
       assert.equal((await stat(dirname(descriptorPath))).mode & 0o777, 0o700)
+      assert.equal((await stat(home)).mode & 0o777, 0o755)
+      assert.equal((await stat(join(home, 'remote-workspace'))).mode & 0o777, 0o700)
       assert.equal(descriptor.profile, 'web')
       assert.equal(descriptor.workspaceHint, temporary)
       assert.equal(descriptor.port, 3080)
@@ -109,7 +115,7 @@ try {
       assert.ok(!identity.stdout.includes('fixture-private-credential'))
       assert.equal(identityRoute.path, '/api/remote-workspace/identity')
       assert.equal((await (await identityRoute.fetch()).json()).instanceId, descriptor.instanceId)
-      console.log('PASS Linux runtime with fixture services: descriptor publication, native 0700/0600 permissions, identity route and installed helper; private launch credential omitted')
+      console.log('PASS Linux runtime with fixture services: owned 0775 home and reused 0755 subtree repaired, descriptor publication, native 0700/0600 permissions, identity route and installed helper; private launch credential omitted')
     } finally { await dispose(); await ctx.fiber.dispose() }
     await assert.rejects(readFile(join(home, 'remote-workspace/run/default.json')), { code: 'ENOENT' })
     console.log('PASS Linux runtime disposal: boot descriptor removed')

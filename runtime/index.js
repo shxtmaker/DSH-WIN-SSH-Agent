@@ -17,8 +17,20 @@ async function privateDirectory(path, isHome = false) {
 		if (!isMissing(error) && !(typeof error === "object" && error !== null && "code" in error && error.code === "EEXIST")) throw error;
 	}
 	const info = await lstat(path);
+	const unsafe = () => /* @__PURE__ */ new Error(`remote-companion: unsafe private directory: ${path}`);
+	if (!info.isDirectory() || info.isSymbolicLink() || info.uid !== process.getuid?.() || (info.mode & 2) !== 0) throw unsafe();
 	const unsafeBits = isHome ? 18 : 63;
-	if (!info.isDirectory() || info.isSymbolicLink() || info.uid !== process.getuid?.() || (info.mode & unsafeBits) !== 0) throw new Error("remote-companion: unsafe private directory");
+	if ((info.mode & unsafeBits) === 0) return;
+	const directory = await open(path, constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NOFOLLOW);
+	try {
+		const opened = await directory.stat();
+		if (!opened.isDirectory() || opened.uid !== process.getuid?.() || opened.dev !== info.dev || opened.ino !== info.ino || (opened.mode & 2) !== 0) throw unsafe();
+		await directory.chmod(opened.mode & 511 & ~unsafeBits);
+		const current = await lstat(path);
+		if (!current.isDirectory() || current.isSymbolicLink() || current.uid !== opened.uid || current.dev !== opened.dev || current.ino !== opened.ino || (current.mode & unsafeBits) !== 0) throw unsafe();
+	} finally {
+		await directory.close();
+	}
 }
 async function privateFile(path) {
 	try {

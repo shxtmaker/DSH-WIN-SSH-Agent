@@ -13,11 +13,24 @@ function isMissing(error: unknown): boolean {
 async function privateDirectory(path: string, isHome = false): Promise<void> {
   try { await mkdir(path, { mode: 0o700 }) } catch (error) { if (!isMissing(error) && !(typeof error === 'object' && error !== null && 'code' in error && error.code === 'EEXIST')) throw error }
   const info = await lstat(path)
-  // Existing DSH_HOME may be readable. The credential subtree itself stays 0700.
-  const unsafeBits = isHome ? 0o022 : 0o077
-  if (!info.isDirectory() || info.isSymbolicLink() || info.uid !== process.getuid?.() || (info.mode & unsafeBits) !== 0) {
-    throw new Error('remote-companion: unsafe private directory')
+  const unsafe = () => new Error(`remote-companion: unsafe private directory: ${path}`)
+  // Refuse untrusted paths before changing permissions. A world-writable
+  // directory may already contain another user's data and needs manual repair.
+  if (!info.isDirectory() || info.isSymbolicLink() || info.uid !== process.getuid?.() || (info.mode & 0o002) !== 0) {
+    throw unsafe()
   }
+  // Harness may create DSH_HOME with group write access. Reused private
+  // directories may also inherit a readable mode. Remove permissions only.
+  const unsafeBits = isHome ? 0o022 : 0o077
+  if ((info.mode & unsafeBits) === 0) return
+  const directory = await open(path, constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NOFOLLOW)
+  try {
+    const opened = await directory.stat()
+    if (!opened.isDirectory() || opened.uid !== process.getuid?.() || opened.dev !== info.dev || opened.ino !== info.ino || (opened.mode & 0o002) !== 0) throw unsafe()
+    await directory.chmod((opened.mode & 0o777) & ~unsafeBits)
+    const current = await lstat(path)
+    if (!current.isDirectory() || current.isSymbolicLink() || current.uid !== opened.uid || current.dev !== opened.dev || current.ino !== opened.ino || (current.mode & unsafeBits) !== 0) throw unsafe()
+  } finally { await directory.close() }
 }
 
 async function privateFile(path: string): Promise<boolean> {

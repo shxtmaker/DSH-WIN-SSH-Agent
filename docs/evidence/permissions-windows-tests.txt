@@ -1,0 +1,22 @@
+✔ the Linux-only helper refuses other platforms (77.1336ms)
+﹣ helper identity output omits the launch credential and rejects unsafe files and keys (0.0773ms) # SKIP
+﹣ activation repairs an owned group-writable DSH home and preserves stable identity (0.5429ms) # SKIP
+﹣ activation tightens reused private directories without changing a readable DSH home (0.0774ms) # SKIP
+﹣ activation refuses symlinks without changing their target (0.0666ms) # SKIP
+﹣ activation refuses world-writable directories and insecure existing identity files (0.0374ms) # SKIP
+﹣ activation refuses a directory owned by another user without changing its mode (0.0628ms) # SKIP
+✔ the Git root is an installable bundle with the verified Companion runtime (5.2262ms)
+✔ missing Git bundle metadata and stale runtime are rejected (179.1633ms)
+✔ the standalone project contains only its own role and installable packages (88.0845ms)
+✔ a modified installation archive is rejected (10.7976ms)
+✔ an archive from the other role is rejected (10.1631ms)
+✔ duplicate or missing checksum rows are rejected (11.2588ms)
+✔ preparation refuses an existing workspace without overwriting its content (77.2301ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 6
+ℹ todo 0
+ℹ duration_ms 519.8862

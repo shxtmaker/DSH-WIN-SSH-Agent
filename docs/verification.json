@@ -55,7 +55,8 @@
       ]
     }
   ],
-  "sourceCodeUnchanged": true,
+  "sourceCodeUnchanged": false,
+  "originalSplitSourceCodeUnchanged": true,
   "gitInstallationFix": {
     "verifiedDate": "2026-10-05",
     "baseCommit": "74909d4b0b27725056b63b97fd4787006c6c410a",
@@ -74,6 +75,26 @@
     ],
     "warnings": ["pnpm reports unmet profile-local peer dependencies; the same installed runtime was loaded successfully through Harness's installation/profile resolver"],
     "notRun": ["screenshot-Ubuntu-installed-Desktop-retest", "real-SSH-controller-business-flow", "real-frp-recovery"]
+  },
+  "startupPermissionsFix": {
+    "verifiedDate": "2026-10-05",
+    "baseCommit": "427fae7a3c4f7a5db4224a893962524f6dcca343",
+    "symptom": "remote-companion: unsafe private directory during plugin activation",
+    "reproducedCauses": ["Owned DSH_HOME with mode 0775", "Reused remote-workspace directories with mode 0755 or 0775"],
+    "change": "Validate ownership and directory type, then remove excessive permissions through an O_DIRECTORY | O_NOFOLLOW descriptor after inode verification. Preserve the readable home mode; keep credential directories private. Include the offending path in directory errors.",
+    "securityBoundaries": ["Do not follow symbolic links", "Do not modify foreign-owned or world-writable directories", "Do not recursively change files", "Retain 0600 identity and descriptor checks", "Keep restricted helper checks unchanged"],
+    "checks": [
+      { "name": "startup-permissions-before-fix", "status": "reproduced-before-fix", "failed": 2, "evidence": "evidence/permissions-before.txt" },
+      { "name": "reported-Ubuntu-home-permissions", "status": "confirmed-from-user-output", "mode": "0775", "owner": "lqy", "privateSubtreeExists": false, "evidence": "evidence/permissions-reported-host.txt" },
+      { "name": "Linux-native-permissions-and-helper", "status": "passed", "passed": 5, "skipped": 2, "evidence": "evidence/permissions-linux.txt" },
+      { "name": "Linux-root-fixture-including-foreign-owner-refusal", "status": "passed", "passed": 6, "skipped": 1, "evidence": "evidence/permissions-linux-root.txt" },
+      { "name": "fresh-pinned-workspace-build-and-runtime-sync", "status": "passed", "evidence": "evidence/permissions-build.txt" },
+      { "name": "Windows-project-and-platform-regressions", "status": "passed", "passed": 8, "skipped": 6, "evidence": "evidence/permissions-windows-tests.txt" },
+      { "name": "Linux-real-Git-install-and-installed-runtime-activation", "status": "passed", "environment": "WSL Ubuntu, isolated distributed Harness CLI, fixture connection and web server", "coverage": ["0775 DSH_HOME normalization", "0755 reused subtree normalization", "0600 descriptor publication", "identity route", "installed restricted helper", "descriptor cleanup"], "evidence": "evidence/permissions-git-install-linux.txt" }
+    ],
+    "notRun": ["screenshot-Ubuntu-Desktop-retest", "real-SSH-or-frp-flow"],
+    "liveAccessFailure": "Read-only SSH attempt: banner exchange: Connection to UNKNOWN port -1: Connection refused",
+    "artifact": { "file": "harness-remote-companion-0.1.0.tgz", "sha256": "438763b17059dc2929375c0ab32f7f8d49d923c1f8495e8b7485a8b71e21763c" }
   },
   "repairedFailures": [
     {

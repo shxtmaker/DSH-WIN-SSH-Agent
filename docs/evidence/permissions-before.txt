@@ -1,0 +1,34 @@
+﹣ the Linux-only helper refuses other platforms (0.546662ms) # SKIP
+✔ helper identity output omits the launch credential and rejects unsafe files and keys (221.184315ms)
+✖ activation repairs an owned group-writable DSH home and preserves stable identity (4.441186ms)
+✖ activation tightens reused private directories without changing a readable DSH home (4.336574ms)
+✔ activation refuses symlinks without changing their target (3.763106ms)
+✔ activation refuses world-writable directories and insecure existing identity files (8.164617ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 288.713364
+
+✖ failing tests:
+
+test at tests/private-files.test.mjs:16:1
+✖ activation repairs an owned group-writable DSH home and preserves stable identity (4.441186ms)
+  Error: remote-companion: unsafe private directory
+      at privateDirectory (file:///mnt/d/AI/documents/codex/dsh-windows-launcher/DSH-WIN-SSH-Agent/packages/remote/companion/src/private-files.ts:19:11)
+      at async instanceStorage (file:///mnt/d/AI/documents/codex/dsh-windows-launcher/DSH-WIN-SSH-Agent/packages/remote/companion/src/private-files.ts:51:3)
+      at async TestContext.<anonymous> (file:///mnt/d/AI/documents/codex/dsh-windows-launcher/DSH-WIN-SSH-Agent/tests/private-files.test.mjs:19:19)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/private-files.test.mjs:30:1
+✖ activation tightens reused private directories without changing a readable DSH home (4.336574ms)
+  Error: remote-companion: unsafe private directory
+      at privateDirectory (file:///mnt/d/AI/documents/codex/dsh-windows-launcher/DSH-WIN-SSH-Agent/packages/remote/companion/src/private-files.ts:19:11)
+      at async instanceStorage (file:///mnt/d/AI/documents/codex/dsh-windows-launcher/DSH-WIN-SSH-Agent/packages/remote/companion/src/private-files.ts:53:3)
+      at async TestContext.<anonymous> (file:///mnt/d/AI/documents/codex/dsh-windows-launcher/DSH-WIN-SSH-Agent/tests/private-files.test.mjs:36:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
