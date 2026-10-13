@@ -14,6 +14,14 @@ export function run(command, args, cwd = root) {
 }
 
 export function pnpm(args, cwd) {
+  // The prepared workspace still records the pinned packageManager; this only selects which
+  // launcher runs it. Corepack 0.24 cannot load pnpm under Node 26 and needs a writable
+  // ~/.cache/node, so an operator-provided launcher (DSH_PNPM_BIN) is preferred when set.
+  const override = process.env.DSH_PNPM_BIN
+  if (override !== undefined && override !== '') {
+    run(override, args, cwd)
+    return
+  }
   if (process.platform === 'win32') {
     const launcher = join(dirname(process.execPath), 'node_modules/corepack/dist/corepack.js')
     if (!existsSync(launcher)) throw new Error('Corepack must be installed beside Node.js')

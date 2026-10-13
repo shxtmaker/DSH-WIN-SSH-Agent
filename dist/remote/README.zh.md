@@ -8,6 +8,47 @@
 
 ## 安装 Companion
 
+### 从 Git 仓库安装
+
+在 Linux Harness 的插件管理器中选择 Git 仓库安装，填入以下地址：
+
+```text
+https://github.com/shxtmaker/DSH-WIN-SSH-Agent
+```
+
+也可在命令行安装到现有 profile。使用 `web` profile 时，对应命令如下：
+
+```bash
+dsh plugin --profile web add https://github.com/shxtmaker/DSH-WIN-SSH-Agent
+dsh plugin --profile web list
+```
+
+Git 安装的包名为 `dsh-win-ssh-agent-source`，其中包含 `remote-workspace-companion` 组件。安装无需执行源码构建脚本。
+
+若此前出现“这个包没有声明组合包，不能作为插件管理”，重新提交上述地址安装即可。若仍命中旧 Git 缓存，在地址末尾附加修复提交 SHA，例如 `https://github.com/shxtmaker/DSH-WIN-SSH-Agent#<commit-sha>`，以安装指定提交。既有失败安装可通过相同包名更新，无需删除业务 profile。
+
+同一 profile 选择 Git 安装或独立安装包中的一种方式，避免重复加载同一个组件。
+
+### 更新后仍显示旧启动错误
+
+安装更新后，完全退出并重新启动运行该 profile 的 Harness 进程。如果 Web 服务由终端或服务管理器单独启动，需要重启该服务进程，使插件代码重新加载。
+
+针对 `remote-companion: unsafe private directory` 修复，可在插件管理器中使用指定提交地址，避免旧 Git 引用：
+
+```text
+https://github.com/shxtmaker/DSH-WIN-SSH-Agent#97eab926981c81d3029998359a6783b7924e63b6
+```
+
+安装到 `web` profile 后，可检查实际文件：
+
+```bash
+sha256sum "$HOME/.dsh/profiles/web/node_modules/dsh-win-ssh-agent-source/runtime/index.js"
+```
+
+上述提交的 SHA-256 为 `f73ee5c339ac29b12cec23c8178c85af0e41f4cefa3a863a7a5f7c414d1eaffe`。如果匹配，文件已经更新，无需再次安装；重启 Harness 后重新启用插件。如果仍显示不含目录路径的错误且行号为 `instanceStorage:36`，该提示对应旧运行代码，需确认相关服务已重新启动。后续代码更新可能改变文件校验值。
+
+### 从独立安装包安装
+
 使用现有 Web profile，以下示例使用 remote-web。在已运行的业务 profile 上安装前，安排可控的退出和重启时段。
 
 ```bash
@@ -23,13 +64,38 @@ dsh plugin --profile remote-web list
 dsh --profile remote-web --from-default-profile web --no-open --port 3080
 ```
 
-安装后检查该 profile 的 cordis.patch.yml，确认 remote-workspace-companion 的 instanceKey。默认值为 default。重启该 profile，使 Companion 生成描述文件。Web 必须绑定 127.0.0.1。
+### 启用与配置
+
+安装后在插件管理器中找到 `remote-workspace-companion`，确认 `instanceKey`。默认值为 `default`。需要覆盖配置时，在 profile 的 `cordis.patch.yml` 中追加：
+
+```yaml
+- id: remote-workspace-companion
+  config:
+    instanceKey: default
+```
+
+按安装提示重启该 profile，使 Companion 生成描述文件。Web 必须绑定 `127.0.0.1`。
 
 ## 配置受限 helper
 
 复制 [remote-helper.sh.example](configs/remote-helper.sh.example)，将 DSH_HOME、实例键白名单和 Companion helper 路径改为该服务的实际值。将 wrapper 安装到控制端约定的固定路径，例如 /usr/local/bin/dsh-remote-info，并赋予执行权限。Linux 服务用户必须能够读取和执行此文件；其他用户不得修改它。
 
+Git 安装到 `web` profile 时，helper 路径为 `~/.dsh/profiles/web/node_modules/dsh-win-ssh-agent-source/runtime/bin/dsh-remote-info.mjs`。独立安装包安装到 `remote-web` 时，helper 路径为 `~/.dsh/profiles/remote-web/node_modules/@harness-remote/companion/bin/dsh-remote-info.mjs`。wrapper 中使用实际用户的绝对路径；运行账号的 `PATH` 中必须能够找到 Node.js。
+
 DSH_REMOTE_INSTANCE_KEYS 是逗号分隔的允许实例键。私有描述目录的权限须为 0700，描述文件须为 0600。helper 会拒绝不安全权限、符号链接和白名单之外的实例键。
+
+## 启动时的目录权限
+
+Companion 启动时检查 `DSH_HOME`、`DSH_HOME/remote-workspace` 和 `DSH_HOME/remote-workspace/run`。对于运行账号拥有的普通目录，自动移除 `DSH_HOME` 的组写权限，并移除两个私有子目录的组权限和其他用户权限。例如，已有的 `.dsh` 为 `0775` 时会收紧为 `0755`，私有子目录的 `0755/0775` 会收紧为 `0700`。此操作不递归修改目录内的文件，也不扩大权限。
+
+如果仍出现 `remote-companion: unsafe private directory: <path>`，请检查错误指向的目录是否为符号链接、是否属于运行 Harness 的账号，以及是否允许其他用户写入。此类目录不会自动修改。使用同一账号检查：
+
+```bash
+id
+stat -c '%a %U %G %n' "$HOME/.dsh" "$HOME/.dsh/remote-workspace" "$HOME/.dsh/remote-workspace/run"
+```
+
+如果配置了自定义 `DSH_HOME`，请使用该路径。确认所有者和路径正确后，再修正相应目录；不要使用 `chmod -R`，不要把描述文件权限放宽到 `0644`。
 
 以运行 Harness 的同一用户读取不含启动凭据的身份：
 
@@ -45,10 +111,36 @@ printf '%s\n' '{"protocolVersion":1,"instanceKey":"default"}' | /usr/local/bin/d
 
 ## 卸载
 
-先让控制端断开，在可控的重启时段执行：
+先让控制端断开，在可控的重启时段执行与安装方式对应的命令。
+
+Git 安装：
+
+```bash
+dsh plugin --profile web remove dsh-win-ssh-agent-source
+```
+
+独立安装包安装：
 
 ```bash
 dsh plugin --profile remote-web remove @harness-remote/companion
 ```
 
 卸载不会删除工作区或会话，也不会修改 SSH、frp 配置。固定路径 wrapper 的停用由操作者管理。恢复原 profile 插件清单可回滚安装。
+
+## 核验 wrapper 与 profile home（B12）
+
+远端 wrapper 的 `DSH_HOME` 必须与 Companion 实际用于实例存储的目录一致。安装时读**实际配置**确认，不要按作者机器路径或 profile 名称猜测：
+
+1. 读取运行中的 unit 或 wrapper，确认其 `Environment=DSH_HOME=<绝对路径>`。
+2. 在同一台机器上确认该目录下存在 `remote-workspace/run/<instanceKey>.json`，且文件属主为运行服务的同一 UID、权限为 0600。
+3. 确认 `DSH_REMOTE_INSTANCE_KEYS` 含且仅含需要暴露的实例键。
+4. 确认 helper 路径与 Controller 配置中的 `helperPath` 完全一致，且为绝对路径。
+5. 服务登记位于 `<DSH_HOME>/remote-workspace/control/services.json`，目录 0700、文件 0600、同 UID；其 `instances[<key>].unit` 必须与真实存在的用户 unit 名称逐字一致。
+
+四项中任一项不符时，管理页显示对应的固定错误码（`HELPER_BAD_CONFIG`、`CONFIG_REQUIRED`、`UNSAFE_FILE`、`SERVICE_UNREGISTERED`），不会猜测或自动修正远端配置。
+
+## 安装后自检
+
+- 发现协议：无参数调用 helper 返回完整启动描述；`--identity` 只返回公开身份；两者输出字段与 `docs/PROTOCOL.md` 一致。
+- 管理协议：`--control` 接受一行 JSON，`capabilities` 与 `status` 在 Web 停止时仍可返回。
+- 旧 helper 兼容：对 `--control` 返回结构化 `BAD_INPUT` 时，管理页降级为只连接模式并给出手动启动说明。

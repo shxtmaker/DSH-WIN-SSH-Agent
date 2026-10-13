@@ -126,3 +126,21 @@ dsh plugin --profile remote-web remove @harness-remote/companion
 ```
 
 卸载不会删除工作区或会话，也不会修改 SSH、frp 配置。固定路径 wrapper 的停用由操作者管理。恢复原 profile 插件清单可回滚安装。
+
+## 核验 wrapper 与 profile home（B12）
+
+远端 wrapper 的 `DSH_HOME` 必须与 Companion 实际用于实例存储的目录一致。安装时读**实际配置**确认，不要按作者机器路径或 profile 名称猜测：
+
+1. 读取运行中的 unit 或 wrapper，确认其 `Environment=DSH_HOME=<绝对路径>`。
+2. 在同一台机器上确认该目录下存在 `remote-workspace/run/<instanceKey>.json`，且文件属主为运行服务的同一 UID、权限为 0600。
+3. 确认 `DSH_REMOTE_INSTANCE_KEYS` 含且仅含需要暴露的实例键。
+4. 确认 helper 路径与 Controller 配置中的 `helperPath` 完全一致，且为绝对路径。
+5. 服务登记位于 `<DSH_HOME>/remote-workspace/control/services.json`，目录 0700、文件 0600、同 UID；其 `instances[<key>].unit` 必须与真实存在的用户 unit 名称逐字一致。
+
+四项中任一项不符时，管理页显示对应的固定错误码（`HELPER_BAD_CONFIG`、`CONFIG_REQUIRED`、`UNSAFE_FILE`、`SERVICE_UNREGISTERED`），不会猜测或自动修正远端配置。
+
+## 安装后自检
+
+- 发现协议：无参数调用 helper 返回完整启动描述；`--identity` 只返回公开身份；两者输出字段与 `docs/PROTOCOL.md` 一致。
+- 管理协议：`--control` 接受一行 JSON，`capabilities` 与 `status` 在 Web 停止时仍可返回。
+- 旧 helper 兼容：对 `--control` 返回结构化 `BAD_INPUT` 时，管理页降级为只连接模式并给出手动启动说明。

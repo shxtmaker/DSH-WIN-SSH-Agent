@@ -1,11 +1,11 @@
 {
   "repository": "https://github.com/deepseek-ai/deepseek-harness.git",
-  "commit": "639ed015397290b3745d163aafe02ffee4aa3f84",
-  "tag": "dsh-v0.2.0-rc.2",
-  "harnessVersion": "0.2.0-rc.2",
-  "pluginVersion": "0.1.0",
-  "nodeVersionTested": "24.19.0",
-  "packageManager": "pnpm@11.7.0",
-  "sourceRepository": "http://192.168.3.100:3300/lqy/DSH-WIN-SSH.git",
-  "sourceCommit": "81157926491f20a77d34ed0c2936e86ed44d0529"
+  "commit": "d743267388641bc76f17c45ce8b4c231aed1d32c",
+  "tag": "dsh-v0.2.1-alpha.2",
+  "harnessVersion": "0.2.1-alpha.2",
+  "pluginVersion": "0.2.0-alpha.1",
+  "nodeVersionTested": "26.10.0",
+  "packageManager": "pnpm@11.28.5",
+  "sourceRepository": "https://github.com/shxtmaker/DSH-WIN-SSH-Agent.git",
+  "sourceCommit": "1b3434d36f7c6a1404e5304a5b93f6b4a67c0662"
 }

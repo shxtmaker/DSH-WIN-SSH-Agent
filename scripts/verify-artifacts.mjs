@@ -5,6 +5,7 @@ import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { gunzipSync } from 'node:zlib'
 import { root, project } from './runtime.mjs'
+import { HELPER_MODULES } from './sync-git-package.mjs'
 
 export function archiveEntries(bytes) {
   const tar = gunzipSync(bytes), entries = new Map()
@@ -47,7 +48,17 @@ export async function verifyArtifacts(directory = join(root, 'dist/remote')) {
     if (packageName === 'controller' && !['typert.host.js', 'typert.host.d.ts', 'typert.remote-client.js', 'typert.remote-client.d.ts'].every(name => entries.has(`package/lib/${name}`))) throw new Error('Missing controller protocol artifacts')
     if (packageName === 'client' && !entries.has('package/lib/client.js')) throw new Error('Missing Desktop Client bundle')
     if (['workspace', 'companion'].includes(packageName) && !entries.has('package/cordis.patch.yml')) throw new Error('Missing profile patch')
-    if (packageName === 'companion' && !entries.has('package/bin/dsh-remote-info.mjs')) throw new Error('Missing restricted SSH helper')
+    if (packageName === 'companion') {
+      // The helper imports its own siblings, so every allowlisted module must be inside the
+      // artifact; publishing only dsh-remote-info.mjs yields a helper that cannot start.
+      for (const helper of HELPER_MODULES) {
+        if (!entries.has(`package/bin/${helper}`)) throw new Error(`Missing restricted SSH helper module: ${helper}`)
+      }
+      const companionManifest = JSON.parse(entries.get('package/package.json')?.toString() ?? 'null')
+      for (const helper of HELPER_MODULES) {
+        if (!companionManifest?.files?.includes(`bin/${helper}`)) throw new Error(`Companion manifest does not declare bin/${helper}`)
+      }
+    }
   }
   return names
 }

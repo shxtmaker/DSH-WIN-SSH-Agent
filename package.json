@@ -1,6 +1,6 @@
 {
   "name": "dsh-win-ssh-agent-source",
-  "version": "0.1.0",
+  "version": "0.2.0-alpha.1",
   "private": true,
   "type": "module",
   "description": "DeepSeek Harness Linux companion and restricted SSH discovery helper",
@@ -17,7 +17,7 @@
     "verify:project": "node scripts/verify-project.mjs",
     "verify:artifacts": "node scripts/verify-artifacts.mjs"
   },
-  "packageManager": "pnpm@11.7.0",
+  "packageManager": "pnpm@11.28.5",
   "main": "runtime/index.js",
   "types": "runtime/types/index.d.ts",
   "bin": {
@@ -36,13 +36,13 @@
     "cordis.patch.yml"
   ],
   "dependencies": {
-    "@deepseek-ai/schemastery": "~3.18.4"
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.1"
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "~4.0.4",
-    "@deepseek-ai/dsh-app-boot": "0.2.0-rc.2",
-    "@deepseek-ai/dsh-client-connection": "0.2.0-rc.2",
-    "@deepseek-ai/dsh-host-webserver": "0.2.0-rc.2"
+    "@deepseek-ai/cordis": "~4.0.5-alpha.1",
+    "@deepseek-ai/dsh-app-boot": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-client-connection": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-host-webserver": "0.2.1-alpha.2"
   },
   "dsh": {
     "bundle": {

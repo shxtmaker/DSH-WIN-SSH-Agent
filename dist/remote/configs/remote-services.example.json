@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "instances": {
+    "default": {
+      "mode": "systemd-user",
+      "unit": "dsh-remote-web.service",
+      "profile": "web",
+      "registrationRevision": "<registration-uuid>",
+      "expectedInstanceId": "<existing-instance-uuid>"
+    }
+  }
+}

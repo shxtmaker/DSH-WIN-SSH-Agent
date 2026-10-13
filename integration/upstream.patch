@@ -1,17 +1,24 @@
 diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
-index 6c7ce04..40b2d22 100644
+index dfaa1653..fd6c6de2 100644
 --- a/pnpm-lock.yaml
 +++ b/pnpm-lock.yaml
-@@ -9693,7 +9693,7 @@ importers:
-         version: link:../../../vendor/schemastery
-       '@earendil-works/pi-ai':
-         specifier: ^0.87.1
--        version: 0.87.1(patch_hash=b9bcce474fb2ac44633dff0fa722816a5bff5451b4575d5874035ea14ba70a4f)(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(ws@8.21.0)(zod@4.4.3)
-+        version: 0.87.1(patch_hash=b9bcce474fb2ac44633dff0fa722816a5bff5451b4575d5874035ea14ba70a4f)(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(supports-color@9.4.0)(ws@8.21.0)(zod@4.4.3)
-     devDependencies:
-       '@deepseek-ai/cordis':
-         specifier: workspace:~
-@@ -10296,6 +10296,28 @@ importers:
+@@ -115,12 +115,12 @@ importers:
+       '@types/node':
+         specifier: ^22.20.1
+         version: 22.20.1
+-      '@types/semver':
+-        specifier: ^7.8.0
+-        version: 7.8.0
+       '@types/papaparse':
+         specifier: ^5.5.2
+         version: 5.5.2
++      '@types/semver':
++        specifier: ^7.8.0
++        version: 7.8.0
+       '@types/spdx-expression-parse':
+         specifier: ^4.0.0
+         version: 4.0.0
+@@ -11375,6 +11375,28 @@ importers:
          specifier: workspace:*
          version: link:../../util/timeout
  
@@ -37,51 +44,54 @@ index 6c7ce04..40b2d22 100644
 +        specifier: workspace:*
 +        version: link:../../host/webserver
 +
-   packages/runtime-diagnostics/invariants:
+   packages/sandbox/sandbox:
      dependencies:
-       '@deepseek-ai/schemastery':
-@@ -22668,15 +22690,15 @@ snapshots:
-     transitivePeerDependencies:
-       - '@algolia/client-search'
+       '@deepseek-ai/dsh-util-values':
+@@ -15641,10 +15663,6 @@ importers:
  
--  '@earendil-works/pi-ai@0.87.1(patch_hash=b9bcce474fb2ac44633dff0fa722816a5bff5451b4575d5874035ea14ba70a4f)(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(ws@8.21.0)(zod@4.4.3)':
-+  '@earendil-works/pi-ai@0.87.1(patch_hash=b9bcce474fb2ac44633dff0fa722816a5bff5451b4575d5874035ea14ba70a4f)(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(supports-color@9.4.0)(ws@8.21.0)(zod@4.4.3)':
-     dependencies:
-       '@anthropic-ai/sdk': 0.124.0(zod@4.4.3)
-       '@aws-sdk/client-bedrock-runtime': 3.1127.0
-       '@earendil-works/pi-telemetry': 0.87.1
-       '@google/genai': 2.21.0(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))
-       '@smithy/node-http-handler': 4.12.1
--      http-proxy-agent: 9.1.0
--      https-proxy-agent: 9.1.0
-+      http-proxy-agent: 9.1.0(supports-color@9.4.0)
-+      https-proxy-agent: 9.1.0(supports-color@9.4.0)
-       openai: 6.40.0(ws@8.21.0)(zod@4.4.3)
-       partial-json: 0.1.7
-       typebox: 1.3.27
-@@ -26859,7 +26881,7 @@ snapshots:
-     transitivePeerDependencies:
-       - supports-color
+ packages:
  
--  http-proxy-agent@9.1.0:
-+  http-proxy-agent@9.1.0(supports-color@9.4.0):
-     dependencies:
-       agent-base: 9.0.0
-       debug: 4.4.3(supports-color@9.4.0)
-@@ -26918,7 +26940,7 @@ snapshots:
-     transitivePeerDependencies:
-       - supports-color
+-  papaparse@5.5.3:
+-    resolution: {integrity: sha512-5QvjGxYVjxO59MGU2lHVYpRWBBtKHnlIAcSe1uNFCkkptUh63NFRj0FJQm7nR67puEruUci/ZkjmEFrjCAyP4A==}
+-
+-
+   '@agentclientprotocol/sdk@1.4.0':
+     resolution: {integrity: sha512-/eufudw+aFY1LKLolT6yFE6UMmYRl7fMJ/DEONSIyR6wI3slHWITBsANRGqXEY8FRzqUxwh7QEaGiZHcJPVThg==}
+     peerDependencies:
+@@ -21701,6 +21719,9 @@ packages:
+   pako@1.0.11:
+     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
  
--  https-proxy-agent@9.1.0:
-+  https-proxy-agent@9.1.0(supports-color@9.4.0):
++  papaparse@5.5.3:
++    resolution: {integrity: sha512-5QvjGxYVjxO59MGU2lHVYpRWBBtKHnlIAcSe1uNFCkkptUh63NFRj0FJQm7nR67puEruUci/ZkjmEFrjCAyP4A==}
++
+   papaparse@5.7.0:
+     resolution: {integrity: sha512-qBGxg/7Q3Kl9Wfhrz2Z74UnvnHTXLNG6jmKJFeBvP2+y4lV7So+7SR62+Zd47JvdrCkX+nDcnr0ObPzek/+6RA==}
+ 
+@@ -23227,9 +23248,6 @@ packages:
+ 
+ snapshots:
+ 
+-  papaparse@5.5.3: {}
+-
+-
+   '@agentclientprotocol/sdk@1.4.0(zod@4.4.3)':
      dependencies:
-       agent-base: 9.0.0
-       debug: 4.4.3(supports-color@9.4.0)
+       zod: 4.4.3
+@@ -29443,6 +29461,8 @@ snapshots:
+ 
+   pako@1.0.11: {}
+ 
++  papaparse@5.5.3: {}
++
+   papaparse@5.7.0: {}
+ 
+   parse-ms@4.0.0: {}
 diff --git a/tsconfig.host.json b/tsconfig.host.json
-index 5c5c81b..a02ecfb 100644
+index af38cdb3..3af91786 100644
 --- a/tsconfig.host.json
 +++ b/tsconfig.host.json
-@@ -476,6 +476,7 @@
+@@ -508,6 +508,7 @@
      { "path": "./packages/lsp/tool-lsp" },
      { "path": "./apps/cli" },
      { "path": "./apps/desktop-host" },
