@@ -1,1 +1,1 @@
-c5be87b36dc1c6d52c47fded37026d7d5009249e8d09caf2aa674198b68f5933  harness-remote-companion-0.2.0-alpha.1.tgz
+a2380eaece925bfd4484aead08598636fa0f318cc2315f6115817c55ff4baf68  harness-remote-companion-0.2.0-alpha.1.tgz

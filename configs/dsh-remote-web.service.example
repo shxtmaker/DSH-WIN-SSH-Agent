@@ -1,0 +1,29 @@
+# 远端 Harness Web 的用户服务模板（示例，需按实际路径与 profile 修改后再登记）。
+#
+# 本文件只是模板。安装步骤不会自动创建、修改或启用任何 unit，也不会执行 sudo 或开启 linger。
+# 需要退出登录后持续运行的部署，请自行核对用户服务的持久运行条件。
+#
+# 登记要求（与 docs/INSTALL.md 的核验步骤一致）：
+#   1. DSH_HOME 必须与 Companion 实际用于实例存储的目录一致。
+#   2. DSH_REMOTE_INSTANCE_KEYS 是实例键白名单，不要加入不需要暴露的键。
+#   3. 监听必须是纯 HTTP 且绑定 127.0.0.1；TLS 或 IPv6 监听会被 Companion 明确拒绝
+#      （UNSUPPORTED_WEB_TRANSPORT），不会生成错误的启动描述。
+#   4. 目录选择需同时组合官方 browse 后端与对应的 Client surface；systemd 启动可能没有
+#      SSH 环境标记，不能假设 auto 选择器一定会选择 browse。
+
+[Unit]
+Description=DeepSeek Harness Web (remote workspace, example)
+After=network.target
+
+[Service]
+Type=simple
+# 替换为真实路径：Node 可执行文件、dsh 入口、工作目录与 profile。
+Environment=DSH_HOME=%h/.dsh
+Environment=DSH_REMOTE_INSTANCE_KEYS=default
+WorkingDirectory=%h
+ExecStart=/usr/bin/env node %h/.dsh/bin/dsh web --host 127.0.0.1 --port 3080 --profile web
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=default.target

@@ -8,6 +8,7 @@
     "companion"
   ],
   "configs": [
+    "dsh-remote-web.service.example",
     "remote-helper.sh.example",
     "remote-services.example.json"
   ],

@@ -35,7 +35,13 @@ export async function apply(ctx: Context, config: Config): Promise<() => Promise
     })),
   }), 'remote-companion: authenticated identity')
   const publish = async (): Promise<void> => {
+    // The first version only supports plain HTTP on loopback. A TLS or IPv6 listener would make
+    // the published launch URL wrong, so it is refused explicitly instead of degraded silently.
     if (ctx.webServer.host !== '127.0.0.1') throw new Error('remote-companion: Web must bind loopback')
+    const protocol = (ctx.webServer as { protocol?: string }).protocol
+    if (protocol !== undefined && protocol !== 'http:') {
+      throw new Error('remote-companion: UNSUPPORTED_WEB_TRANSPORT')
+    }
     const port = ctx.webServer.port
     if (!Number.isInteger(port) || port < 1) throw new Error('remote-companion: Web listener unavailable')
     const descriptor: InstanceDescriptor = { protocolVersion: 1, instanceKey,
