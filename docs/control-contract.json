@@ -1,0 +1,142 @@
+{
+  "contract": "dsh-remote-control",
+  "contractVersion": 1,
+  "status": "frozen",
+  "note": "This file is byte-identical in DSH-WIN-SSH-Controller and DSH-WIN-SSH-Agent. Each repository validates its own implementation against it; neither repository imports the other.",
+  "discovery": {
+    "protocolVersion": 1,
+    "invocation": "fixed absolute helper path, no extra argument",
+    "identityInvocation": "fixed absolute helper path plus --identity",
+    "requestBytesMax": 4096,
+    "responseBytesMax": 65536,
+    "requestFields": ["protocolVersion", "instanceKey"],
+    "responseFields": ["protocolVersion", "instanceKey", "instanceId", "bootId", "profile", "workspaceHint", "port", "launchUrl"],
+    "identityResponseFields": ["protocolVersion", "instanceKey", "instanceId", "bootId", "profile", "workspaceHint", "port"],
+    "unchanged": true
+  },
+  "control": {
+    "controlVersion": 1,
+    "invocation": "the same fixed absolute helper path plus the literal argument --control",
+    "requestBytesMax": 4096,
+    "responseBytesMax": 65536,
+    "actions": ["capabilities", "status", "start", "stop", "restart", "operationStatus"],
+    "readOnlyActions": ["capabilities", "status", "operationStatus"],
+    "writeActions": ["start", "stop", "restart"],
+    "rejected": [
+      "command text",
+      "arbitrary unit name",
+      "arbitrary path",
+      "shell metacharacters",
+      "environment overrides",
+      "sudo or privilege escalation"
+    ],
+    "requestFields": {
+      "capabilities": ["controlVersion", "action", "instanceKey"],
+      "status": ["controlVersion", "action", "instanceKey"],
+      "operationStatus": ["controlVersion", "action", "instanceKey", "operationId"],
+      "start": ["controlVersion", "action", "instanceKey", "operationId", "issuedAt", "registrationRevision", "expectedInstanceId"],
+      "stop": ["controlVersion", "action", "instanceKey", "operationId", "issuedAt", "registrationRevision", "expectedInstanceId"],
+      "restart": ["controlVersion", "action", "instanceKey", "operationId", "issuedAt", "registrationRevision", "expectedInstanceId"]
+    },
+    "requiredFields": {
+      "capabilities": ["controlVersion", "action", "instanceKey"],
+      "status": ["controlVersion", "action", "instanceKey"],
+      "operationStatus": ["controlVersion", "action", "instanceKey", "operationId"],
+      "start": ["controlVersion", "action", "instanceKey", "operationId", "issuedAt", "registrationRevision"],
+      "stop": ["controlVersion", "action", "instanceKey", "operationId", "issuedAt", "registrationRevision"],
+      "restart": ["controlVersion", "action", "instanceKey", "operationId", "issuedAt", "registrationRevision"]
+    },
+    "optionalFields": {
+      "start": ["expectedInstanceId"],
+      "stop": ["expectedInstanceId"],
+      "restart": ["expectedInstanceId"]
+    },
+    "limits": {
+      "instanceKey": "^[A-Za-z0-9_-]{1,64}$",
+      "operationId": "^[A-Za-z0-9_-]{8,64}$",
+      "registrationRevision": "^[A-Za-z0-9_-]{1,64}$",
+      "expectedInstanceId": "^[A-Za-z0-9_-]{1,128}$",
+      "issuedAtMaxAgeMs": 86400000,
+      "issuedAtFutureSkewMs": 300000,
+      "operationReceiptRetentionMs": 604800000,
+      "operationReceiptsMax": 256
+    },
+    "timeBudgetsMs": {
+      "readOnly": 10000,
+      "tcpProbe": 2000,
+      "authentication": 10000,
+      "eventReady": 10000,
+      "serviceCommand": 45000,
+      "serviceReadyWait": 60000,
+      "serviceReadyPoll": 2000,
+      "sshReconnectMax": 300000
+    }
+  },
+  "modes": ["systemd-user", "unsupported", "unregistered"],
+  "serviceStates": ["unknown", "inactive", "activating", "active", "deactivating", "failed"],
+  "serviceOperationStatuses": ["idle", "submitting", "waiting", "completed", "failed", "outcome-unknown"],
+  "checkStates": ["unknown", "checking", "ok", "failed", "unsupported"],
+  "errorCodes": [
+    "SSH_UNAVAILABLE",
+    "SSH_AUTH_FAILED",
+    "HOST_KEY_REJECTED",
+    "SSH_TIMEOUT",
+    "HELPER_NOT_FOUND",
+    "HELPER_UNSAFE",
+    "HELPER_BAD_CONFIG",
+    "CONTROL_UNSUPPORTED",
+    "SERVICE_UNREGISTERED",
+    "SERVICE_STOPPED",
+    "SERVICE_FAILED",
+    "USER_MANAGER_UNAVAILABLE",
+    "DESCRIPTOR_MISSING",
+    "DESCRIPTOR_INVALID",
+    "DESCRIPTOR_STALE",
+    "UNSUPPORTED_WEB_TRANSPORT",
+    "LOCAL_AUTH_REQUIRED",
+    "UPSTREAM_AUTH_REQUIRED",
+    "IDENTITY_MISMATCH",
+    "APPLICATION_NOT_READY",
+    "UPSTREAM_UNREACHABLE",
+    "REGISTRATION_STALE",
+    "OPERATION_CONFLICT",
+    "OPERATION_EXPIRED",
+    "OUTCOME_UNKNOWN",
+    "BAD_INPUT",
+    "CONFIG_REQUIRED",
+    "UNSAFE_PATH",
+    "UNSAFE_FILE",
+    "LINUX_REQUIRED",
+    "CONTROL_FAILED",
+    "FORBIDDEN",
+    "NOT_FOUND",
+    "PROXY_PAUSED"
+  ],
+  "diagnosticHeader": "X-DSH-Remote-Error",
+  "registration": {
+    "schemaVersion": 1,
+    "pathRelativeToPrivateRoot": "control/services.json",
+    "directoryMode": "0700",
+    "fileMode": "0600",
+    "instances": {
+      "default": {
+        "mode": "systemd-user",
+        "unit": "dsh-remote-web.service",
+        "profile": "web",
+        "registrationRevision": "<registration-uuid>",
+        "expectedInstanceId": "<existing-instance-uuid>"
+      }
+    }
+  },
+  "storage": {
+    "operationReceiptsRelativeToPrivateRoot": "control/operations",
+    "operationLockRelativeToPrivateRoot": "control/locks"
+  },
+  "degradation": {
+    "oldHelperSignal": "the helper exits non-zero with BAD_INPUT on stderr when invoked with --control",
+    "rule": "only that exact structured signal selects connect-only mode; other non-zero exits keep their own SSH, permission or configuration error"
+  },
+  "unknownOutcome": {
+    "rule": "after a timeout, an SSH interruption or a helper crash the result is outcome-unknown; the controller may only query operationStatus and the real service state and must never resend the same write action under a new operationId"
+  }
+}

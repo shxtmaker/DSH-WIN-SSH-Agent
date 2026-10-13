@@ -1,8 +1,17 @@
 #!/bin/sh
 # Install at the controller's fixed helperPath on the remote Linux host.
 set -eu
+# DSH_HOME must be the same directory the Companion uses for its instance storage
+# (instanceStorage() reads and writes <DSH_HOME>/remote-workspace), not a profile name and not
+# a path copied from an author's machine. The management helper reads the reviewed unit
+# registration from <DSH_HOME>/remote-workspace/control/services.json, so a mismatch is
+# reported as CONFIG_REQUIRED or SERVICE_UNREGISTERED instead of guessing a unit.
 export DSH_HOME='/home/harness/.dsh'
+# DSH_REMOTE_INSTANCE_KEYS remains the allowlist: discovery and every management action accept
+# only these instance keys.
 export DSH_REMOTE_INSTANCE_KEYS='default'
+# The service registration template is configs/remote-services.example.json. Install it as
+# <DSH_HOME>/remote-workspace/control/services.json with directory mode 0700 and file mode 0600.
 # Git installation in the web profile. Replace the absolute user/profile paths.
 # For the standalone tgz, use node_modules/@harness-remote/companion/bin/dsh-remote-info.mjs instead.
 exec /usr/bin/env node '/home/harness/.dsh/profiles/web/node_modules/dsh-win-ssh-agent-source/runtime/bin/dsh-remote-info.mjs' "$@"

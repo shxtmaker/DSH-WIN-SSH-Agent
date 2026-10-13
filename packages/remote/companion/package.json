@@ -1,20 +1,39 @@
 {
   "name": "@harness-remote/companion",
   "description": "Linux Harness instance descriptor and restricted SSH information helper",
-  "version": "0.1.0",
+  "version": "0.2.0-alpha.1",
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/types/index.d.ts",
-  "bin": { "dsh-remote-info": "bin/dsh-remote-info.mjs" },
+  "bin": {
+    "dsh-remote-info": "bin/dsh-remote-info.mjs"
+  },
   "exports": {
-    ".": { "types": "./lib/types/index.d.ts", "default": "./lib/index.js" },
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
     "./cordis.patch.yml": "./cordis.patch.yml",
     "./package.json": "./package.json"
   },
-  "files": ["lib/index.js", "lib/types/**/*.d.ts", "bin/dsh-remote-info.mjs", "cordis.patch.yml"],
-  "dsh": { "bundle": { "patch": "./cordis.patch.yml" } },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts",
+    "bin/dsh-remote-info.mjs",
+    "bin/control-protocol.mjs",
+    "bin/private-storage.mjs",
+    "bin/service-manager.mjs",
+    "cordis.patch.yml"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
   "license": "MIT",
-  "dependencies": { "@deepseek-ai/schemastery": "workspace:~" },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "workspace:~"
+  },
   "peerDependencies": {
     "@deepseek-ai/cordis": "workspace:~",
     "@deepseek-ai/dsh-app-boot": "workspace:*",

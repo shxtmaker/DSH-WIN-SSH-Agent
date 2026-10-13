@@ -7,7 +7,7 @@ import { verifyGitPackage } from './verify-git-package.mjs'
 
 const roles = {
   controller: { packages: ['bundle', 'client', 'controller'], artifacts: ['client', 'controller', 'workspace'], configs: ['ssh_config.macos.example', 'ssh_config.windows.example'] },
-  agent: { packages: ['companion'], artifacts: ['companion'], configs: ['remote-helper.sh.example'] },
+  agent: { packages: ['companion'], artifacts: ['companion'], configs: ['remote-helper.sh.example', 'remote-services.example.json'] },
 }
 const expected = roles[project.role]
 if (!expected) throw new Error('Unknown project role')
