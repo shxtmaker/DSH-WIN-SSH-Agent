@@ -2,7 +2,7 @@
 
 DeepSeek Harness SSH 远程工作区被控端。
 
-在 Linux Harness Web profile 中发布实例身份和私有启动描述文件，通过受限 SSH helper 向控制端提供连接信息。远端 Harness 执行工作区操作并保存会话。
+在 Linux Harness Web profile 中发布实例身份和私有启动描述文件，通过受限 SSH helper 向控制端提供连接信息。远端 Harness 执行工作区操作并保存会话。Companion 在运行期间按 5 秒间隔核对描述文件：插件热重载、插件管理器操作或手工删除后会自动重新发布，不需要重启 Harness。
 
 ## 安装文件
 
@@ -12,7 +12,7 @@ DeepSeek Harness SSH 远程工作区被控端。
 https://github.com/shxtmaker/DSH-WIN-SSH-Agent
 ```
 
-仓库根目录包含可直接加载的组合包和 Companion 运行文件，安装时无需构建 Harness。安装后按[安装与使用说明](docs/INSTALL.md)配置实例和 SSH helper。
+仓库根目录包含可直接加载的组合包和 Companion 运行文件，安装时无需构建 Harness。安装后按[安装与使用说明](docs/INSTALL.md)配置实例和 SSH helper。helper 可用 `node scripts/install-remote-helper.mjs --profile web --home "$HOME/.dsh"` 安装到控制端固定路径，并实测身份输出。
 
 也可使用独立安装包：
 

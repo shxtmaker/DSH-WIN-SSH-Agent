@@ -1,0 +1,20 @@
+# Ubuntu 24.04 (lqy-MACO), Node v26.10.0, native Linux temporary fixtures
+# node --test tests/private-files.test.mjs tests/helper.test.mjs tests/self-heal.test.mjs
+﹣ the Linux-only helper refuses other platforms # SKIP
+✔ helper identity output omits the launch credential and rejects unsafe files and keys (94.7ms)
+✔ activation repairs an owned group-writable DSH home and preserves stable identity (5.7ms)
+✔ activation tightens reused private directories without changing a readable DSH home (1.6ms)
+✔ activation refuses symlinks without changing their target (1.2ms)
+✔ activation refuses world-writable directories and insecure existing identity files (1.6ms)
+﹣ activation refuses a directory owned by another user without changing its mode # SKIP
+✔ descriptor repair detects a missing, replaced or unsafe descriptor (2.8ms)
+✔ deleted state is repaired again without overlapping attempts (61.2ms)
+✔ a failed repair is reported and later attempts continue (40.9ms)
+✔ a disposed activation stops writing before the timer is cleared (40.9ms)
+✔ the returned disposer stops the loop (40.2ms)
+✔ an idle repair loop does not keep a short-lived profile load alive (52.4ms)
+ℹ tests 13
+ℹ pass 11
+ℹ fail 0
+ℹ skipped 2
+ℹ duration_ms 311.6

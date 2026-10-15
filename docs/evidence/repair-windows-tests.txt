@@ -1,0 +1,26 @@
+# Windows v24.19.0: node --test tests/project.test.mjs tests/self-heal.test.mjs tests/private-files.test.mjs tests/helper.test.mjs
+✔ the Linux-only helper refuses other platforms (83.7ms)
+﹣ helper identity output omits the launch credential and rejects unsafe files and keys # SKIP (not Linux)
+﹣ activation repairs an owned group-writable DSH home and preserves stable identity # SKIP
+﹣ activation tightens reused private directories without changing a readable DSH home # SKIP
+﹣ activation refuses symlinks without changing their target # SKIP
+﹣ activation refuses world-writable directories and insecure existing identity files # SKIP
+﹣ activation refuses a directory owned by another user without changing its mode # SKIP
+﹣ descriptor repair detects a missing, replaced or unsafe descriptor # SKIP
+✔ the Git root is an installable bundle with the verified Companion runtime (5.2ms)
+✔ missing Git bundle metadata and stale runtime are rejected (191.6ms)
+✔ the standalone project contains only its own role and installable packages (96.7ms)
+✔ a modified installation archive is rejected (10.8ms)
+✔ an archive from the other role is rejected (9.6ms)
+✔ duplicate or missing checksum rows are rejected (10.6ms)
+✔ preparation refuses an existing workspace without overwriting its content (74.1ms)
+✔ deleted state is repaired again without overlapping attempts (61.1ms)
+✔ a failed repair is reported and later attempts continue (39.9ms)
+✔ a disposed activation stops writing before the timer is cleared (41.2ms)
+✔ the returned disposer stops the loop (40.0ms)
+✔ an idle repair loop does not keep a short-lived profile load alive (93.5ms)
+ℹ tests 20
+ℹ pass 13
+ℹ fail 0
+ℹ skipped 7
+ℹ duration_ms 732.2

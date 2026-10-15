@@ -1,0 +1,19 @@
+# Ubuntu 24.04 (lqy-MACO), Node v26.10.0, installed Harness 0.2.0-rc.2
+# node scripts/test-git-install.mjs --installation /home/lqy/.npm/_npx/b86ed90107c62dab
+在 /tmp/dsh-agent-git-install-zF82GI/repository/.git/ 初始化空的 Git 仓库
+Packages: +4
+dependencies:
++ dsh-win-ssh-agent-source 0.1.0
+Done in 1.1s using pnpm v11.28.4
+dsh: initialized profile git-install-check at /tmp/dsh-agent-git-install-zF82GI/dsh-home/profiles/git-install-check
+
+PASS Git installation: dsh-win-ssh-agent-source; Harness bundle metadata, patch, Companion entry and helper resolve without build scripts
+PASS Linux runtime with fixture services: owned 0775 home and reused 0755 subtree repaired, descriptor publication, native 0700/0600 permissions, identity route and installed helper; private launch credential omitted
+PASS Linux runtime repair loop: a descriptor deleted after publication is republished with the same boot, 0600 permissions and a working helper query
+PASS Linux runtime disposal: boot descriptor removed
+exit=0
+
+# The repair check deletes remote-workspace/run/default.json while the fixture
+# process keeps running, requires the restricted helper to answer INFO_FAILED,
+# then waits for the repair loop to republish the same bootId and re-queries the
+# helper successfully.
