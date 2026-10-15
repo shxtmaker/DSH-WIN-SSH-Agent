@@ -100,6 +100,17 @@ sudo node scripts/install-remote-helper.mjs --profile web --home "$HOME/.dsh"   
 
 优先使用固定路径 `/usr/local/bin/dsh-remote-info`：控制端默认 helperPath 即该路径，profile 覆盖条目一旦被插件管理器重写就会失效，固定路径不存在覆盖被重置的风险。脚本使用 `--node` 指定 wrapper 内的 Node 绝对路径（默认取执行脚本的 Node），`--keys` 指定逗号分隔的实例键白名单，`--path` 直接指定安装文件。
 
+脚本的安装与复验规则：
+
+| 场景 | 结果 |
+| --- | --- |
+| `sudo node scripts/install-remote-helper.mjs ...` | `/usr/local/bin/dsh-remote-info` 写为 `root:root 0755`，无需 profile 覆盖配置 |
+| `node scripts/install-remote-helper.mjs ...`（Harness 账号） | `~/.local/bin/dsh-remote-info` 写为该账号所有、权限 `0700` |
+
+脚本以 `DSH_HOME` 属主账号（即运行 Harness 的账号）执行 `--identity` 复验，即使脚本本身以 sudo 运行也不会用 root 复验——helper 会因目录属主不符返回 `UNSAFE_PATH`。复验失败时脚本打印原因并以非 0 状态退出。若此前用旧脚本以 sudo 装成了 `root:root 0700`（Harness 账号执行时得到 126 权限错误），重新运行脚本或用 `sudo chmod 755 /usr/local/bin/dsh-remote-info` 修正权限即可。
+
+安装脚本随仓库源码提供；`pnpm` 安装的包只包含 `runtime/` 与 `cordis.patch.yml`，因此需要从仓库克隆或源码副本执行，或按下面的手工方式创建 wrapper。
+
 也可手工创建 wrapper。复制 [remote-helper.sh.example](../configs/remote-helper.sh.example)，将 DSH_HOME、实例键白名单和 Companion helper 路径改为该服务的实际值，安装到控制端约定的固定路径并赋予执行权限。运行账号的 `PATH` 中必须能够找到 Node.js。
 
 Git 安装到 `web` profile 时，helper 路径为 `~/.dsh/profiles/web/node_modules/dsh-win-ssh-agent-source/runtime/bin/dsh-remote-info.mjs`。独立安装包安装到 `remote-web` 时，helper 路径为 `~/.dsh/profiles/remote-web/node_modules/@harness-remote/companion/bin/dsh-remote-info.mjs`。
