@@ -52,3 +52,47 @@ ls: cannot access '/usr/local/bin/dsh-remote-info': No such file or directory
 #     -o PermitLocalCommand=no -o ControlMaster=no -o ControlPath=none -o ConnectTimeout=15
 #     dsh-ubuntu /home/lqy/.local/bin/dsh-remote-info --identity
 {"protocolVersion":1,"instanceKey":"default","instanceId":"a96a69f5-3573-46a4-8d7e-b15d19ce31be","bootId":"ae5657ba-e764-4183-9033-0c54acdc563b","profile":"web","workspaceHint":"/home/lqy","port":3080}  exit=0
+
+################ 6. live follow-ups, 2026-10-15 23:37-23:41 ################
+
+# The controlled profile had three broken @local/* links, which made the
+# Harness plugin manager abort at reconcile and made the profile skip two
+# preset bundles. The two presets were re-pointed to their new locations and
+# the orphan link was removed:
+
+dependencies before:
+  "@local/dsh-advisor-team-preset": "link:.../调试/advisor-team"                (target missing)
+  "@local/dsh-advisor-team-hybrid-preset": "link:.../调试/advisor-team-hybrid"  (target missing)
+  node_modules/@local/dsh-jsprobe -> .../调试/jsprobe (target missing, undeclared)
+
+dependencies after:
+  "@local/dsh-advisor-team-preset": "link:/home/lqy/文档/deepseek-harness/调试/install/advisor-team"
+  "@local/dsh-advisor-team-hybrid-preset": "link:/home/lqy/文档/deepseek-harness/调试/install/advisor-team-hybrid"
+  node_modules/@local/dsh-jsprobe removed (not declared in dependencies or bundles)
+
+$ pnpm install --prefer-offline
++ @local/dsh-advisor-team-hybrid-preset 1.0.0 <- ../../../文档/deepseek-harness/调试/install/advisor-team-hybrid
++ @local/dsh-advisor-team-preset 1.0.0 <- ../../../文档/deepseek-harness/调试/install/advisor-team
+Done in 442ms using pnpm v11.28.4
+
+$ node .../dsh/lib/bin.js plugin --profile web list        # previously aborted at reconcile
+... 5 packages
+plugin list exit=0
+
+# Running boot after the fix: the service log grew by 82 bytes (only the Web
+# token line) with 0 "skipping profile bundle" lines, so both presets load now.
+
+# The original trigger, this time against the repaired profile:
+$ node .../dsh/lib/bin.js plugin --profile web add github:shxtmaker/DSH-WIN-SSH-Agent
+Packages: +1
+Done in 2.6s using pnpm v11.28.4
+plugin add exit=0
+descriptor sampling: 900 samples at 100 ms, missing_samples=0, one bootId
+(05ed69b0-d698-474d-9fdb-6fc0f68826a3); service active; helper exit 0;
+pnpm-lock.yaml now pins tar.gz/bd870527be8554767907ee2142205a2e6ccf9a95.
+
+# Appending a comment to the profile's cordis.patch.yml did not trigger a live
+# reload in this running service (same pid, same bootId, descriptor untouched),
+# so the 22:38 removal could not be attributed to a patch-file reload. The
+# profile file was restored byte-identically from the backup taken before the
+# probe.
