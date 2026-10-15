@@ -1,0 +1,27 @@
+# Live profile re-point after pushing f172521 to GitHub, 2026-10-15 23:33 (controlled host)
+
+$ node /home/lqy/.npm/_npx/b86ed90107c62dab/node_modules/@deepseek-ai/dsh/lib/bin.js \
+    plugin --profile web add github:shxtmaker/DSH-WIN-SSH-Agent
+Packages: +1
+Progress: resolved 11, reused 3, downloaded 1, added 1, done
+Done in 2.4s using pnpm v11.28.4
+Error: dsh: cannot resolve profile bundle "@local/dsh-advisor-team-preset" from the dsh installation or
+/home/lqy/.dsh/profiles/web; run 'dsh plugin --profile web install' if its dependency is not installed
+
+# The install step completed and pinned the pushed commit; the command then
+# aborted inside the Harness plugin manager reconcile step because this profile
+# has pre-existing broken @local/* link dependencies. That abort is unrelated to
+# the Companion change and predates it.
+
+pnpm-lock.yaml pin:
+  dsh-win-ssh-agent-source@https://codeload.github.com/shxtmaker/DSH-WIN-SSH-Agent/tar.gz/f172521a7788343040a21b294e34d65bf3b89557
+
+profile manifest dependency:
+  "dsh-win-ssh-agent-source": "github:shxtmaker/DSH-WIN-SSH-Agent"
+
+installed runtime sha256   41fa4af4bbe42b2acc8b3ec4f211ca98a80430223ddb6fa3008b42c9c89a4d85
+repair-loop markers        3
+
+descriptor sampling during the run: 700 samples at 100 ms, missing_samples=0,
+one bootId (ae5657ba-e764-4183-9033-0c54acdc563b); service active afterwards;
+restricted helper exit 0.
