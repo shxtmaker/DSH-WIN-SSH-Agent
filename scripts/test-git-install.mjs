@@ -20,6 +20,16 @@ const appBoot = installedRequire ? installedRequire.resolve('@deepseek-ai/dsh-ap
 const { bundleManifest } = await import(pathToFileURL(operations).href)
 const { bundlePatchPaths, loadOverlayPatches, composeEntries, resolveBundleDir, loadProfileDirectory, createRuntimeResolution, PluginPackages } = await import(pathToFileURL(appBoot).href)
 const temporary = await mkdtemp(join(tmpdir(), 'dsh-agent-git-install-'))
+/** Poll for a value a repair loop publishes asynchronously. */
+async function waitFor(check, timeoutMs) {
+  const deadline = Date.now() + timeoutMs
+  for (;;) {
+    const value = await check()
+    if (value !== undefined) return value
+    if (Date.now() > deadline) return undefined
+    await new Promise(resolve => setTimeout(resolve, 250))
+  }
+}
 try {
   let spec = values.spec
   if (!spec) {
@@ -85,7 +95,9 @@ try {
   assert.equal(rows[0].config.instanceKey, 'default')
   const require = createRequire(join(profile, 'package.json'))
   const entry = require.resolve(rows[0].name)
-  assert.ok((await readFile(entry, 'utf8')).includes('remote-companion: Web must bind loopback'))
+  const entrySource = await readFile(entry, 'utf8')
+  assert.ok(entrySource.includes('remote-companion: Web must bind loopback'))
+  assert.ok(entrySource.includes('descriptor repair'), 'Runtime must carry the descriptor repair loop')
   const helper = resolve(directory, manifest.bin['dsh-remote-info'])
   assert.ok((await readFile(helper, 'utf8')).includes('LINUX_REQUIRED'))
   console.log(`PASS Git installation: ${name}; Harness bundle metadata, patch, Companion entry and helper resolve without build scripts`)
@@ -136,6 +148,30 @@ try {
       assert.equal(identityRoute.path, '/api/remote-workspace/identity')
       assert.equal((await (await identityRoute.fetch()).json()).instanceId, descriptor.instanceId)
       console.log('PASS Linux runtime with fixture services: owned 0775 home and reused 0755 subtree repaired, descriptor publication, native 0700/0600 permissions, identity route and installed helper; private launch credential omitted')
+      // A plugin reload or a plugin-manager run deletes the descriptor while the
+      // Web process keeps running, which used to disable every later connection
+      // until an operator restarted the service.
+      await rm(descriptorPath)
+      await assert.rejects(readFile(descriptorPath), { code: 'ENOENT' })
+      const refused = spawnSync(process.execPath, [helper, '--identity'], {
+        input: '{"protocolVersion":1,"instanceKey":"default"}\n', encoding: 'utf8',
+        env: { ...process.env, DSH_HOME: home, DSH_REMOTE_INSTANCE_KEYS: 'default' },
+      })
+      assert.equal(refused.stderr.trim(), 'INFO_FAILED', 'A deleted descriptor must be reported as INFO_FAILED before repair')
+      const restored = await waitFor(async () => {
+        try { return JSON.parse(await readFile(descriptorPath, 'utf8')) } catch { return undefined }
+      }, 20_000)
+      assert.ok(restored, 'The repair loop must republish a deleted descriptor while the process keeps running')
+      assert.equal(restored.bootId, descriptor.bootId)
+      assert.equal(restored.instanceId, descriptor.instanceId)
+      assert.equal((await stat(descriptorPath)).mode & 0o777, 0o600)
+      const healed = spawnSync(process.execPath, [helper, '--identity'], {
+        input: '{"protocolVersion":1,"instanceKey":"default"}\n', encoding: 'utf8',
+        env: { ...process.env, DSH_HOME: home, DSH_REMOTE_INSTANCE_KEYS: 'default' },
+      })
+      assert.equal(healed.status, 0, healed.stderr)
+      assert.equal(JSON.parse(healed.stdout).bootId, descriptor.bootId)
+      console.log('PASS Linux runtime repair loop: a descriptor deleted after publication is republished with the same boot, 0600 permissions and a working helper query')
     } finally { await dispose(); await ctx.fiber.dispose() }
     await assert.rejects(readFile(join(home, 'remote-workspace/run/default.json')), { code: 'ENOENT' })
     console.log('PASS Linux runtime disposal: boot descriptor removed')

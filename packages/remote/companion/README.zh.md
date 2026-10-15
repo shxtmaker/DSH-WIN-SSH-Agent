@@ -39,7 +39,7 @@ patch 插入 `remote-workspace-companion`，`instanceKey` 默认为 `default`。
 <details>
 <summary>实现细节</summary>
 
-`private-files.ts` 保存稳定实例 ID，并在 `0700` 子目录中原子写入对应启动代次的描述文件。`dsh-remote-info.mjs` 拒绝不安全路径和 allowlist 外的键，将输出限制在 64 KiB，stderr 只输出错误码。卸载时仅删除 boot ID 仍匹配的描述文件。
+`private-files.ts` 保存稳定实例 ID，并在 `0700` 子目录中原子写入对应启动代次的描述文件。`dsh-remote-info.mjs` 拒绝不安全路径和 allowlist 外的键，将输出限制在 64 KiB，stderr 只输出错误码。卸载时仅删除 boot ID 仍匹配的描述文件。`index.ts` 在启用时发布、应用就绪后再次发布，并按 5 秒间隔修复缺失、被替换、内容不完整或端口已变化的描述文件，因此 profile 热重载或插件管理器操作不再需要等到重启服务才能恢复发现功能。
 
 </details>
 
