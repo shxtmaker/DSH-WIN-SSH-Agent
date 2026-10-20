@@ -1,24 +1,7 @@
 diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
-index dfaa1653..fd6c6de2 100644
 --- a/pnpm-lock.yaml
 +++ b/pnpm-lock.yaml
-@@ -115,12 +115,12 @@ importers:
-       '@types/node':
-         specifier: ^22.20.1
-         version: 22.20.1
--      '@types/semver':
--        specifier: ^7.8.0
--        version: 7.8.0
-       '@types/papaparse':
-         specifier: ^5.5.2
-         version: 5.5.2
-+      '@types/semver':
-+        specifier: ^7.8.0
-+        version: 7.8.0
-       '@types/spdx-expression-parse':
-         specifier: ^4.0.0
-         version: 4.0.0
-@@ -11375,6 +11375,28 @@ importers:
+@@ -11771,6 +11771,28 @@
          specifier: workspace:*
          version: link:../../util/timeout
  
@@ -47,53 +30,12 @@ index dfaa1653..fd6c6de2 100644
    packages/sandbox/sandbox:
      dependencies:
        '@deepseek-ai/dsh-util-values':
-@@ -15641,10 +15663,6 @@ importers:
- 
- packages:
- 
--  papaparse@5.5.3:
--    resolution: {integrity: sha512-5QvjGxYVjxO59MGU2lHVYpRWBBtKHnlIAcSe1uNFCkkptUh63NFRj0FJQm7nR67puEruUci/ZkjmEFrjCAyP4A==}
--
--
-   '@agentclientprotocol/sdk@1.4.0':
-     resolution: {integrity: sha512-/eufudw+aFY1LKLolT6yFE6UMmYRl7fMJ/DEONSIyR6wI3slHWITBsANRGqXEY8FRzqUxwh7QEaGiZHcJPVThg==}
-     peerDependencies:
-@@ -21701,6 +21719,9 @@ packages:
-   pako@1.0.11:
-     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
- 
-+  papaparse@5.5.3:
-+    resolution: {integrity: sha512-5QvjGxYVjxO59MGU2lHVYpRWBBtKHnlIAcSe1uNFCkkptUh63NFRj0FJQm7nR67puEruUci/ZkjmEFrjCAyP4A==}
-+
-   papaparse@5.7.0:
-     resolution: {integrity: sha512-qBGxg/7Q3Kl9Wfhrz2Z74UnvnHTXLNG6jmKJFeBvP2+y4lV7So+7SR62+Zd47JvdrCkX+nDcnr0ObPzek/+6RA==}
- 
-@@ -23227,9 +23248,6 @@ packages:
- 
- snapshots:
- 
--  papaparse@5.5.3: {}
--
--
-   '@agentclientprotocol/sdk@1.4.0(zod@4.4.3)':
-     dependencies:
-       zod: 4.4.3
-@@ -29443,6 +29461,8 @@ snapshots:
- 
-   pako@1.0.11: {}
- 
-+  papaparse@5.5.3: {}
-+
-   papaparse@5.7.0: {}
- 
-   parse-ms@4.0.0: {}
 diff --git a/tsconfig.host.json b/tsconfig.host.json
-index af38cdb3..3af91786 100644
 --- a/tsconfig.host.json
 +++ b/tsconfig.host.json
-@@ -508,6 +508,7 @@
-     { "path": "./packages/lsp/tool-lsp" },
+@@ -533,6 +533,7 @@
      { "path": "./apps/cli" },
+     { "path": "./apps/plugin-market-generator" },
      { "path": "./apps/desktop-host" },
 -    { "path": "./apps/desktop/tsconfig.host.json" }
 +    { "path": "./apps/desktop/tsconfig.host.json" },

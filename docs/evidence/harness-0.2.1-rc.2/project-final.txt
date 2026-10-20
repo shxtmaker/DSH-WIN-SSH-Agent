@@ -1,0 +1,36 @@
+NOT_RUN Linux service-control tests: run this command on Linux
+▶ control protocol schema
+  ✔ matches the frozen contract version and action set (1.13ms)
+  ✔ keeps every stable error code inside the frozen vocabulary (0.1624ms)
+  ✔ keeps discovery protocol 1 separate from the management version (0.1092ms)
+  ✔ parses every declared read action (0.3774ms)
+  ✔ parses a write action only with a fresh id, revision and matching fields (1.3077ms)
+  ✔ rejects arbitrary commands, unit names, paths and shell text (0.5247ms)
+  ✔ rejects malformed framing and unknown versions or actions (0.3468ms)
+  ✔ refuses a stale or future-dated write request (0.2485ms)
+  ✔ bounds every response line and never leaks a non-contract code (0.7681ms)
+  ✔ recovers only a declared action name for an unparsable request (0.1823ms)
+  ✔ carries a stable code and no stack detail on ControlError (0.0851ms)
+✔ control protocol schema (6.2969ms)
+✔ the Linux-only helper refuses other platforms (90.7059ms)
+﹣ helper identity output omits the launch credential and rejects unsafe files and keys (0.1097ms) # SKIP
+﹣ activation repairs an owned group-writable DSH home and preserves stable identity (0.4768ms) # SKIP
+﹣ activation tightens reused private directories without changing a readable DSH home (0.0634ms) # SKIP
+﹣ activation refuses symlinks without changing their target (0.046ms) # SKIP
+﹣ activation refuses world-writable directories and insecure existing identity files (0.0421ms) # SKIP
+﹣ activation refuses a directory owned by another user without changing its mode (0.0524ms) # SKIP
+✔ the Git root is an installable bundle with the verified Companion runtime (16.1543ms)
+✔ missing Git bundle metadata and stale runtime are rejected (41.4226ms)
+✔ the standalone project contains only its own role and installable packages (101.7818ms)
+✔ a modified installation archive is rejected (15.9068ms)
+✔ an archive from the other role is rejected (12.5295ms)
+✔ duplicate or missing checksum rows are rejected (14.3718ms)
+✔ preparation refuses an existing workspace without overwriting its content (89.7456ms)
+ℹ tests 25
+ℹ suites 1
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 6
+ℹ todo 0
+ℹ duration_ms 446.8947

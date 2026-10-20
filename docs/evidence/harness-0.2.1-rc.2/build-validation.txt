@@ -1,0 +1,164 @@
+native/system/packages/darwin-arm64      | [WARN] Unsupported platform: wanted: {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"win32","cpu":"x64","libc":"unknown"})
+native/system/packages/darwin-x64        | [WARN] Unsupported platform: wanted: {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"win32","cpu":"x64","libc":"unknown"})
+native/system/packages/linux-arm64       | [WARN] Unsupported platform: wanted: {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"win32","cpu":"x64","libc":"unknown"})
+native/system/packages/linux-x64         | [WARN] Unsupported platform: wanted: {"cpu":["x64"],"os":["linux"],"libc":["any"]} (current: {"os":"win32","cpu":"x64","libc":"unknown"})
+Scope: all 367 workspace projects
+[WARN] The store at C:\Users\sissy\AppData\Local\pnpm\store\v11 is not used because packages cannot be hard linked from it into this project. Using the store at D:\.pnpm-store\v11 instead. Set storeDir to choose the store.
+[WARN] There are cyclic workspace dependencies: D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\apps\cli, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\sdk\client; D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\apps\web, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\test-support\client-runtime, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\bundle\web-app; D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\api\gateway, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\api\remote-access; D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\api\remotes, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\client\ui-plugin-manager, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\client\ui-sidebar, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\client\ui-workspace, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\client\ui-conversation; D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\compaction\compaction-basic, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\compaction\compaction-image-offload; D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\compaction\compaction-tool-result-pruner, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\llm\token-meter, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\llm\llm-retry, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\llm\llm-deepseek, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\llm\plugin-package-inventory-deepseek, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\preset\agent-preset-registry, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\preset\agent-preset; D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\core\agent-default-model, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\settings\settings; D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\core\agent-loop, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\core\tools, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\session\working-directory, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\session\tool-working-directory; D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\sandbox\sandbox-local, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\sandbox\sandbox-windows-acl; D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\ssh\fs-ssh, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\ssh\ssh; D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\subagent\subagent-spawn-in-process, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\packages\subagent\tool-subagent; D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\vendor\cordis, D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\vendor\include
+✓ Lockfile passes supply-chain policies (verified 7m ago)
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +1402
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 1402, reused 1398, downloaded 0, added 0
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: D:\.pnpm-store\v11
+  Virtual store is at:             node_modules/.pnpm
+Progress: resolved 1402, reused 1398, downloaded 0, added 35
+Progress: resolved 1402, reused 1398, downloaded 0, added 56
+Progress: resolved 1402, reused 1398, downloaded 0, added 99
+Progress: resolved 1402, reused 1398, downloaded 0, added 115
+Progress: resolved 1402, reused 1398, downloaded 0, added 134
+Progress: resolved 1402, reused 1398, downloaded 0, added 162
+Progress: resolved 1402, reused 1398, downloaded 0, added 169
+Progress: resolved 1402, reused 1398, downloaded 0, added 228
+Progress: resolved 1402, reused 1398, downloaded 0, added 310
+Progress: resolved 1402, reused 1398, downloaded 0, added 406
+Progress: resolved 1402, reused 1398, downloaded 0, added 457
+Progress: resolved 1402, reused 1398, downloaded 0, added 505
+Progress: resolved 1402, reused 1398, downloaded 0, added 549
+Progress: resolved 1402, reused 1398, downloaded 0, added 572
+Progress: resolved 1402, reused 1398, downloaded 0, added 608
+Progress: resolved 1402, reused 1398, downloaded 0, added 667
+Progress: resolved 1402, reused 1398, downloaded 0, added 840
+Progress: resolved 1402, reused 1398, downloaded 0, added 986
+Progress: resolved 1402, reused 1398, downloaded 0, added 1063
+Progress: resolved 1402, reused 1398, downloaded 0, added 1242
+Progress: resolved 1402, reused 1398, downloaded 0, added 1401
+Progress: resolved 1402, reused 1398, downloaded 0, added 1402, done
+.../.pnpm/koffi@3.1.1/node_modules/koffi install$ node ./cnoke.cjs -P . -D src/koffi --prebuild --release
+.../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.28.1/node_modules/esbuild postinstall$ node install.js
+.../node_modules/lefthook postinstall$ node postinstall.js
+.../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
+.../.pnpm/koffi@3.1.1/node_modules/koffi install: Done
+.../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+.../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.28.1/node_modules/esbuild postinstall: Done
+.../esbuild@0.25.12/node_modules/esbuild postinstall: Done
+.../node_modules/lefthook postinstall: sync hooks: ✔️(pre-push, pre-commit, pre-merge-commit)
+.../node_modules/lefthook postinstall: Done
+.../esbuild@0.21.5/node_modules/esbuild postinstall: Done
+
+devDependencies:
++ @deepseek-ai/dsh-agent 0.2.1-rc.2 <- packages\core\agent
++ @deepseek-ai/dsh-browser-use 0.2.1-rc.2 <- packages\browser-use\browser-use
++ @deepseek-ai/dsh-computer-use 0.2.1-rc.2 <- packages\computer-use\computer-use
++ @deepseek-ai/dsh-cua 0.2.1-rc.2 <- packages\experimental\cua
++ @deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp 0.2.1-rc.2 <- packages\experimental\browser-use-chrome-devtools-mcp
++ @deepseek-ai/dsh-experimental-browser-use-playwright-mcp 0.2.1-rc.2 <- packages\experimental\browser-use-playwright-mcp
++ @deepseek-ai/dsh-experimental-browser-use-runtime 0.2.1-rc.2 <- packages\experimental\browser-use-runtime
++ @deepseek-ai/dsh-experimental-browser-use-stagehand-native 0.2.1-rc.2 <- packages\experimental\browser-use-stagehand-native
++ @deepseek-ai/dsh-experimental-claude-code-mods 0.2.1-rc.2 <- packages\experimental\claude-code-mods
++ @deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp 0.2.1-rc.2 <- packages\experimental\computer-use-cua-driver-mcp
++ @deepseek-ai/dsh-experimental-computer-use-cua-driver-native 0.2.1-rc.2 <- packages\experimental\computer-use-cua-driver-native
++ @deepseek-ai/dsh-experimental-cua-macos 0.2.1-rc.2 <- packages\experimental\cua-macos
++ @deepseek-ai/dsh-experimental-tool-worktree 0.2.1-rc.2 <- packages\experimental\tool-worktree
++ @deepseek-ai/dsh-experimental-worktree 0.2.1-rc.2 <- packages\experimental\worktree
++ @deepseek-ai/dsh-hooks-claude-code 0.2.1-rc.2 <- packages\experimental\hooks-claude-code
++ @deepseek-ai/dsh-hooks-codex 0.2.1-rc.2 <- packages\experimental\hooks-codex
++ @deepseek-ai/dsh-llm-replay 0.2.1-rc.2 <- packages\test-support\llm-replay
++ @deepseek-ai/dsh-mcp-client 0.2.1-rc.2 <- packages\mcp\mcp-client
++ @deepseek-ai/dsh-skill-office 0.2.1-rc.2 <- packages\skill\skill-office
++ @deepseek-ai/dsh-tool-ralph 0.2.1-rc.2 <- packages\experimental\tool-ralph
++ @deepseek-ai/dsh-tool-session-query 0.2.1-rc.2 <- packages\experimental\tool-session-query
++ @deepseek-ai/dsh-tool-terminal 0.2.1-rc.2 <- packages\experimental\tool-terminal
++ @deepseek-ai/dsh-tool-working-directory 0.2.1-rc.2 <- packages\session\tool-working-directory
++ @deepseek-ai/dsh-tool-workspace-dependencies 0.2.1-rc.2 <- packages\skill\tool-workspace-dependencies
++ @deepseek-ai/dsh-web-fetch-http 0.2.1-rc.2 <- packages\web\web-fetch-http
++ @deepseek-ai/dsh-working-directory 0.2.1-rc.2 <- packages\session\working-directory
++ @stylistic/eslint-plugin 5.10.0
++ @testing-library/dom 10.4.2
++ @testing-library/react 16.3.3
++ @types/js-yaml 4.0.9
++ @types/jsdom 28.0.3
++ @types/mdast 4.0.4
++ @types/node 22.20.1
++ @types/papaparse 5.5.2
++ @types/react 18.3.31
++ @types/react-dom 18.3.7
++ @types/semver 7.8.0
++ @types/spdx-expression-parse 4.0.0
++ @vitest/coverage-v8 4.1.11
++ @yao-pkg/pkg 6.21.0
++ @yarnpkg/cli-dist 4.18.0
++ eslint-plugin-sonarjs 4.2.0
++ execa 10.0.1
++ extract-zip 2.0.1
++ fast-check 4.9.0
++ fflate 0.8.3
++ istanbul-lib-report 3.0.1
++ js-yaml 4.3.2
++ jscpd 5.1.2
++ jsdom 29.1.1
++ lefthook 2.1.12
++ lightningcss 1.33.0
++ mdast-util-from-markdown 2.0.3
++ mdast-util-gfm 3.1.0
++ mermaid 11.17.2
++ micromark-extension-gfm 3.0.0
++ oxlint 1.81.0
++ oxlint-tsgolint 7.0.2001
++ papaparse 5.5.3
++ pnpm 11.28.5
++ publint 0.3.24
++ semver 7.8.5
++ smol-toml 1.9.0
++ spdx-expression-parse 5.0.0
++ tar 7.5.22
++ tsdown 0.22.2
++ tsx 4.23.13
++ typescript 6.0.3
++ vite 8.2.2
++ vite-tsconfig-paths 6.1.1
++ vitest 4.1.11
++ zod 4.4.3
+
+packages/subprocess/subprocess-local postinstall$ node scripts/ensure-spawn-helper.mjs
+packages/subprocess/subprocess-local postinstall: Done
+. postinstall$ node scripts/install-lefthook.mjs
+. postinstall: sync hooks: ✔️(pre-commit, pre-merge-commit, pre-push)
+. postinstall: (node:32132) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+. postinstall: (Use `node --trace-deprecation ...` to show where the warning was created)
+. postinstall: Done
+Done in 31.8s using pnpm v11.28.5
+ℹ tsdown v0.22.2 powered by rolldown v1.1.1
+ℹ config file: D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation\tsdown.remote.config.mjs 
+ℹ entry: lib/types/index.js
+ℹ target: es2024
+ℹ tsconfig: tsconfig.json
+ℹ Build start
+ℹ lib\index.js  6.46 kB │ gzip: 2.32 kB
+ℹ 1 files, total: 6.46 kB
+✔ Build complete in 20ms
+.../native/system/packages/darwin-arm64  | [WARN] Unsupported platform: wanted: {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"win32","cpu":"x64","libc":"unknown"})
+.../../native/system/packages/darwin-x64 | [WARN] Unsupported platform: wanted: {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"win32","cpu":"x64","libc":"unknown"})
+.../native/system/packages/linux-arm64   | [WARN] Unsupported platform: wanted: {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"win32","cpu":"x64","libc":"unknown"})
+.../../native/system/packages/linux-x64  | [WARN] Unsupported platform: wanted: {"cpu":["x64"],"os":["linux"],"libc":["any"]} (current: {"os":"win32","cpu":"x64","libc":"unknown"})
+package: @harness-remote/companion@0.2.0-alpha.2
+Tarball Contents
+bin/control-protocol.mjs
+bin/dsh-remote-info.mjs
+bin/private-storage.mjs
+bin/service-manager.mjs
+cordis.patch.yml
+lib/index.js
+lib/types/index.d.ts
+lib/types/private-files.d.ts
+LICENSE
+package.json
+README.md
+README.zh.md
+Tarball Details
+D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\out\remote\harness-remote-companion-0.2.0-alpha.2.tgz
+Packed DSH-WIN-SSH-Agent: D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\out\remote

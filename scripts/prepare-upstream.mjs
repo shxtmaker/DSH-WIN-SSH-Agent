@@ -34,6 +34,7 @@ async function copyTree(source, destination) {
 }
 await mkdir(target, { recursive: true })
 git(['init'])
+git(['config', 'core.autocrlf', 'false'])
 git(['remote', 'add', 'origin', baseline.repository])
 git(['fetch', '--depth=1', values.source === undefined ? 'origin' : resolve(values.source), baseline.commit])
 git(['checkout', '--detach', 'FETCH_HEAD'])

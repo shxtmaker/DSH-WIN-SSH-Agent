@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-21",
+  "project": "DSH-WIN-SSH-Agent",
+  "baseBranch": "preview/plan-b-0.2.0-alpha.1",
+  "baseCommit": "0c76e7beb6a2a102fbd754804ffa3f47cadff6f5",
+  "localBranch": "codex/harness-0.2.1-rc.2",
+  "baseline": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness.git",
+    "commit": "687f282e8625c6b8d11ff58211a90524be2e4317",
+    "tag": "dsh-v0.2.1-rc.2",
+    "harnessVersion": "0.2.1-rc.2",
+    "pluginVersion": "0.2.0-alpha.2",
+    "nodeVersionTested": "24.19.0",
+    "packageManager": "pnpm@11.28.5",
+    "sourceRepository": "https://github.com/shxtmaker/DSH-WIN-SSH-Agent.git",
+    "sourceCommit": "0c76e7beb6a2a102fbd754804ffa3f47cadff6f5"
+  },
+  "checks": {
+    "cleanPinnedBuild": {
+      "status": "PASS",
+      "workspace": ".build/validation",
+      "command": "node scripts/build.mjs --workspace .build/validation"
+    },
+    "artifactAndGitRuntimeVerification": {
+      "status": "PASS",
+      "commands": [
+        "node scripts/verify-artifacts.mjs",
+        "node scripts/verify-project.mjs"
+      ]
+    },
+    "discoveryProtocol": 1,
+    "controlProtocol": 1,
+    "sharedControlContractSha256": "2849b077a752cda02ef324feaeb968a9dd6b01a6ccbaf07bcedd7a8ec74f486d",
+    "installedDesktopInteraction": {
+      "status": "NOT_RUN"
+    },
+    "liveSshLanWanFrp": {
+      "status": "NOT_RUN"
+    },
+    "realProviderGeneration": {
+      "status": "NOT_RUN"
+    },
+    "productionDeployment": {
+      "status": "NOT_RUN"
+    },
+    "remotePushAndRelease": {
+      "status": "NOT_RUN"
+    },
+    "windowsTests": {
+      "status": "PASS",
+      "passed": 19,
+      "skipped": 6,
+      "command": "node scripts/test.mjs",
+      "scope": "Portable checks; POSIX service-control suite is excluded on Windows."
+    },
+    "linuxTests": {
+      "status": "PASS",
+      "passed": 51,
+      "skipped": 2,
+      "command": "node scripts/test.mjs",
+      "scope": "WSL Ubuntu; fake systemctl, real POSIX file permissions. Skips: non-Linux rejection and root-only ownership test."
+    },
+    "publishedCliGitInstall": {
+      "status": "PASS",
+      "platform": "WSL Ubuntu",
+      "harnessVersion": "0.2.1-rc.2",
+      "command": "node scripts/test-git-install.mjs --installation /path/to/isolated-cli",
+      "scope": "Temporary DSH_HOME/profile; real CLI installation, fixture Web/Connection services, actual installed Companion/helper, permissions, descriptor publication and disposal; unbound/zero port, TLS and IPv6 refusal."
+    },
+    "publishedCliStandaloneInstall": {
+      "status": "PASS",
+      "platform": "Windows",
+      "harnessVersion": "0.2.1-rc.2",
+      "scope": "Companion archive installed in a fresh profile; bundle metadata, entry and helper resolution. Linux runtime is not started on Windows."
+    },
+    "linuxStandaloneArchiveRecheck": {
+      "status": "NOT_RUN",
+      "reason": "WSL invocations stopped responding after the earlier successful Linux Git-install and runtime tests; the additional archive-install invocation was stopped without changing the WSL service."
+    }
+  },
+  "artifacts": [
+    {
+      "file": "dist/remote/harness-remote-companion-0.2.0-alpha.2.tgz",
+      "sha256": "7167f16082813c3dbd305fc24bfbf4532d9d12fe2bd63edf74537859d756efcb",
+      "bytes": 19618
+    }
+  ]
+}

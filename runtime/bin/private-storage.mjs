@@ -17,7 +17,7 @@ import { dirname, isAbsolute, join } from 'node:path'
 import { ControlError, ERROR_CODES, LIMITS } from './control-protocol.mjs'
 
 /** Helper build identity reported by `capabilities` and `status`; overlaps package version. */
-export const HELPER_VERSION = '0.2.0-alpha.1'
+export const HELPER_VERSION = '0.2.0-alpha.2'
 /** Discovery protocol versions this helper still answers. */
 export const DISCOVERY_VERSIONS = [1]
 

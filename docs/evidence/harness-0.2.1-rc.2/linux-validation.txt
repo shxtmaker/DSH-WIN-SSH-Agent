@@ -1,0 +1,73 @@
+▶ control protocol schema
+  ✔ matches the frozen contract version and action set (1.687342ms)
+  ✔ keeps every stable error code inside the frozen vocabulary (0.314915ms)
+  ✔ keeps discovery protocol 1 separate from the management version (0.200024ms)
+  ✔ parses every declared read action (0.50506ms)
+  ✔ parses a write action only with a fresh id, revision and matching fields (10.937164ms)
+  ✔ rejects arbitrary commands, unit names, paths and shell text (0.778435ms)
+  ✔ rejects malformed framing and unknown versions or actions (0.493925ms)
+  ✔ refuses a stale or future-dated write request (0.469329ms)
+  ✔ bounds every response line and never leaks a non-contract code (2.13265ms)
+  ✔ recovers only a declared action name for an unparsable request (1.135651ms)
+  ✔ carries a stable code and no stack detail on ControlError (0.246594ms)
+✔ control protocol schema (21.020773ms)
+▶ discovery invocations stay byte-compatible
+  ✔ answers the full descriptor without an argument and the public identity with --identity (205.750253ms)
+  ✔ keeps every other argument on the old BAD_INPUT path (585.902567ms)
+✔ discovery invocations stay byte-compatible (792.861883ms)
+▶ capabilities and read-only status
+  ✔ reports the helper contract and the registered systemd mode (149.39359ms)
+  ✔ reports unregistered without touching systemctl (325.364444ms)
+  ✔ answers status while the Harness Web process is not running (103.147384ms)
+  ✔ reports the loopback listener and a live connect without leaking the launch URL (174.656771ms)
+  ✔ keeps a corrupt descriptor diagnostic only (117.334109ms)
+  ✔ refuses an unsafe registration file instead of reading it (215.937998ms)
+  ✔ refuses a corrupt registration file (107.143869ms)
+  ✔ reports unsupported when systemctl is not installed (208.689187ms)
+  ✔ reports unsupported when the default systemctl is not on PATH (210.977626ms)
+  ✔ reports unsupported when the user manager cannot be reached (227.947297ms)
+✔ capabilities and read-only status (1841.76016ms)
+▶ write actions and operation receipts
+  ✔ runs exactly one argument-array systemctl command and records the receipt (209.655815ms)
+  ✔ never runs the same operation id twice, even when re-issued (328.610784ms)
+  ✔ rejects a reused operation id with different parameters (304.49256ms)
+  ✔ rejects a stale registration revision and a mismatched instance id (272.944772ms)
+  ✔ records a timeout as outcome-unknown after exactly one invocation (622.492562ms)
+  ✔ records a conclusive failure with a bounded summary (123.346698ms)
+  ✔ reports an unreachable user manager on a write action as failed (120.765652ms)
+  ✔ answers an absent receipt with OUTCOME_UNKNOWN and a malformed one with BAD_INPUT (186.424488ms)
+  ✔ refuses expired and future-dated write requests (188.351004ms)
+  ✔ serializes one instance and reclaims only a proven dead owner (223.430651ms)
+  ✔ never turns request text or a registration value into a command (484.613368ms)
+  ✔ prunes only expired terminal receipts and never a pending one (551.860214ms)
+  ✔ never deletes an unexpired receipt to satisfy the count cap (395.718434ms)
+✔ write actions and operation receipts (4013.875755ms)
+▶ packaging
+  ✔ ships every helper module the entry point imports (19.037724ms)
+✔ packaging (19.229507ms)
+▶ control request framing
+  ✔ answers malformed input with a bounded BAD_INPUT envelope and exit 0 (952.964391ms)
+  ✔ refuses an unsafe private root (176.041425ms)
+✔ control request framing (1129.26884ms)
+﹣ the Linux-only helper refuses other platforms (0.730863ms) # SKIP
+✔ helper identity output omits the launch credential and rejects unsafe files and keys (472.370288ms)
+✔ activation repairs an owned group-writable DSH home and preserves stable identity (31.591027ms)
+✔ activation tightens reused private directories without changing a readable DSH home (13.947631ms)
+✔ activation refuses symlinks without changing their target (5.514164ms)
+✔ activation refuses world-writable directories and insecure existing identity files (20.540209ms)
+﹣ activation refuses a directory owned by another user without changing its mode (0.255255ms) # SKIP
+✔ the Git root is an installable bundle with the verified Companion runtime (49.902314ms)
+✔ missing Git bundle metadata and stale runtime are rejected (698.595429ms)
+✔ the standalone project contains only its own role and installable packages (180.306867ms)
+✔ a modified installation archive is rejected (35.843808ms)
+✔ an archive from the other role is rejected (33.696366ms)
+✔ duplicate or missing checksum rows are rejected (34.498861ms)
+✔ preparation refuses an existing workspace without overwriting its content (78.706662ms)
+ℹ tests 53
+ℹ suites 6
+ℹ pass 51
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 2
+ℹ todo 0
+ℹ duration_ms 7967.496686

@@ -88,7 +88,7 @@ try {
   assert.ok((await readFile(entry, 'utf8')).includes('remote-companion: Web must bind loopback'))
   const helper = resolve(directory, manifest.bin['dsh-remote-info'])
   assert.ok((await readFile(helper, 'utf8')).includes('LINUX_REQUIRED'))
-  console.log(`PASS Git installation: ${name}; Harness bundle metadata, patch, Companion entry and helper resolve without build scripts`)
+  console.log(`PASS ${spec.startsWith('file:') ? 'standalone' : 'Git'} installation: ${name}; Harness bundle metadata, patch, Companion entry and helper resolve without build scripts`)
   if (process.platform === 'linux') {
     const runtimeRequire = installedRequire ?? createRequire(entry)
     const { Context } = await import(pathToFileURL(runtimeRequire.resolve('@deepseek-ai/cordis')).href)
@@ -105,13 +105,32 @@ try {
     await chmod(home, 0o775)
     await mkdir(join(home, 'remote-workspace'))
     await chmod(join(home, 'remote-workspace'), 0o755)
+    for (const [listener, error] of [
+      [{ host: '127.0.0.1', port: undefined, protocol: 'http:' }, /Web listener unavailable/u],
+      [{ host: '127.0.0.1', port: 0, protocol: 'http:' }, /Web listener unavailable/u],
+      [{ host: '127.0.0.1', port: 3080, protocol: 'https:' }, /UNSUPPORTED_WEB_TRANSPORT/u],
+      [{ host: '::1', port: 3080, protocol: 'http:' }, /Web must bind loopback/u],
+    ]) {
+      const rejected = new Context()
+      rejected.provide('profileContext', { home, name: 'web', cwd: temporary })
+      rejected.provide('connection', {
+        fetch: { register: () => () => {} },
+        authenticatedUrl: () => { throw new Error('Unsupported listener must not mint a launch URL') },
+      })
+      rejected.provide('webServer', listener)
+      try {
+        await assert.rejects(plugin.apply(rejected, { instanceKey: 'default' }), error)
+        await assert.rejects(readFile(join(home, 'remote-workspace/run/default.json')), { code: 'ENOENT' })
+      } finally { await rejected.fiber.dispose() }
+    }
+    console.log('PASS listener compatibility: unbound port, zero port, TLS and IPv6 never publish a descriptor')
     let identityRoute
     ctx.provide('profileContext', { home, name: 'web', cwd: temporary })
     ctx.provide('connection', {
       fetch: { register: route => { identityRoute = route; return () => {} } },
       authenticatedUrl: url => `${url}?token=fixture-private-credential`,
     })
-    ctx.provide('webServer', { host: '127.0.0.1', port: 3080 })
+    ctx.provide('webServer', { host: '127.0.0.1', port: 3080, protocol: 'http:' })
     const dispose = await plugin.apply(ctx, { instanceKey: 'default' })
     try {
       const descriptorPath = join(home, 'remote-workspace/run/default.json')

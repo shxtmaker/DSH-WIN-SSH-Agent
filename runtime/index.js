@@ -129,10 +129,9 @@ async function apply(ctx, config) {
 	}), "remote-companion: authenticated identity");
 	const publish = async () => {
 		if (ctx.webServer.host !== "127.0.0.1") throw new Error("remote-companion: Web must bind loopback");
-		const protocol = ctx.webServer.protocol;
-		if (protocol !== void 0 && protocol !== "http:") throw new Error("remote-companion: UNSUPPORTED_WEB_TRANSPORT");
+		if (ctx.webServer.protocol !== "http:") throw new Error("remote-companion: UNSUPPORTED_WEB_TRANSPORT");
 		const port = ctx.webServer.port;
-		if (!Number.isInteger(port) || port < 1) throw new Error("remote-companion: Web listener unavailable");
+		if (port === void 0 || !Number.isInteger(port) || port < 1) throw new Error("remote-companion: Web listener unavailable");
 		const descriptor = {
 			protocolVersion: 1,
 			instanceKey,

@@ -1,5 +1,9 @@
 # Verification status
 
+The current compatibility target is Harness `0.2.1-rc.2`, with plugin candidate `0.2.0-alpha.2`, based on `preview/plan-b-0.2.0-alpha.1`. See the [compatibility upgrade record](harness-0.2.1-rc.2.md). The records below describe historical checks on their stated dates, not installed-host acceptance of this candidate.
+
+## Historical verification
+
 The source and pinned Harness commits are recorded in source-baseline.json. Protocol version is 1 and plugin version is 0.1.0.
 
 See [verification.json](verification.json) for measured split, build, and test results. Installed Desktop/Linux business acceptance, real frp recovery, and real-system cleanup remain notRun.

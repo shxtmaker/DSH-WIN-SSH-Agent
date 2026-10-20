@@ -26,7 +26,7 @@ export async function verifyGitPackage(directory = root) {
   for (const section of ['dependencies', 'peerDependencies']) assert.deepEqual(manifest[section], companion[section], `Git package ${section} must match the verified Companion`)
   for (const [source, bytes] of entries) {
     const destination = gitDestination(source)
-    if (destination) assert.deepEqual(await readFile(join(directory, destination)), bytes, `Stale Git runtime: ${destination}`)
+    if (destination) assert.ok((await readFile(join(directory, destination))).equals(bytes), `Stale Git runtime: ${destination}`)
   }
   // Every helper module the artifact declares must also exist at the Git package root,
   // otherwise an installed helper cannot import its own siblings.
@@ -34,6 +34,6 @@ export async function verifyGitPackage(directory = root) {
     assert.ok(companion.files?.includes(`bin/${helper}`), `Companion artifact must declare bin/${helper}`)
     assert.ok(entries.has(`package/bin/${helper}`), `Companion artifact must contain bin/${helper}`)
     const installed = await readFile(join(directory, `runtime/bin/${helper}`))
-    assert.deepEqual(installed, entries.get(`package/bin/${helper}`), `Missing or stale Git helper module: ${helper}`)
+    assert.ok(installed.equals(entries.get(`package/bin/${helper}`)), `Missing or stale Git helper module: ${helper}`)
   }
 }

@@ -4,48 +4,13 @@
 
 ## 环境要求
 
-安装包版本为 0.1.0，适用于 DeepSeek Harness 0.2.0-rc.2。需要 Linux、Node.js，以及监听 127.0.0.1 的 Harness Web profile。运行 Harness、Companion 和 helper 的 Linux 用户必须一致。
+安装包版本为 0.2.0-alpha.2，适用于 DeepSeek Harness 0.2.1-rc.2。需要 Linux、Node.js，以及监听 127.0.0.1 的 Harness Web profile。运行 Harness、Companion 和 helper 的 Linux 用户必须一致。
 
 ## 安装 Companion
 
-### 从 Git 仓库安装
+当前适配候选以本目录中的 `.tgz` 文件交付。不要使用远程默认分支或旧预览分支代替这些文件。
 
-在 Linux Harness 的插件管理器中选择 Git 仓库安装，填入以下地址：
-
-```text
-https://github.com/shxtmaker/DSH-WIN-SSH-Agent
-```
-
-也可在命令行安装到现有 profile。使用 `web` profile 时，对应命令如下：
-
-```bash
-dsh plugin --profile web add https://github.com/shxtmaker/DSH-WIN-SSH-Agent
-dsh plugin --profile web list
-```
-
-Git 安装的包名为 `dsh-win-ssh-agent-source`，其中包含 `remote-workspace-companion` 组件。安装无需执行源码构建脚本。
-
-若此前出现“这个包没有声明组合包，不能作为插件管理”，重新提交上述地址安装即可。若仍命中旧 Git 缓存，在地址末尾附加修复提交 SHA，例如 `https://github.com/shxtmaker/DSH-WIN-SSH-Agent#<commit-sha>`，以安装指定提交。既有失败安装可通过相同包名更新，无需删除业务 profile。
-
-同一 profile 选择 Git 安装或独立安装包中的一种方式，避免重复加载同一个组件。
-
-### 更新后仍显示旧启动错误
-
-安装更新后，完全退出并重新启动运行该 profile 的 Harness 进程。如果 Web 服务由终端或服务管理器单独启动，需要重启该服务进程，使插件代码重新加载。
-
-针对 `remote-companion: unsafe private directory` 修复，可在插件管理器中使用指定提交地址，避免旧 Git 引用：
-
-```text
-https://github.com/shxtmaker/DSH-WIN-SSH-Agent#97eab926981c81d3029998359a6783b7924e63b6
-```
-
-安装到 `web` profile 后，可检查实际文件：
-
-```bash
-sha256sum "$HOME/.dsh/profiles/web/node_modules/dsh-win-ssh-agent-source/runtime/index.js"
-```
-
-上述提交的 SHA-256 为 `f73ee5c339ac29b12cec23c8178c85af0e41f4cefa3a863a7a5f7c414d1eaffe`。如果匹配，文件已经更新，无需再次安装；重启 Harness 后重新启用插件。如果仍显示不含目录路径的错误且行号为 `instanceStorage:36`，该提示对应旧运行代码，需确认相关服务已重新启动。后续代码更新可能改变文件校验值。
+已有 Git 安装与独立安装包安装应选择一种方式，避免在同一 profile 重复启用组件。切换安装方式前保留现有 profile、目标配置和实例身份，并完全退出相应 Harness 进程。安装完成后重新启动。
 
 ### 从独立安装包安装
 
@@ -54,7 +19,7 @@ sha256sum "$HOME/.dsh/profiles/web/node_modules/dsh-win-ssh-agent-source/runtime
 ```bash
 node scripts/verify-artifacts.mjs
 dsh --version
-dsh plugin --profile remote-web add file:./dist/remote/harness-remote-companion-0.1.0.tgz
+dsh plugin --profile remote-web add file:./dist/remote/harness-remote-companion-0.2.0-alpha.2.tgz
 dsh plugin --profile remote-web list
 ```
 

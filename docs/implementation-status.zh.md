@@ -1,5 +1,9 @@
 # 验证状态
 
+当前兼容目标为 Harness `0.2.1-rc.2`，插件候选版本为 `0.2.0-alpha.2`，基于 `preview/plan-b-0.2.0-alpha.1`。本次结果见 [兼容升级记录](harness-0.2.1-rc.2.md)。下列记录仅说明各自日期的历史验证，不能作为当前版本的实机验证。
+
+## 历史验证记录
+
 本项目来自 DSH-WIN-SSH 的固定提交，记录见 source-baseline.json。该文件同时声明 Harness 构建提交。协议版本为 1，插件版本为 0.1.0。
 
 当前拆分验证的实际结果见 [verification.json](verification.json)。构建、自动测试、模拟链路和实机验收分别记录。

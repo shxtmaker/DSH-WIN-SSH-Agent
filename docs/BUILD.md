@@ -1,6 +1,6 @@
 # 从源码构建
 
-需要 Git、Node.js 24 和 Corepack。固定上游使用 pnpm 11.7.0，提交由 source-baseline.json 声明。构建脚本只使用当前项目源码和固定上游，不读取另一端项目。
+需要 Git、Node.js 24 和 Corepack。固定上游使用 pnpm 11.28.5，提交由 source-baseline.json 声明。构建脚本只使用当前项目源码和固定上游，不读取另一端项目。
 
 ## 准备与构建
 
@@ -8,7 +8,7 @@
 
 ```text
 node scripts/verify-project.mjs
-node --test tests/project.test.mjs
+node scripts/test.mjs
 node scripts/prepare-upstream.mjs
 node scripts/build.mjs
 node scripts/test-integration.mjs
@@ -38,7 +38,7 @@ Linux 权限回归可独立运行 `node --test tests/private-files.test.mjs test
 
 `test-git-install.mjs` 需要指定已构建的 Harness 目录，其中包含插件管理器的 `lib/types/operations.js`。它在临时 profile 中执行真实 pnpm Git 安装，并使用 Harness 插件管理器的组合包读取函数验证识别、补丁、模块导出和 helper 路径。默认使用当前源码创建独立 Git 快照；`--spec` 可指定远程 Git 地址和提交，用于推送后的复验。临时测试目录会在结束时清理。
 
-也可通过 `--installation /path/to/isolated-cli-installation` 指定由 pnpm 安装了 `@deepseek-ai/dsh@0.2.0-rc.2` 的独立目录。此模式调用真实 `dsh plugin add` 并验证 profile 选中该组合包。在 Linux 上还会通过 Harness 的运行时解析器加载 Companion，以临时服务夹具验证原生描述文件权限、身份查询和卸载清理；这些检查不代表实机 SSH 或 frp 验收。
+也可通过 `--installation /path/to/isolated-cli-installation` 指定由 pnpm 安装了 `@deepseek-ai/dsh@0.2.1-rc.2` 的独立目录。此模式调用真实 `dsh plugin add` 并验证 profile 选中该组合包。在 Linux 上还会通过 Harness 的运行时解析器加载 Companion，以临时服务夹具验证原生描述文件权限、身份查询和卸载清理；这些检查不代表实机 SSH 或 frp 验收。
 
 可附加 `--previous-spec <old-git-spec>`，先安装旧权限检查版本，再在同一临时 profile 更新到 `--spec` 指定的修复提交。测试核对新运行文件的 SHA-256，并确认已有 profile 数据保留。此测试验证更新后的文件与新进程加载，不代表已运行的 Desktop 自动清除了模块缓存。
 

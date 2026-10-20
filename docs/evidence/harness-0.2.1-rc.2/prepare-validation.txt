@@ -1,0 +1,5 @@
+Initialized empty Git repository in D:/AI/documents/codex/dsh-windows-launcher/work/harness-0.2.1-rc.2/agent/.build/validation/.git/
+From D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\rc2
+ * branch              687f282e8625c6b8d11ff58211a90524be2e4317 -> FETCH_HEAD
+HEAD is now at 687f282e Merge pull request #6408 from deepseek-harness/worktree/release-dsh-0.2.1-rc.2
+Prepared DSH-WIN-SSH-Agent: D:\AI\documents\codex\dsh-windows-launcher\work\harness-0.2.1-rc.2\agent\.build\validation at 687f282e8625c6b8d11ff58211a90524be2e4317
