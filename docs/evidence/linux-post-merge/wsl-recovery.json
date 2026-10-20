@@ -1,0 +1,268 @@
+{
+  "status": "PASS",
+  "blockingComponent": "CIMWin32 provider host PID 5620",
+  "underlyingTrigger": "unknown; no thread dump collected",
+  "probes": [
+    {
+      "time": "2026-10-20T18:21:29.473606+00:00",
+      "probes": [
+        {
+          "command": [
+            "wsl.exe",
+            "--list",
+            "--verbose"
+          ],
+          "timeout": true,
+          "exitCode": 1,
+          "seconds": 8.0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--exec",
+            "/bin/echo",
+            "WSL_READY"
+          ],
+          "timeout": true,
+          "exitCode": 1,
+          "seconds": 8.016,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "time": "2026-10-20T18:23:58.590407+00:00",
+      "probes": [
+        {
+          "command": [
+            "wsl.exe",
+            "--list",
+            "--verbose"
+          ],
+          "timeout": true,
+          "exitCode": 1,
+          "seconds": 8.015,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--exec",
+            "/bin/echo",
+            "WSL_READY"
+          ],
+          "timeout": true,
+          "exitCode": 1,
+          "seconds": 8.0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "time": "2026-10-20T18:26:15.030943+00:00",
+      "probes": [
+        {
+          "command": [
+            "wsl.exe",
+            "--list",
+            "--verbose"
+          ],
+          "timeout": true,
+          "exitCode": 1,
+          "seconds": 8.0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--exec",
+            "/bin/echo",
+            "WSL_READY"
+          ],
+          "timeout": true,
+          "exitCode": 1,
+          "seconds": 8.015,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "time": "2026-10-20T18:26:52.707675+00:00",
+      "probes": [
+        {
+          "command": [
+            "wsl.exe",
+            "--list",
+            "--verbose"
+          ],
+          "timeout": false,
+          "exitCode": 0,
+          "seconds": 0.063,
+          "stdout": "NAME      STATE           VERSION\r\n* Ubuntu    Stopped         2",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--exec",
+            "/bin/echo",
+            "WSL_READY"
+          ],
+          "timeout": false,
+          "exitCode": 0,
+          "seconds": 3.359,
+          "stdout": "WSL_READY",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "time": "2026-10-20T18:29:18.929608+00:00",
+      "probes": [
+        {
+          "command": [
+            "wsl.exe",
+            "--list",
+            "--verbose"
+          ],
+          "timeout": false,
+          "exitCode": 0,
+          "seconds": 0.047,
+          "stdout": "NAME      STATE           VERSION\r\n* Ubuntu    Stopped         2",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--exec",
+            "/bin/echo",
+            "WSL_READY"
+          ],
+          "timeout": false,
+          "exitCode": 0,
+          "seconds": 0.547,
+          "stdout": "WSL_READY",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "time": "2026-10-20T18:30:37.586615+00:00",
+      "probes": [
+        {
+          "command": [
+            "wsl.exe",
+            "--list",
+            "--verbose"
+          ],
+          "timeout": false,
+          "exitCode": 0,
+          "seconds": 0.046,
+          "stdout": "NAME      STATE           VERSION\r\n* Ubuntu    Stopped         2",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--exec",
+            "/bin/echo",
+            "WSL_READY"
+          ],
+          "timeout": false,
+          "exitCode": 0,
+          "seconds": 3.047,
+          "stdout": "WSL_READY",
+          "stderr": ""
+        }
+      ]
+    }
+  ],
+  "shutdownBefore": {
+    "timeout": true,
+    "seconds": 12
+  },
+  "shutdownAfter": {
+    "command": [
+      "wsl.exe",
+      "--shutdown"
+    ],
+    "timeout": false,
+    "exitCode": 0,
+    "seconds": 0.531,
+    "stdout": "",
+    "stderr": ""
+  },
+  "wmiAfter": [
+    {
+      "Class": "Win32_OperatingSystem",
+      "Status": "PASS",
+      "Count": 1,
+      "Milliseconds": 386
+    },
+    {
+      "Class": "Win32_Processor",
+      "Status": "PASS",
+      "Count": 1,
+      "Milliseconds": 1360
+    },
+    {
+      "Class": "Win32_Process",
+      "Status": "PASS",
+      "Count": 443,
+      "Milliseconds": 302
+    }
+  ],
+  "wslServiceRecovery": {
+    "StartedAt": "2026-10-21T02:22:57.8733551+08:00",
+    "Status": "SERVICE_RESTARTED",
+    "ForcedServiceStop": true,
+    "FinishedAt": "2026-10-21T02:26:43.2169965+08:00"
+  },
+  "providerRecovery": {
+    "StartedAt": "2026-10-21T02:26:42.6893802+08:00",
+    "Status": "PROVIDER_HOST_RECYCLED",
+    "Providers": [
+      {
+        "Pid": 5620,
+        "Path": "C:\\WINDOWS\\system32\\wbem\\wmiprvse.exe",
+        "CimWin32": [
+          {
+            "ModuleName": "cimwin32.dll",
+            "FileName": "C:\\WINDOWS\\system32\\wbem\\cimwin32.dll"
+          }
+        ]
+      },
+      {
+        "Pid": 9844,
+        "Path": "C:\\WINDOWS\\system32\\wbem\\wmiprvse.exe",
+        "CimWin32": [
+          {
+            "ModuleName": "cimwin32.dll",
+            "FileName": "C:\\WINDOWS\\system32\\wbem\\cimwin32.dll"
+          }
+        ]
+      }
+    ],
+    "TargetPid": 5620,
+    "FinishedAt": "2026-10-21T02:26:42.8463610+08:00"
+  }
+}

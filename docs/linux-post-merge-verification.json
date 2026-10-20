@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-21",
+  "verifiedAt": "2026-10-20T18:31:07.399487+00:00",
+  "status": "PASS",
+  "verifiedCommit": "98339b06c2bbcb2f86469a18a706b003fbadda17",
+  "harnessVersion": "0.2.1-rc.2",
+  "pluginVersion": "0.2.0-alpha.2",
+  "environment": {
+    "platform": "WSL Ubuntu Linux",
+    "uid": 1000,
+    "node": "24.19.0",
+    "installerPnpm": "12.4.2"
+  },
+  "checks": {
+    "linuxTests": {
+      "status": "PASS",
+      "passed": 57,
+      "failed": 0,
+      "skipped": 2,
+      "skips": [
+        "non-Linux platform rejection",
+        "root-only foreign-owner permission check"
+      ]
+    },
+    "githubPinnedCommitInstallation": "PASS",
+    "downloadedArchiveInstallation": "PASS",
+    "linuxRuntimeForBothInstallModes": "PASS",
+    "descriptorSelfHealAndDisposal": "PASS",
+    "nativePermissionsAndPublicIdentity": "PASS",
+    "unsupportedListenersRejected": "PASS",
+    "wslAndWmiRecovery": "PASS"
+  },
+  "commands": {
+    "tests": "node scripts/test.mjs",
+    "git": "node scripts/test-git-install.mjs --installation /tmp/dsh-ssh-upgrade-rc2-20261021/runtime --spec https://github.com/shxtmaker/DSH-WIN-SSH-Agent#98339b06c2bbcb2f86469a18a706b003fbadda17",
+    "archive": "node scripts/test-git-install.mjs --installation /tmp/dsh-ssh-upgrade-rc2-20261021/runtime --spec file:/mnt/d/AI/documents/codex/dsh-windows-launcher/work/harness-0.2.1-rc.2/publication-verification/agent/commit/harness-remote-companion-0.2.0-alpha.2.tgz"
+  },
+  "artifact": {
+    "file": "harness-remote-companion-0.2.0-alpha.2.tgz",
+    "bytes": 21803,
+    "sha256": "829ad45fc69e8d56935d28d5dbc4caa110c9cb030d413e1e75a54f339373a7c3",
+    "sourceUrl": "https://raw.githubusercontent.com/shxtmaker/DSH-WIN-SSH-Agent/98339b06c2bbcb2f86469a18a706b003fbadda17/dist/remote/harness-remote-companion-0.2.0-alpha.2.tgz"
+  },
+  "runtimeSha256": {
+    "runtime/bin/control-protocol.mjs": "4b6091c963a6a636c7ef40d37b75596aa7deb1ac9bf20427e5f382f6fe0f5c99",
+    "runtime/bin/dsh-remote-info.mjs": "caa3952ce760d95d7fc87ccbe42e35be41df3b63570f7e8079f4d9bc0ee0a13d",
+    "runtime/bin/private-storage.mjs": "32ad1715ce0be360267112e93613baf693b5bd5cb6f23a6d88c90df5fb6bf78b",
+    "runtime/bin/service-manager.mjs": "b7e2ba2a955ce2f3532ea563d63c0f29b6451316eeef56ba90a0b30e726fe70c",
+    "runtime/index.js": "a6668a42409525a058831809ccd075bdecbd0b89e8d04abea8027c0ce8d624f6",
+    "runtime/types/index.d.ts": "a0d758cacaa2e7507f051d1a174f05b4ef05caf478a4845ade0ed41e5eb45ef5",
+    "runtime/types/private-files.d.ts": "18d0aed4b722b93a56e6f03b3fb1549bd2dc6ab8264b43ac924b348e2757b0db",
+    "runtime/types/self-heal.d.ts": "c5fbdc0588a7f5f6195c84ae8456523cc9c4fd9221cd06db248a86bdf11af23b"
+  },
+  "evidence": {
+    "docs/evidence/linux-post-merge/archive-install.txt": "fde1505de13e2ed806f6e313adedbb8820ac7f211b855b0692a23585c93c80d2",
+    "docs/evidence/linux-post-merge/github-install.txt": "adcd8d309fff346952a47cc262208830cc7c9fb4063ee1a673e474ad7408e396",
+    "docs/evidence/linux-post-merge/tests.txt": "9ef51665b65f85c3dea27d5c05a582f90a3ecd745d49cfdc9425f2ab3dbd56a5",
+    "docs/evidence/linux-post-merge/wsl-recovery.json": "eb7b1bd26b63b6661f7696d9b7a157893d5cfdb0575e0dfe77fd628682510561"
+  },
+  "limits": {
+    "productionDeployment": "NOT_RUN",
+    "realSshFrpAcceptance": "NOT_RUN",
+    "realProviderCalls": "NOT_RUN"
+  },
+  "scope": "Fresh temporary profiles; published CLI; actual installed Companion/helper with fixture Web/Connection services; mocked systemctl. Historical NOT_RUN results are preserved separately."
+}

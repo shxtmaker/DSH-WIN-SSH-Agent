@@ -4,3 +4,4 @@
 integration/*.patch -text whitespace=-blank-at-eol
 docs/evidence/*.txt -text whitespace=-blank-at-eol,-blank-at-eof
 docs/evidence/harness-0.2.1-rc.2/*.txt -text whitespace=-blank-at-eol,-blank-at-eof
+docs/evidence/linux-post-merge/*.txt -text whitespace=-blank-at-eol,-blank-at-eof

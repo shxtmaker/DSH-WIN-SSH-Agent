@@ -88,6 +88,7 @@
   "evidenceScope": {
     "upgradeCommit": "598f41d",
     "stage": "local-upgrade-before-main-publication",
-    "currentPreflight": "main-publication-preflight.json"
+    "currentPreflight": "main-publication-preflight.json",
+    "postMergeFollowUp": "linux-post-merge-verification.json"
   }
 }

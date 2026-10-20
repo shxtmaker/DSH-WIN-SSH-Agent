@@ -22,8 +22,9 @@
       "failed": 0
     },
     "LinuxPostMergeRuntime": {
-      "status": "NOT_RUN",
-      "reason": "WSL read-only readiness invocation did not respond. Earlier Linux results describe only the pre-merge upgrade."
+      "status": "PASS",
+      "verifiedCommit": "98339b06c2bbcb2f86469a18a706b003fbadda17",
+      "record": "linux-post-merge-verification.json"
     }
   },
   "liveDeployment": "NOT_RUN",
@@ -31,5 +32,14 @@
   "merge": [
     "Preserve descriptor self-healing and fixed helper wrapper permissions from main.",
     "Preserve Plan B control helper, plain HTTP/IPv4 restriction, and optional port guard."
-  ]
+  ],
+  "historicalChecks": {
+    "beforePublication": {
+      "LinuxPostMergeRuntime": {
+        "status": "NOT_RUN",
+        "reason": "WSL read-only readiness invocation did not respond. Earlier Linux results describe only the pre-merge upgrade."
+      }
+    }
+  },
+  "followUpDate": "2026-10-21"
 }
