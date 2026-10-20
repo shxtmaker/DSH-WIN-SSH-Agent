@@ -55,6 +55,16 @@ export interface InstanceDescriptor {
   readonly launchUrl: string
 }
 
+/** Facts that tie one stored descriptor to the process that is still running. */
+export interface DescriptorIdentity {
+  /** Boot generation ID of the running Companion. */
+  readonly bootId: string
+  /** Stable instance ID persisted under the private DSH home. */
+  readonly instanceId: string
+  /** Loopback port of the running Harness Web listener. */
+  readonly port: number
+}
+
 /** Prepare private directories and load or create one stable instance id. */
 export async function instanceStorage(home: string, instanceKey: string): Promise<{
   readonly instanceId: string
@@ -90,4 +100,23 @@ export async function removeDescriptor(path: string, bootId: string): Promise<vo
   if (!await privateFile(path)) return
   const value: unknown = JSON.parse(await readFile(path, 'utf8'))
   if (typeof value === 'object' && value !== null && 'bootId' in value && value.bootId === bootId) await unlink(path)
+}
+
+/**
+ * Return whether the stored descriptor still exists, stays private, and names
+ * this running boot. A plugin reload, a plugin-manager run, an operator or any
+ * other instance can remove or replace the file while this process keeps
+ * running; the caller republishes whenever this check fails.
+ */
+export async function descriptorMatches(path: string, expected: DescriptorIdentity): Promise<boolean> {
+  try {
+    if (!await privateFile(path)) return false
+    const value: unknown = JSON.parse(await readFile(path, 'utf8'))
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) return false
+    const row = value as Record<string, unknown>
+    // Content must still be complete for the restricted helper; a truncated or
+    // hand-edited file is repaired instead of being trusted.
+    return row.bootId === expected.bootId && row.instanceId === expected.instanceId && row.port === expected.port
+      && typeof row.launchUrl === 'string' && row.launchUrl.length > 0
+  } catch { return false }
 }

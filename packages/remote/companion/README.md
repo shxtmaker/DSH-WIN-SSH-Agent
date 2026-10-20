@@ -39,7 +39,7 @@ The patch inserts `remote-workspace-companion` with `instanceKey: default`. Its 
 <details>
 <summary>Implementation internals</summary>
 
-`private-files.ts` stores a stable instance ID and atomically writes a generation-specific descriptor under a `0700` subtree. `dsh-remote-info.mjs` rejects unsafe paths and keys outside its allowlist, limits output to 64 KiB, and emits only error codes on stderr. Removal deletes a descriptor only when its boot ID still matches.
+`private-files.ts` stores a stable instance ID and atomically writes a generation-specific descriptor under a `0700` subtree. `dsh-remote-info.mjs` rejects unsafe paths and keys outside its allowlist, limits output to 64 KiB, and emits only error codes on stderr. Removal deletes a descriptor only when its boot ID still matches. `index.ts` publishes at activation, again on application readiness, and repairs a missing, replaced, incomplete, or repointed descriptor on a five-second loop, so a profile live reload or a plugin-manager run no longer disables discovery until the next service restart.
 
 </details>
 

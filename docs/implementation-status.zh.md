@@ -19,3 +19,5 @@
 用户随后提供的安装文件 SHA-256 与修复版一致，但截图仍引用旧运行文件行号。完全重启运行 `web` profile 的 Harness 进程后，用户确认 Agent 已成功启用。实机启用状态为用户报告通过；双机 SSH/frp 业务验收仍为 notRun。
 
 双机 Desktop/Linux 业务链路、真实 frp 恢复和实机资源清理状态为 notRun。
+
+2026-10-15 增加描述文件修复循环：实机 Ubuntu 在被控端 Web 进程持续运行的情况下丢失了启动描述文件。此前 Companion 只在启用和应用就绪两个时刻写入该文件，因此 profile 热重载或插件管理器操作删除文件后不会补写，后续每次连接都报 helper 提示，必须重启服务才能恢复。现在 Companion 在启用时发布、应用就绪后再次发布，并按 5 秒间隔修复缺失、被其他启动代次替换、内容不完整或端口变化的描述文件；释放时仍只删除自身 boot ID 的描述文件。Windows 与 Ubuntu 单元测试、删除描述文件后校验重新发布的已安装运行时夹具、重新构建以及实机删除检查均通过：23:25:26.273 删除，helper 返回 `INFO_FAILED`，3358 ms 后以相同 bootId、0600 权限重新发布，helper 查询恢复成功，证据见 `docs/evidence/repair-*.txt`。同时新增 `scripts/install-remote-helper.mjs`：一条命令即可把 wrapper 装到控制端固定路径 `/usr/local/bin/dsh-remote-info` 并实测；无 sudo 时回退到仅供该账号执行的 `~/.local/bin`，并打印控制端 profile 需要覆盖的 helperPath。加载实机 profile 树的插件管理器操作未能复现，因为已安装的 CLI 在 Harness 插件管理器 reconcile 阶段即中止；删除与替换两种场景由夹具测试和实机删除检查覆盖。

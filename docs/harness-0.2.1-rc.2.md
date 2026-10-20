@@ -1,5 +1,7 @@
 # Harness 0.2.1-rc.2 兼容升级
 
+> 本文记录升级提交 `598f41d` 的本地验证。推送前的最终检查及安装包哈希见 [main 交付检查](main-publication-preflight.json)。Agent 合并 main 后的 Linux 运行时未复验，不能沿用合并前的 PASS。
+
 日期：2026-10-21。插件候选版本：`0.2.0-alpha.2`。
 
 ## 基线

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { chmod, chown, lstat, mkdir, mkdtemp, readFile, rm, symlink } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { instanceStorage, writeDescriptor } from '../packages/remote/companion/src/private-files.ts'
+import { descriptorMatches, instanceStorage, writeDescriptor } from '../packages/remote/companion/src/private-files.ts'
 
 const linux = process.platform === 'linux'
 async function fixture(t) {
@@ -71,4 +71,29 @@ test('activation refuses a directory owned by another user without changing its 
   await assert.rejects(instanceStorage(home, 'default'), /unsafe private directory/)
   assert.equal(await mode(home), 0o775)
   assert.equal((await lstat(home)).uid, 1)
+})
+
+test('descriptor repair detects a missing, replaced or unsafe descriptor', { skip: !linux }, async t => {
+  const home = await fixture(t)
+  const storage = await instanceStorage(home, 'default')
+  const expected = { bootId: 'fixture-boot', instanceId: storage.instanceId, port: 3080 }
+  const descriptor = { protocolVersion: 1, instanceKey: 'default', instanceId: storage.instanceId, bootId: 'fixture-boot', profile: 'web', workspaceHint: '/fixture', port: 3080, launchUrl: 'http://127.0.0.1:3080/?token=fixture-only' }
+  // A fresh activation has nothing to reuse and must publish.
+  assert.equal(await descriptorMatches(storage.descriptorPath, expected), false)
+  await writeDescriptor(storage.descriptorPath, descriptor)
+  assert.equal(await descriptorMatches(storage.descriptorPath, expected), true)
+  // Another boot or another listener replaced the file.
+  assert.equal(await descriptorMatches(storage.descriptorPath, { ...expected, bootId: 'other-boot' }), false)
+  assert.equal(await descriptorMatches(storage.descriptorPath, { ...expected, instanceId: 'other-instance' }), false)
+  assert.equal(await descriptorMatches(storage.descriptorPath, { ...expected, port: 3081 }), false)
+  // A plugin reload or a plugin-manager run deletes the file mid-flight.
+  await rm(storage.descriptorPath)
+  assert.equal(await descriptorMatches(storage.descriptorPath, expected), false)
+  await writeDescriptor(storage.descriptorPath, descriptor)
+  assert.equal(await descriptorMatches(storage.descriptorPath, expected), true)
+  // An unsafe file is never adopted and is never rewritten silently.
+  await chmod(storage.descriptorPath, 0o644)
+  assert.equal(await descriptorMatches(storage.descriptorPath, expected), false)
+  await assert.rejects(writeDescriptor(storage.descriptorPath, descriptor), /unsafe private file/)
+  assert.equal(await mode(storage.descriptorPath), 0o644)
 })

@@ -1,0 +1,44 @@
+# Windows v24.19.0, pnpm 11.7.0 (corepack), 2026-10-15, final build after documentation edits
+
+$ node scripts/build.mjs --offline
+Scope: all 340 workspace projects
+Already up to date
+Done in 444ms using pnpm v11.7.0
+tsdown v0.22.2 powered by rolldown v1.1.1
+entry: lib/types/index.js
+lib\index.js  9.33 kB │ gzip: 3.32 kB
+Build complete in 17ms
+package: @harness-remote/companion@0.1.0
+Tarball Contents
+bin/dsh-remote-info.mjs
+cordis.patch.yml
+lib/index.js
+lib/types/index.d.ts
+lib/types/private-files.d.ts
+lib/types/self-heal.d.ts
+LICENSE
+package.json
+README.i18n.yaml
+README.md
+README.zh.md
+Packed DSH-WIN-SSH-Agent: out/remote
+
+$ node scripts/verify-project.mjs          # after syncing out/remote into dist/remote
+OK DSH-WIN-SSH-Agent: isolated source, configuration, build integration, and artifacts
+
+$ node --test tests/project.test.mjs
+ℹ tests 7   pass 7   fail 0   skipped 0
+
+$ node --test tests/project.test.mjs tests/self-heal.test.mjs tests/private-files.test.mjs tests/helper.test.mjs
+ℹ tests 20  pass 13  fail 0   skipped 7
+
+$ node scripts/test-integration.mjs
+ℹ tests 13  pass 6   fail 0   skipped 7
+
+sha256  41fa4af4bbe42b2acc8b3ec4f211ca98a80430223ddb6fa3008b42c9c89a4d85  runtime/index.js
+sha256  1c5cd0df7ac0786718a2395c8b2142f8c9f4a5a96e3f3edaa597ac768e368211  harness-remote-companion-0.1.0.tgz
+
+# The committed Git runtime equals the packed artifact runtime byte for byte;
+# the artifact hash moved only because the packaged README text was updated.
+# The runtime hash is unchanged from the earlier build of this fix and is the
+# same value deployed and exercised on the live host.

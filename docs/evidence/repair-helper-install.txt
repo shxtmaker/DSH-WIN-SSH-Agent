@@ -1,0 +1,60 @@
+# Controlled host 192.168.3.190, 2026-10-15 23:43-23:46
+
+# The first version of scripts/install-remote-helper.mjs had two defects that
+# only appear when the script runs under sudo:
+#   1. the fixed-path wrapper was written root:root 0700, so the Harness account
+#      received exit 126 from the controller's SSH helper command;
+#   2. the verification probe ran as root, and the restricted helper correctly
+#      answered UNSAFE_PATH because DSH_HOME is owned by uid 1000, not 0.
+
+$ sudo node /home/lqy/agent-fix/scripts/install-remote-helper.mjs --profile web --home /home/lqy/.dsh --node /usr/bin/node
+Installed helper: /usr/local/bin/dsh-remote-info
+Helper refused the query (exit 1): UNSAFE_PATH
+Controller helperPath: /usr/local/bin/dsh-remote-info
+
+$ ls -l /usr/local/bin/dsh-remote-info
+-rwx------ 1 root root 317 /usr/local/bin/dsh-remote-info
+
+$ printf '{"protocolVersion":1,"instanceKey":"default"}\n' | /usr/local/bin/dsh-remote-info --identity   # as lqy
+bash: /usr/local/bin/dsh-remote-info: 权限不够          # exit 126
+
+# Fixed script: system paths are written root:root 0755, account paths stay
+# account-owned 0700, and the probe runs as the DSH_HOME owner
+# (/usr/sbin/runuser -u <owner> when the script itself runs as root).
+
+$ node scripts/install-remote-helper.mjs --profile web --home /home/lqy/.dsh --node /usr/bin/node
+Installed helper: /home/lqy/.local/bin/dsh-remote-info
+Owner and mode: 1000:1000 700 for Harness account lqy (uid 1000)
+Identity: {"protocolVersion":1,"instanceKey":"default","instanceId":"a96a69f5-3573-46a4-8d7e-b15d19ce31be","bootId":"05ed69b0-d698-474d-9fdb-6fc0f68826a3","profile":"web","workspaceHint":"/home/lqy","port":3080}
+Controller helperPath: /home/lqy/.local/bin/dsh-remote-info
+exit=0
+
+$ node scripts/install-remote-helper.mjs --profile web --home /home/lqy/.dsh --node /usr/bin/node   # idempotent
+Owner and mode: 1000:1000 700 for Harness account lqy (uid 1000); exit=0
+
+$ node scripts/install-remote-helper.mjs --profile web --home /home/lqy/.dsh --node /usr/bin/node --path /home/lqy/bin/dsh-remote-info
+Installed helper: /home/lqy/bin/dsh-remote-info
+Owner and mode: 1000:1000 700 for Harness account lqy (uid 1000); exit=0
+-rwx------ 1 lqy lqy 317 /home/lqy/bin/dsh-remote-info
+
+# Both account installs produce byte-identical wrapper bytes (cmp passed), so the
+# existing root-owned fixed-path file needs only its mode corrected; re-running
+# the fixed script with sudo rewrites it as root:root 0755 and re-verifies as lqy.
+
+# Operator re-ran the fixed script with sudo, 2026-10-15 23:48:
+
+$ sudo node /home/lqy/agent-fix/scripts/install-remote-helper.mjs --profile web --home /home/lqy/.dsh --node /usr/bin/node
+-rwxr-xr-x 1 root root 317 /usr/local/bin/dsh-remote-info
+root:root 755 /usr/local/bin/dsh-remote-info
+cmp /usr/local/bin/dsh-remote-info /home/lqy/.local/bin/dsh-remote-info   # byte-identical
+
+# Controller-side replay from Windows with the plugin's own OpenSSH options and
+# the controller's default helperPath:
+# ssh -T -o BatchMode=yes -o StrictHostKeyChecking=yes -o ForwardAgent=no -o ForwardX11=no
+#     -o PermitLocalCommand=no -o ControlMaster=no -o ControlPath=none -o ConnectTimeout=15
+#     dsh-ubuntu /usr/local/bin/dsh-remote-info [--identity]
+{"protocolVersion":1,"instanceKey":"default","instanceId":"a96a69f5-3573-46a4-8d7e-b15d19ce31be","bootId":"05ed69b0-d698-474d-9fdb-6fc0f68826a3","profile":"web","workspaceHint":"/home/lqy","port":3080}  exit=0
+full descriptor: protocolVersion, instanceKey, instanceId, bootId, profile, workspaceHint, port, launchUrl; exit=0
+
+# The fixed path and the per-account path now both answer the controller, so a
+# reset profile override can no longer break discovery.

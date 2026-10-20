@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-21",
+  "target": "GitHub refs/heads/main",
+  "harnessVersion": "0.2.1-rc.2",
+  "pluginVersion": "0.2.0-alpha.2",
+  "upgradeCommit": "598f41d8d3a2101d2331a9de603c655949e2ad53",
+  "previousMain": "275bdfe36dec814b95e2cc091a8cb66e73e7d30f",
+  "artifacts": [
+    {
+      "file": "harness-remote-companion-0.2.0-alpha.2.tgz",
+      "sha256": "829ad45fc69e8d56935d28d5dbc4caa110c9cb030d413e1e75a54f339373a7c3",
+      "bytes": 21803
+    }
+  ],
+  "checks": {
+    "projectAndArtifactVerification": "PASS",
+    "GitInstallationWindows": "PASS",
+    "typecheckBuild": "PASS",
+    "WindowsTests": {
+      "passed": 24,
+      "skipped": 7,
+      "failed": 0
+    },
+    "LinuxPostMergeRuntime": {
+      "status": "NOT_RUN",
+      "reason": "WSL read-only readiness invocation did not respond. Earlier Linux results describe only the pre-merge upgrade."
+    }
+  },
+  "liveDeployment": "NOT_RUN",
+  "formalRelease": "NOT_RUN",
+  "merge": [
+    "Preserve descriptor self-healing and fixed helper wrapper permissions from main.",
+    "Preserve Plan B control helper, plain HTTP/IPv4 restriction, and optional port guard."
+  ]
+}

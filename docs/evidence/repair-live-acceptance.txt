@@ -1,0 +1,98 @@
+# Controlled host 192.168.3.190 (lqy-MACO), Ubuntu, live profile web service dsh-remote-web.service
+# Procedure: copy the verified runtime into the installed profile, restart once,
+# then delete the launch descriptor while the service keeps running.
+
+################ 1. deploy the verified runtime ################
+installed before : f73ee5c339ac29b12cec23c8178c85af0e41f4cefa3a863a7a5f7c414d1eaffe
+installed after  : 41fa4af4bbe42b2acc8b3ec4f211ca98a80430223ddb6fa3008b42c9c89a4d85
+built runtime    : 41fa4af4bbe42b2acc8b3ec4f211ca98a80430223ddb6fa3008b42c9c89a4d85
+repair-loop markers: 3
+
+################ 2. restart the profile service ################
+service: active
+main pid: 37595
+-rw------- 1 lqy lqy 289 Oct 15 23:25 remote-workspace/run/default.json
+service bootId: ae5657ba-e764-4183-9033-0c54acdc563b
+helper: {"protocolVersion":1,"instanceKey":"default","instanceId":"a96a69f5-3573-46a4-8d7e-b15d19ce31be","bootId":"ae5657ba-e764-4183-9033-0c54acdc563b","profile":"web","workspaceHint":"/home/lqy","port":3080}  exit=0
+
+################ 3. acceptance A: descriptor deleted while the service runs ################
+deleted at 23:25:26.273
+helper immediately after deletion: INFO_FAILED
+exit=1
+republished after 3358 ms at 23:25:29.717, mode 600
+repaired bootId: ae5657ba-e764-4183-9033-0c54acdc563b   service bootId: ae5657ba-e764-4183-9033-0c54acdc563b
+helper after repair: {"protocolVersion":1,"instanceKey":"default","instanceId":"a96a69f5-3573-46a4-8d7e-b15d19ce31be","bootId":"ae5657ba-e764-4183-9033-0c54acdc563b","profile":"web","workspaceHint":"/home/lqy","port":3080}  exit=0
+
+# The descriptor came back with the zero-restart repair loop, the same boot
+# generation, 0600 permissions, and a helper query that succeeds again.
+
+################ 4. plugin-manager run against the live profile (attempt) ################
+$ node .../@deepseek-ai/dsh/lib/bin.js plugin --profile web list
+dsh: plugin command failed (reconcile error inside dsh-plugin-manager/lib/types/operations.js)
+descriptor stayed present for all samples; service still active; helper exit=0
+
+# The plugin command aborted inside the Harness plugin manager's pnpm reconcile
+# step before it loaded the profile tree, so this run did not reproduce the
+# operator action that removed the descriptor on 2026-10-15 22:38. The removal
+# and replacement cases are covered by acceptance A and by the Linux fixture
+# check in repair-linux-git-install.txt.
+
+################ 5. restricted helper wrapper ################
+$ node scripts/install-remote-helper.mjs --profile web --home /home/lqy/.dsh --node /usr/bin/node
+Installed helper: /home/lqy/.local/bin/dsh-remote-info
+Identity: {"protocolVersion":1,"instanceKey":"default",...,"bootId":"ae5657ba-e764-4183-9033-0c54acdc563b","port":3080}
+Controller helperPath: /home/lqy/.local/bin/dsh-remote-info
+The controller default is /usr/local/bin/dsh-remote-info; configure this path as a profile override,
+or re-run this script with sudo so the fixed path exists and no override is needed.
+-rwx------ 1 lqy lqy 317 /home/lqy/.local/bin/dsh-remote-info
+ls: cannot access '/usr/local/bin/dsh-remote-info': No such file or directory
+
+# Controller-side replay from Windows with the plugin's own OpenSSH options:
+# ssh -T -o BatchMode=yes -o StrictHostKeyChecking=yes -o ForwardAgent=no -o ForwardX11=no
+#     -o PermitLocalCommand=no -o ControlMaster=no -o ControlPath=none -o ConnectTimeout=15
+#     dsh-ubuntu /home/lqy/.local/bin/dsh-remote-info --identity
+{"protocolVersion":1,"instanceKey":"default","instanceId":"a96a69f5-3573-46a4-8d7e-b15d19ce31be","bootId":"ae5657ba-e764-4183-9033-0c54acdc563b","profile":"web","workspaceHint":"/home/lqy","port":3080}  exit=0
+
+################ 6. live follow-ups, 2026-10-15 23:37-23:41 ################
+
+# The controlled profile had three broken @local/* links, which made the
+# Harness plugin manager abort at reconcile and made the profile skip two
+# preset bundles. The two presets were re-pointed to their new locations and
+# the orphan link was removed:
+
+dependencies before:
+  "@local/dsh-advisor-team-preset": "link:.../调试/advisor-team"                (target missing)
+  "@local/dsh-advisor-team-hybrid-preset": "link:.../调试/advisor-team-hybrid"  (target missing)
+  node_modules/@local/dsh-jsprobe -> .../调试/jsprobe (target missing, undeclared)
+
+dependencies after:
+  "@local/dsh-advisor-team-preset": "link:/home/lqy/文档/deepseek-harness/调试/install/advisor-team"
+  "@local/dsh-advisor-team-hybrid-preset": "link:/home/lqy/文档/deepseek-harness/调试/install/advisor-team-hybrid"
+  node_modules/@local/dsh-jsprobe removed (not declared in dependencies or bundles)
+
+$ pnpm install --prefer-offline
++ @local/dsh-advisor-team-hybrid-preset 1.0.0 <- ../../../文档/deepseek-harness/调试/install/advisor-team-hybrid
++ @local/dsh-advisor-team-preset 1.0.0 <- ../../../文档/deepseek-harness/调试/install/advisor-team
+Done in 442ms using pnpm v11.28.4
+
+$ node .../dsh/lib/bin.js plugin --profile web list        # previously aborted at reconcile
+... 5 packages
+plugin list exit=0
+
+# Running boot after the fix: the service log grew by 82 bytes (only the Web
+# token line) with 0 "skipping profile bundle" lines, so both presets load now.
+
+# The original trigger, this time against the repaired profile:
+$ node .../dsh/lib/bin.js plugin --profile web add github:shxtmaker/DSH-WIN-SSH-Agent
+Packages: +1
+Done in 2.6s using pnpm v11.28.4
+plugin add exit=0
+descriptor sampling: 900 samples at 100 ms, missing_samples=0, one bootId
+(05ed69b0-d698-474d-9fdb-6fc0f68826a3); service active; helper exit 0;
+pnpm-lock.yaml now pins tar.gz/bd870527be8554767907ee2142205a2e6ccf9a95.
+
+# Appending a comment to the profile's cordis.patch.yml did not trigger a live
+# reload in this running service (same pid, same bootId, descriptor untouched),
+# so the 22:38 removal could not be attributed to a patch-file reload. The
+# profile file was restored byte-identically from the backup taken before the
+# probe.

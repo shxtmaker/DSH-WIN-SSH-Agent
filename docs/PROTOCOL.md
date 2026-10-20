@@ -25,6 +25,32 @@ helper 从标准输入接收一行 JSON：
 
 输入上限为 4096 字节，描述文件和输出上限为 65536 字节。错误码写入 stderr，进程返回非零状态。完整描述只在控制端 Host 的当前连接内使用，不进入持久化目标或 UI。
 
+## 描述文件生命周期
+
+helper 只读取 `$DSH_HOME/remote-workspace/run/<instanceKey>.json`；控制端从不写入被控端文件。该文件由运行中的 Companion 写入，描述目录为 0700，描述文件为 0600。
+
+Companion 在三个时机保持该文件存在：
+
+1. 插件启用时立即尝试发布，不再只等待应用就绪；
+2. Harness 应用就绪后再次发布；
+3. 运行期间按固定间隔（5 秒）核对：文件缺失、被其他启动代次覆盖、端口变化或内容不完整时重新发布。
+
+因此 profile 热重载、插件管理器的安装或卸载（两者都会释放旧 Companion 并删除其描述文件）、插件管理 CLI 的临时 profile 加载，以及手工删除文件，都不再需要重启 Harness 即可在数秒内恢复。只有更换 Companion 代码本身才需要重启运行该 profile 的进程。释放时 Companion 只删除 bootId 与自身一致的描述文件，不会误删后续启动代次或正在运行的其他实例的文件。
+
+helper 的失败码对应关系：
+
+| 错误码 | 含义 |
+| --- | --- |
+| INFO_FAILED | 描述文件缺失、不可读或内容不完整（最常见：文件被删除且尚未重新发布） |
+| CONFIG_REQUIRED | DSH_HOME 或实例键白名单未配置 |
+| LINUX_REQUIRED | 非 Linux 平台 |
+| BAD_INPUT | 输入 JSON、--identity 参数或实例键不在白名单 |
+| UNSAFE_PATH | DSH_HOME 或私有目录类型、所有者、权限不安全 |
+| UNSAFE_FILE | 描述文件类型、所有者、权限不安全 |
+| BAD_DESCRIPTOR | 描述文件字段缺失、类型错误或超出上限 |
+
+重新发布失败时，被控端 Harness 日志出现 `remote-companion: descriptor repair failed: <原因>`；同一原因只记录一次，恢复后再次失败会重新记录。
+
 ## Web 身份与就绪
 
 控制端将 launchUrl 的临时 token 换取 Host 内存中的 Cookie，再访问 GET /api/remote-workspace/identity。响应包含 protocolVersion、instanceKey、instanceId、bootId、profile、workspaceHint、version 和 capabilities。当前 Companion 声明 web 与 remote.mux 能力。

@@ -84,5 +84,10 @@
       "sha256": "7167f16082813c3dbd305fc24bfbf4532d9d12fe2bd63edf74537859d756efcb",
       "bytes": 19618
     }
-  ]
+  ],
+  "evidenceScope": {
+    "upgradeCommit": "598f41d",
+    "stage": "local-upgrade-before-main-publication",
+    "currentPreflight": "main-publication-preflight.json"
+  }
 }

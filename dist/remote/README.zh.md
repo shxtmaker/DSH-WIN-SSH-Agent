@@ -8,9 +8,41 @@
 
 ## 安装 Companion
 
-当前适配候选以本目录中的 `.tgz` 文件交付。不要使用远程默认分支或旧预览分支代替这些文件。
+GitHub 的 `main` 分支提供适配 Harness 0.2.1-rc.2 的组合包，`dist/remote/` 提供同版本独立安装包。旧预览分支仍保留原版本。
 
 已有 Git 安装与独立安装包安装应选择一种方式，避免在同一 profile 重复启用组件。切换安装方式前保留现有 profile、目标配置和实例身份，并完全退出相应 Harness 进程。安装完成后重新启动。
+
+在 Linux Harness 的插件管理器中选择 Git 仓库安装，填入以下地址：
+
+```text
+https://github.com/shxtmaker/DSH-WIN-SSH-Agent
+```
+
+也可在命令行安装到现有 profile。使用 `web` profile 时，对应命令如下：
+
+```bash
+dsh plugin --profile web add https://github.com/shxtmaker/DSH-WIN-SSH-Agent
+dsh plugin --profile web list
+```
+
+Git 安装的包名为 `dsh-win-ssh-agent-source`，其中包含 `remote-workspace-companion` 组件。安装无需执行源码构建脚本。
+
+若此前出现“这个包没有声明组合包，不能作为插件管理”，重新提交上述地址安装即可。若仍命中旧 Git 缓存，在地址末尾附加修复提交 SHA，例如 `https://github.com/shxtmaker/DSH-WIN-SSH-Agent#<commit-sha>`，以安装指定提交。既有失败安装可通过相同包名更新，无需删除业务 profile。
+
+同一 profile 选择 Git 安装或独立安装包中的一种方式，避免重复加载同一个组件。
+
+### 更新后仍显示旧启动错误
+
+安装或更新的是 Companion **代码**时，完全退出并重新启动运行该 profile 的 Harness 进程。如果 Web 服务由终端或服务管理器单独启动，需要重启该服务进程，使新插件代码重新加载。
+
+只缺少描述文件（helper 返回 `INFO_FAILED`）时不需要重启：运行中的 Companion 在启用、应用就绪以及运行期间每隔 5 秒核对一次，发现文件缺失、被其他启动代次覆盖或内容不完整时自动重新发布。插件加载和插件管理器操作会释放旧 Companion 并删除其描述文件，因此这类操作后连接通常数秒内恢复。可用下列命令确认当前运行进程是否具备该能力：
+
+```bash
+grep -c 'descriptor repair' "$HOME/.dsh/profiles/web/node_modules/dsh-win-ssh-agent-source/runtime/index.js"
+```
+
+返回非 0 表示运行文件已包含修复循环。若日志出现 `remote-companion: descriptor repair failed: <原因>`，按提示修正目录权限或监听配置；详细失败码见 [协议说明](PROTOCOL.md)。
+
 
 ### 从独立安装包安装
 
@@ -43,15 +75,40 @@ dsh --profile remote-web --from-default-profile web --no-open --port 3080
 
 ## 配置受限 helper
 
-复制 [remote-helper.sh.example](configs/remote-helper.sh.example)，将 DSH_HOME、实例键白名单和 Companion helper 路径改为该服务的实际值。将 wrapper 安装到控制端约定的固定路径，例如 /usr/local/bin/dsh-remote-info，并赋予执行权限。Linux 服务用户必须能够读取和执行此文件；其他用户不得修改它。
+在运行 Harness 的 Linux 账号下执行仓库中的安装脚本，它会写入 wrapper、打印控制端需要填写的 `helperPath`，并用 `--identity` 实测一次：
 
-Git 安装到 `web` profile 时，helper 路径为 `~/.dsh/profiles/web/node_modules/dsh-win-ssh-agent-source/runtime/bin/dsh-remote-info.mjs`。独立安装包安装到 `remote-web` 时，helper 路径为 `~/.dsh/profiles/remote-web/node_modules/@harness-remote/companion/bin/dsh-remote-info.mjs`。wrapper 中使用实际用户的绝对路径；运行账号的 `PATH` 中必须能够找到 Node.js。
+```bash
+node scripts/install-remote-helper.mjs --profile web --home "$HOME/.dsh"
+sudo node scripts/install-remote-helper.mjs --profile web --home "$HOME/.dsh"   # 首选：装到控制端默认路径
+```
+
+| 目标 | 说明 |
+| --- | --- |
+| `/usr/local/bin/dsh-remote-info` | 控制端默认 helperPath，无需 profile 覆盖配置；需要 sudo |
+| `~/.local/bin/dsh-remote-info` | 无 sudo 时的回退路径，必须在控制端 profile 的 `cordis.patch.yml` 中覆盖 `helperPath` |
+
+优先使用固定路径 `/usr/local/bin/dsh-remote-info`：控制端默认 helperPath 即该路径，profile 覆盖条目一旦被插件管理器重写就会失效，固定路径不存在覆盖被重置的风险。脚本使用 `--node` 指定 wrapper 内的 Node 绝对路径（默认取执行脚本的 Node），`--keys` 指定逗号分隔的实例键白名单，`--path` 直接指定安装文件。
+
+脚本的安装与复验规则：
+
+| 场景 | 结果 |
+| --- | --- |
+| `sudo node scripts/install-remote-helper.mjs ...` | `/usr/local/bin/dsh-remote-info` 写为 `root:root 0755`，无需 profile 覆盖配置 |
+| `node scripts/install-remote-helper.mjs ...`（Harness 账号） | `~/.local/bin/dsh-remote-info` 写为该账号所有、权限 `0700` |
+
+脚本以 `DSH_HOME` 属主账号（即运行 Harness 的账号）执行 `--identity` 复验，即使脚本本身以 sudo 运行也不会用 root 复验——helper 会因目录属主不符返回 `UNSAFE_PATH`。复验失败时脚本打印原因并以非 0 状态退出。若此前用旧脚本以 sudo 装成了 `root:root 0700`（Harness 账号执行时得到 126 权限错误），重新运行脚本或用 `sudo chmod 755 /usr/local/bin/dsh-remote-info` 修正权限即可。
+
+安装脚本随仓库源码提供；`pnpm` 安装的包只包含 `runtime/` 与 `cordis.patch.yml`，因此需要从仓库克隆或源码副本执行，或按下面的手工方式创建 wrapper。
+
+也可手工创建 wrapper。复制 [remote-helper.sh.example](configs/remote-helper.sh.example)，将 DSH_HOME、实例键白名单和 Companion helper 路径改为该服务的实际值，安装到控制端约定的固定路径并赋予执行权限。运行账号的 `PATH` 中必须能够找到 Node.js。
+
+Git 安装到 `web` profile 时，helper 路径为 `~/.dsh/profiles/web/node_modules/dsh-win-ssh-agent-source/runtime/bin/dsh-remote-info.mjs`。独立安装包安装到 `remote-web` 时，helper 路径为 `~/.dsh/profiles/remote-web/node_modules/@harness-remote/companion/bin/dsh-remote-info.mjs`。
 
 DSH_REMOTE_INSTANCE_KEYS 是逗号分隔的允许实例键。私有描述目录的权限须为 0700，描述文件须为 0600。helper 会拒绝不安全权限、符号链接和白名单之外的实例键。
 
 ## 启动时的目录权限
 
-Companion 启动时检查 `DSH_HOME`、`DSH_HOME/remote-workspace` 和 `DSH_HOME/remote-workspace/run`。对于运行账号拥有的普通目录，自动移除 `DSH_HOME` 的组写权限，并移除两个私有子目录的组权限和其他用户权限。例如，已有的 `.dsh` 为 `0775` 时会收紧为 `0755`，私有子目录的 `0755/0775` 会收紧为 `0700`。此操作不递归修改目录内的文件，也不扩大权限。
+Companion 启动时检查 `DSH_HOME`、`DSH_HOME/remote-workspace` 和 `DSH_HOME/remote-workspace/run`。对于运行账号拥有的普通目录，自动移除 `DSH_HOME` 的组写权限，并移除两个私有子目录的组权限和其他用户权限。例如，已有的 `.dsh` 为 `0775` 时会收紧为 `0755`，私有子目录的 `0755/0775` 会收紧为 `0700`。此操作不递归修改目录内的文件，也不扩大权限。运行期间每次核对描述文件时也会重复该检查，权限被外部改宽后会再次收紧。
 
 如果仍出现 `remote-companion: unsafe private directory: <path>`，请检查错误指向的目录是否为符号链接、是否属于运行 Harness 的账号，以及是否允许其他用户写入。此类目录不会自动修改。使用同一账号检查：
 
@@ -68,7 +125,7 @@ stat -c '%a %U %G %n' "$HOME/.dsh" "$HOME/.dsh/remote-workspace" "$HOME/.dsh/rem
 printf '%s\n' '{"protocolVersion":1,"instanceKey":"default"}' | /usr/local/bin/dsh-remote-info --identity
 ```
 
-将 instanceKey、instanceId、profile、workspaceHint、port 提供给 [控制端](http://192.168.3.100:3300/lqy/DSH-WIN-SSH-Controller) 配置目标。完整描述中的 launchUrl 含临时凭据，只供控制端经 SSH 使用，不应复制到聊天、日志或目标配置中。
+将 instanceKey、instanceId、profile、workspaceHint、port 提供给 [控制端](https://github.com/shxtmaker/DSH-WIN-SSH-Controller) 配置目标。完整描述中的 launchUrl 含临时凭据，只供控制端经 SSH 使用，不应复制到聊天、日志或目标配置中。
 
 ## SSH 与 frp
 
@@ -102,7 +159,7 @@ dsh plugin --profile remote-web remove @harness-remote/companion
 4. 确认 helper 路径与 Controller 配置中的 `helperPath` 完全一致，且为绝对路径。
 5. 服务登记位于 `<DSH_HOME>/remote-workspace/control/services.json`，目录 0700、文件 0600、同 UID；其 `instances[<key>].unit` 必须与真实存在的用户 unit 名称逐字一致。
 
-四项中任一项不符时，管理页显示对应的固定错误码（`HELPER_BAD_CONFIG`、`CONFIG_REQUIRED`、`UNSAFE_FILE`、`SERVICE_UNREGISTERED`），不会猜测或自动修正远端配置。
+上述任一项不符时，管理页显示对应的固定错误码（`HELPER_BAD_CONFIG`、`CONFIG_REQUIRED`、`UNSAFE_FILE`、`SERVICE_UNREGISTERED`），不会猜测或自动修正远端配置。
 
 ## 安装后自检
 
